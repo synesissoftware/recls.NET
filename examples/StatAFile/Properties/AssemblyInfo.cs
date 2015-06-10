@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Synesis Software Pty Ltd")]
-[assembly: AssemblyProduct("StatAFile")]
+[assembly: AssemblyProduct("recls.NET")]
 [assembly: AssemblyCopyright("Copyright © Synesis Software Pty Ltd 2009-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

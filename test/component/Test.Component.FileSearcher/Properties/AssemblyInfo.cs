@@ -1,12 +1,12 @@
 ﻿
+// Created: 20th August 2009
+// Updated: 10th June 2015
+
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("FindEmptyDirectories")]
+[assembly: AssemblyTitle("Test.Component.FileSearcher")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Synesis Software Pty Ltd")]
@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
+[assembly: Guid("283afdff-f520-4195-bb9e-df04b4c78e6c")]
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
