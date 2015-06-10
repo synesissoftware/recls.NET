@@ -1,6 +1,11 @@
 
 # directories (by name)
 
+bin/
+obj/
+
+src/recls.Core/obsolete/
+
 # directories (by pattern)
 
 # files (by name)
@@ -9,5 +14,6 @@
 
 *~
 *.*~
+*.suo
 *.swp
 
