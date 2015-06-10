@@ -23,5 +23,8 @@ TraceAndTestImpact.testsettings
 *.suo
 *.swp
 
+*.csproj.user
+*.vcproj.user
+*.vcxproj.user
 UpgradeLog*.XML
 
