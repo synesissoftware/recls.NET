@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{02B4349E-F69E-48F3-A673-707DDF986AF4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>recls.SearchControls</RootNamespace>
+    <AssemblyName>recls.NET.SearchControls</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="PatternsEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PatternsEditorForm.Designer.cs">
+      <DependentUpon>PatternsEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SimpleSearchSpecificationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SimpleSearchSpecificationControl.Designer.cs">
+      <DependentUpon>SimpleSearchSpecificationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PatternsEditorForm.resx">
+      <DependentUpon>PatternsEditorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimpleSearchSpecificationControl.resx">
+      <DependentUpon>SimpleSearchSpecificationControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SynSoft\dotNET\4.0\trunk\src\SynSoft.NET.Collections\SynSoft.NET.Collections.csproj">
+      <Project>{88A96B74-FFCC-4BA2-8C59-08803E98396E}</Project>
+      <Name>SynSoft.NET.Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\SynSoft\dotNET\4.0\trunk\src\SynSoft.NET.Windows.Forms.Controls\SynSoft.NET.Windows.Forms.Controls.csproj">
+      <Project>{7B1B65A4-7782-437D-9495-1AE92EB17B4C}</Project>
+      <Name>SynSoft.NET.Windows.Forms.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\recls.Core\recls.Core.csproj">
+      <Project>{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}</Project>
+      <Name>recls.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

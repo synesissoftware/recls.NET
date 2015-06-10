@@ -1,0 +1,95 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSearchApplication", "SimpleSearchApplication\SimpleSearchApplication.csproj", "{9DD6CF57-03BB-49B9-90C7-8A279083200E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "recls.Core", "..\src\recls.Core\recls.Core.csproj", "{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "recls.SearchControls", "..\src\recls.SearchControls\recls.SearchControls.csproj", "{02B4349E-F69E-48F3-A673-707DDF986AF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynSoft.NET.Windows.Forms.Controls", "..\..\..\SynSoft\dotNET\4.0\trunk\src\SynSoft.NET.Windows.Forms.Controls\SynSoft.NET.Windows.Forms.Controls.csproj", "{7B1B65A4-7782-437D-9495-1AE92EB17B4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynSoft.NET.Collections", "..\..\..\SynSoft\dotNET\4.0\trunk\src\SynSoft.NET.Collections\SynSoft.NET.Collections.csproj", "{88A96B74-FFCC-4BA2-8C59-08803E98396E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pantheios.Core", "..\..\pantheios\pantheios.net\0.3\src\Pantheios.Core\Pantheios.Core.csproj", "{71AE64C6-9EA0-4F86-A4FC-BBD5582EFD03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pantheios.Interfaces", "..\..\pantheios\pantheios.net\0.3\src\Pantheios.Interfaces\Pantheios.Interfaces.csproj", "{41E12039-35C6-44AD-9B20-F6E37B67CEC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynesisSoftware.Pantheios.Scopes", "..\..\pantheios\pantheios.net\0.3\src\SynesisSoftware.Pantheios.Scopes\SynesisSoftware.Pantheios.Scopes.csproj", "{FAB080A3-E3EC-47F2-8314-0584869A10E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynesisSoftware.Pantheios.Extensions.Common", "..\..\pantheios\pantheios.net\0.3\src\SynesisSoftware.Pantheios.Extensions.Common\SynesisSoftware.Pantheios.Extensions.Common.csproj", "{FC561EB8-E063-4A04-B10F-1F2FF5726748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynesisSoftware.Pantheios.Inserters", "..\..\pantheios\pantheios.net\0.3\src\SynesisSoftware.Pantheios.Inserters\SynesisSoftware.Pantheios.Inserters.csproj", "{73542FD4-2E8B-4B8B-AA3D-5CAD09976DBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug pseudoUNIX|Any CPU = Debug pseudoUNIX|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DD6CF57-03BB-49B9-90C7-8A279083200E}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DD6CF57-03BB-49B9-90C7-8A279083200E}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{9DD6CF57-03BB-49B9-90C7-8A279083200E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DD6CF57-03BB-49B9-90C7-8A279083200E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DD6CF57-03BB-49B9-90C7-8A279083200E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DD6CF57-03BB-49B9-90C7-8A279083200E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug pseudoUNIX|Any CPU
+		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}.Debug pseudoUNIX|Any CPU.Build.0 = Debug pseudoUNIX|Any CPU
+		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02B4349E-F69E-48F3-A673-707DDF986AF4}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{02B4349E-F69E-48F3-A673-707DDF986AF4}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{02B4349E-F69E-48F3-A673-707DDF986AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02B4349E-F69E-48F3-A673-707DDF986AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02B4349E-F69E-48F3-A673-707DDF986AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02B4349E-F69E-48F3-A673-707DDF986AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1B65A4-7782-437D-9495-1AE92EB17B4C}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1B65A4-7782-437D-9495-1AE92EB17B4C}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{7B1B65A4-7782-437D-9495-1AE92EB17B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1B65A4-7782-437D-9495-1AE92EB17B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1B65A4-7782-437D-9495-1AE92EB17B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1B65A4-7782-437D-9495-1AE92EB17B4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88A96B74-FFCC-4BA2-8C59-08803E98396E}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{88A96B74-FFCC-4BA2-8C59-08803E98396E}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{88A96B74-FFCC-4BA2-8C59-08803E98396E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88A96B74-FFCC-4BA2-8C59-08803E98396E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88A96B74-FFCC-4BA2-8C59-08803E98396E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88A96B74-FFCC-4BA2-8C59-08803E98396E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71AE64C6-9EA0-4F86-A4FC-BBD5582EFD03}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{71AE64C6-9EA0-4F86-A4FC-BBD5582EFD03}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{71AE64C6-9EA0-4F86-A4FC-BBD5582EFD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71AE64C6-9EA0-4F86-A4FC-BBD5582EFD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71AE64C6-9EA0-4F86-A4FC-BBD5582EFD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71AE64C6-9EA0-4F86-A4FC-BBD5582EFD03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41E12039-35C6-44AD-9B20-F6E37B67CEC9}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{41E12039-35C6-44AD-9B20-F6E37B67CEC9}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{41E12039-35C6-44AD-9B20-F6E37B67CEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41E12039-35C6-44AD-9B20-F6E37B67CEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41E12039-35C6-44AD-9B20-F6E37B67CEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41E12039-35C6-44AD-9B20-F6E37B67CEC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAB080A3-E3EC-47F2-8314-0584869A10E7}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB080A3-E3EC-47F2-8314-0584869A10E7}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{FAB080A3-E3EC-47F2-8314-0584869A10E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB080A3-E3EC-47F2-8314-0584869A10E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB080A3-E3EC-47F2-8314-0584869A10E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB080A3-E3EC-47F2-8314-0584869A10E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC561EB8-E063-4A04-B10F-1F2FF5726748}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC561EB8-E063-4A04-B10F-1F2FF5726748}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{FC561EB8-E063-4A04-B10F-1F2FF5726748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC561EB8-E063-4A04-B10F-1F2FF5726748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC561EB8-E063-4A04-B10F-1F2FF5726748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC561EB8-E063-4A04-B10F-1F2FF5726748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73542FD4-2E8B-4B8B-AA3D-5CAD09976DBE}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{73542FD4-2E8B-4B8B-AA3D-5CAD09976DBE}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{73542FD4-2E8B-4B8B-AA3D-5CAD09976DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73542FD4-2E8B-4B8B-AA3D-5CAD09976DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73542FD4-2E8B-4B8B-AA3D-5CAD09976DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73542FD4-2E8B-4B8B-AA3D-5CAD09976DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
