@@ -2,6 +2,7 @@
 # directories (by name)
 
 TestResults/
+_UpgradeReport_Files/
 
 bin/
 obj/
@@ -13,6 +14,7 @@ src/recls.Core/obsolete/
 # files (by name)
 
 Local.testsettings
+TraceAndTestImpact.testsettings
 
 # files (by pattern)
 
@@ -20,4 +22,6 @@ Local.testsettings
 *.*~
 *.suo
 *.swp
+
+UpgradeLog*.XML
 
