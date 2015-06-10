@@ -1,6 +1,8 @@
 
 # directories (by name)
 
+TestResults/
+
 bin/
 obj/
 
@@ -9,6 +11,8 @@ src/recls.Core/obsolete/
 # directories (by pattern)
 
 # files (by name)
+
+Local.testsettings
 
 # files (by pattern)
 
