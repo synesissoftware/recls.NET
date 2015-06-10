@@ -21,6 +21,7 @@ TraceAndTestImpact.testsettings
 
 *~
 *.*~
+*.scc
 *.suo
 *.swp
 
