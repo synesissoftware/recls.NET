@@ -23,7 +23,7 @@ namespace Recls
 	/// </remarks>
 	public static class FileSearcher
 	{
-		#region Member Variables and Constants
+		#region Fields and Constants
 		private const int UNRESTRICTED_DETPH = int.MaxValue;
 		#endregion
 
@@ -81,9 +81,9 @@ namespace Recls
 			///  searched in a depth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -107,9 +107,9 @@ namespace Recls
 			///  searched in a depth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -138,9 +138,9 @@ namespace Recls
 			///  searched in a depth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -175,9 +175,9 @@ namespace Recls
 			///  searched in a depth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -222,9 +222,9 @@ namespace Recls
 			///  searched in a depth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -268,9 +268,9 @@ namespace Recls
 			///  searched in a breadth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -294,9 +294,9 @@ namespace Recls
 			///  searched in a breadth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -324,9 +324,9 @@ namespace Recls
 			///  searched in a breadth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -359,9 +359,9 @@ namespace Recls
 			///  searched in a breadth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -406,9 +406,9 @@ namespace Recls
 			///  searched in a breadth-first manner.
 			/// </summary>
 			/// <param name="directory">
-			///	 The directory in which to search; the local directory if
-			///	 <b>null</b> or empty.
-			///	</param>
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
 			/// <param name="patterns">
 			///  One or more search patterns, separated by the <c>|</c>
 			///  character; searches for all if <b>null</b> or
@@ -447,9 +447,9 @@ namespace Recls
 		///  searched in an implementation-defined manner.
 		/// </summary>
 		/// <param name="directory">
-		///	 The directory in which to search; the local directory if
-		///	 <b>null</b> or empty.
-		///	</param>
+		///  The directory in which to search; the local directory if
+		///  <b>null</b> or empty.
+		/// </param>
 		/// <param name="patterns">
 		///  One or more search patterns, separated by the <c>|</c>
 		///  character; searches for all if <b>null</b> or
@@ -473,9 +473,9 @@ namespace Recls
 		///  searched in an implementation-defined manner.
 		/// </summary>
 		/// <param name="directory">
-		///	 The directory in which to search; the local directory if
-		///	 <b>null</b> or empty.
-		///	</param>
+		///  The directory in which to search; the local directory if
+		///  <b>null</b> or empty.
+		/// </param>
 		/// <param name="patterns">
 		///  One or more search patterns, separated by the <c>|</c>
 		///  character; searches for all if <b>null</b> or
@@ -503,9 +503,9 @@ namespace Recls
 		///  searched in an implementation-defined manner.
 		/// </summary>
 		/// <param name="directory">
-		///	 The directory in which to search; the local directory if
-		///	 <b>null</b> or empty.
-		///	</param>
+		///  The directory in which to search; the local directory if
+		///  <b>null</b> or empty.
+		/// </param>
 		/// <param name="patterns">
 		///  One or more search patterns, separated by the <c>|</c>
 		///  character; searches for all if <b>null</b> or
@@ -538,9 +538,9 @@ namespace Recls
 		///  searched in an implementation-defined manner.
 		/// </summary>
 		/// <param name="directory">
-		///	 The directory in which to search; the local directory if
-		///	 <b>null</b> or empty.
-		///	</param>
+		///  The directory in which to search; the local directory if
+		///  <b>null</b> or empty.
+		/// </param>
 		/// <param name="patterns">
 		///  One or more search patterns, separated by the <c>|</c>
 		///  character; searches for all if <b>null</b> or
@@ -579,9 +579,9 @@ namespace Recls
 		///  searched in an implementation-defined manner.
 		/// </summary>
 		/// <param name="directory">
-		///	 The directory in which to search; the local directory if
-		///	 <b>null</b> or empty.
-		///	</param>
+		///  The directory in which to search; the local directory if
+		///  <b>null</b> or empty.
+		/// </param>
 		/// <param name="patterns">
 		///  One or more search patterns, separated by the <c>|</c>
 		///  character; searches for all if <b>null</b> or

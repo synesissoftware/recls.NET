@@ -41,12 +41,12 @@ namespace Recls
 		/// <summary>
 		///  Include directories in search.
 		/// </summary>
-		Directories						=	0x00000002,
+		Directories 					=	0x00000002,
 		/// <summary>
 		///  Causes the search to ignore any inaccessible nodes. This is
 		///  ignored if an error handler is specified.
 		/// </summary>
-		IgnoreInaccessibleNodes			=	0x00100000,
+		IgnoreInaccessibleNodes 		=	0x00100000,
 		/// <summary>
 		///  Marks directory entries with a trailing slash. The
 		///  <see cref="IEntry.Path"/>,
@@ -60,7 +60,7 @@ namespace Recls
 		/// <seealso cref="IEntry.Path"/>
 		/// <seealso cref="IEntry.SearchRelativePath"/>
 		/// <seealso cref="IEntry.File"/>
-		MarkDirectories					=	0x00200000,
+		MarkDirectories 				=	0x00200000,
 		/// <summary>
 		///  Includes hidden files/directories in the search processing and
 		///  results.

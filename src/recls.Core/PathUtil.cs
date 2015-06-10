@@ -33,7 +33,7 @@ namespace Recls
 		///  The equivalent of the <paramref name="target"/> relative to the
 		///  <paramref name="origin"/>
 		/// </returns>
-        /// <exception cref="Recls.Exceptions.IllformedUncPathException">
+		/// <exception cref="Recls.Exceptions.IllformedUncPathException">
 		///  If either parameter is a malformed UNC path. A correctly
 		///  formed UNC path must contain at least server and share, e.g.
 		///  <c>\\myserver\myshare</c>. Any path beginning with <c>\\</c>
@@ -55,7 +55,7 @@ namespace Recls
 		///  The canonicalized path. There is no error return: all problems
 		///  are indicated by exceptions.
 		/// </returns>
-        /// <exception cref="Recls.Exceptions.IllformedUncPathException">
+		/// <exception cref="Recls.Exceptions.IllformedUncPathException">
 		///  If <paramref name="path"/> is a malformed UNC path. A correctly
 		///  formed UNC path must contain at least server and share, e.g.
 		///  <c>\\myserver\myshare</c>. Any path beginning with <c>\\</c>
@@ -157,7 +157,7 @@ namespace Recls
 		///  separator, and will always be ready to be combined with a
 		///  directory.
 		/// </remarks>
-        /// <exception cref="Recls.Exceptions.IllformedUncPathException">
+		/// <exception cref="Recls.Exceptions.IllformedUncPathException">
 		///  If <paramref name="path"/> is a malformed UNC path. A correctly
 		///  formed UNC path must contain at least server and share, e.g.
 		///  <c>\\myserver\myshare</c>. Any path beginning with <c>\\</c>

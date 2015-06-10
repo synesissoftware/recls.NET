@@ -10,7 +10,7 @@ namespace Recls.Internal
 	internal sealed class DirectoryParts
 		: IDirectoryParts
 	{
-		#region Member Variables
+		#region Fields
 		readonly IList<string>	m_parts;
 		#endregion
 

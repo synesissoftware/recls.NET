@@ -46,9 +46,9 @@ namespace Recls.Internal
 		private class Enumerator
 			: IEnumerator<IEntry>
 		{
-            #region Construction
+			#region Construction
 			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler)
-            {
+			{
 				Debug.Assert(null != directory);
 				Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
 				Debug.Assert(Util.IsPathAbsolute(directory), "path must be absolute");
@@ -105,7 +105,7 @@ namespace Recls.Internal
 						Debug.Assert(m_entryIndex <= m_entries.Count);
 						if(m_entryIndex < m_entries.Count)
 						{
-							FileSystemInfo	fsi	=	m_entries[m_entryIndex];
+							FileSystemInfo	fsi =	m_entries[m_entryIndex];
 							FileInfo		fi	=	fsi as FileInfo;
 
 							if(null != fi)
@@ -129,7 +129,7 @@ namespace Recls.Internal
 						}
 
 						List<FileSystemInfo> nextEntries = new List<FileSystemInfo>();
-						List<DirectoryInfo>	nextSubdirectories = new List<DirectoryInfo>();
+						List<DirectoryInfo> nextSubdirectories = new List<DirectoryInfo>();
 
 						foreach(DirectoryInfo di in m_subdirectories)
 						{
@@ -195,8 +195,8 @@ namespace Recls.Internal
 			}
 			#endregion
 
-			#region Member Variables
-			readonly string				m_directory;
+			#region Fields
+			readonly string 			m_directory;
 			readonly DirectoryInfo		m_di;
 			readonly Patterns			m_patterns;
 			readonly SearchOptions		m_options;
@@ -205,15 +205,15 @@ namespace Recls.Internal
 			readonly IProgressHandler	m_progressHandler;
 			IEntry						m_currentEntry;
 			List<FileSystemInfo>		m_entries;
-			int							m_entryIndex;
-			List<DirectoryInfo>			m_subdirectories;
-			int							m_depth;
+			int 						m_entryIndex;
+			List<DirectoryInfo> 		m_subdirectories;
+			int 						m_depth;
 			bool						m_searchCancelled;
 			#endregion
 		}
 
-		#region Member Variables
-		readonly string				m_directory;
+		#region Fields
+		readonly string 			m_directory;
 		readonly Patterns			m_patterns;
 		readonly SearchOptions		m_options;
 		readonly int				m_maxDepth;

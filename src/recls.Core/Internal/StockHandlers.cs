@@ -29,8 +29,8 @@ namespace Recls.Internal
 	internal class DelegateExceptionHandler
 		: IExceptionHandler
 	{
-		#region Member Variables
-		private OnException	m_dg;
+		#region Fields
+		private OnException m_dg;
 		#endregion
 
 		#region Construction
@@ -64,7 +64,7 @@ namespace Recls.Internal
 	internal class DelegateProgressHandler
 		: IProgressHandler
 	{
-		#region Member Variables
+		#region Fields
 		private OnProgress	m_dg;
 		#endregion
 

@@ -19,8 +19,8 @@ namespace Recls
 	///  <see cref="Recls.FileSearcher.DepthFirst.Search(String, String, SearchOptions, int)">FileSearcher.DepthFirst.Search()</see>)
 	///  methods.
 	/// </remarks>
-    public interface IEntry
-    {
+	public interface IEntry
+	{
 		/// <summary>
 		///  Gets the full path of the entry.
 		/// </summary>

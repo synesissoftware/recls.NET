@@ -75,7 +75,7 @@ namespace Recls.Internal
 				if(m_entryIndex < m_entries.Length)
 				{
 					IEntry			entry	=	null;
-					FileSystemInfo	fsi		=	m_entries[m_entryIndex];
+					FileSystemInfo	fsi 	=	m_entries[m_entryIndex];
 					FileInfo		fi		=	fsi as FileInfo;
 
 					if(null != fi)
@@ -97,18 +97,18 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Member Variables
-		readonly string				m_searchRoot;
-		readonly string				m_directory;
+		#region Fields
+		readonly string 			m_searchRoot;
+		readonly string 			m_directory;
 		readonly Patterns			m_patterns;
 		readonly SearchOptions		m_options;
 		readonly IExceptionHandler	m_exceptionHandler;
 		readonly IProgressHandler	m_progressHandler;
 		readonly int				m_depth;
 		readonly DirectoryInfo[]	m_subdirectories;
-		int							m_subdirectoryIndex;
+		int 						m_subdirectoryIndex;
 		readonly FileSystemInfo[]	m_entries;
-		int							m_entryIndex;
+		int 						m_entryIndex;
 		bool						m_searchCancelled;
 		#endregion
 	}

@@ -1,9 +1,9 @@
 ﻿
 namespace Recls.Internal
 {
-    using Recls.Exceptions;
+	using Recls.Exceptions;
 
-    // TODO: sort this, probably using global::
+	// TODO: sort this, probably using global::
 
 	using System;
 	using System.Collections.Generic;
@@ -436,14 +436,14 @@ namespace Recls.Internal
 
 		#region Path Elicitation Operations
 		// <summary>
-		//  Evaluates the UNC drive part of a given path.
+		//	Evaluates the UNC drive part of a given path.
 		// </summary>
 		// <param name="path">
-		//  The path to be tested.
+		//	The path to be tested.
 		// </param>
 		// <returns>
-		//  <b>-1</b> if the path does not contain a UNC drive; the length
-		//  of the UNC drive part of the given path otherwise.
+		//	<b>-1</b> if the path does not contain a UNC drive; the length
+		//	of the UNC drive part of the given path otherwise.
 		// </returns>
 		internal static int GetUncDriveLength(string path)
 		{
@@ -455,7 +455,7 @@ namespace Recls.Internal
 
 			if(path.Length >= 5)
 			{
-				if(	'\\' == path[0] &&
+				if( '\\' == path[0] &&
 					'\\' == path[1])
 				{
 					int sep0 = path.IndexOf('\\', 2);
@@ -488,15 +488,15 @@ namespace Recls.Internal
 
 #if UNUSED
 		// <summary>
-		//  Evaluates the UNC drive+directory part of a given path
+		//	Evaluates the UNC drive+directory part of a given path
 		// </summary>
 		// <param name="path">
-		//  The path to be tested
+		//	The path to be tested
 		// </param>
 		// <returns>
-		//  <b>-1</b> if the path does not contain a UNC drive/directory;
-		//  the length of the UNC drive+directory part of the given path
-		//  otherwise.
+		//	<b>-1</b> if the path does not contain a UNC drive/directory;
+		//	the length of the UNC drive+directory part of the given path
+		//	otherwise.
 		// </returns>
 		internal static int GetUncDirectoryPathLength(string path)
 		{
@@ -568,9 +568,9 @@ namespace Recls.Internal
 
 		#region Path Manipulation Operations
 		// <summary>
-		//  Doesn't correct "\\server\share", without fixing a directory
-		//  
-		//  Doesn't remove the 
+		//	Doesn't correct "\\server\share", without fixing a directory
+		//	
+		//	Doesn't remove the 
 		// </summary>
 		// <param name="path"></param>
 		// <returns></returns>
@@ -610,12 +610,12 @@ namespace Recls.Internal
 		}
 
 		// <summary>
-		//  System.IO.Path.GetDirectoryName() returns null for a root
-		//  directory - whether Volume-based or UNC - so we need to return
-		//  the root directory.
-		//  
-		//  It also throws if passed "" - though the documentation
-		//  contradicts this - whereas we want null back. 
+		//	System.IO.Path.GetDirectoryName() returns null for a root
+		//	directory - whether Volume-based or UNC - so we need to return
+		//	the root directory.
+		//	
+		//	It also throws if passed "" - though the documentation
+		//	contradicts this - whereas we want null back. 
 		// </summary>
 		// <param name="path"></param>
 		// <returns></returns>
@@ -651,9 +651,9 @@ namespace Recls.Internal
 		}
 
 		// <summary>
-		//  System.IO.Path.GetFileName() incorrectly handles paths with
-		//  only a UNC drive - e.g. \\server\share - and so we need to
-		//  handle this for it
+		//	System.IO.Path.GetFileName() incorrectly handles paths with
+		//	only a UNC drive - e.g. \\server\share - and so we need to
+		//	handle this for it
 		// </summary>
 		// <param name="path"></param>
 		// <returns></returns>
@@ -725,10 +725,10 @@ namespace Recls.Internal
 		}
 
 		// <summary>
-		//  Canonicalises a path
+		//	Canonicalises a path
 		// </summary>
 		// <param name="path">
-		//  The path to canonicalise
+		//	The path to canonicalise
 		// </param>
 		// <returns></returns>
 		internal static string CanonicalisePath(string path)
@@ -776,7 +776,7 @@ namespace Recls.Internal
 
 					if(parts.Length < 2)
 					{
-						if(	0 == parts.Length ||
+						if( 0 == parts.Length ||
 							IsPathRooted(path))
 						{
 							if(PathNameSeparatorCharacters.Length > 1)
@@ -862,7 +862,7 @@ namespace Recls.Internal
 		{
 			Debug.Assert(null != path);
 
-			if(	0 == path.Length ||
+			if( 0 == path.Length ||
 				HasDirEnd(path))
 			{
 				return path;
@@ -959,12 +959,12 @@ namespace Recls.Internal
 			}
 			if(path.Length > 2)
 			{
-				if(	'\\' == path[0] &&
+				if( '\\' == path[0] &&
 					'\\' == path[1])
 				{
 					return PathRelativity.AbsoluteUnc;
 				}
-				if(	':' == path[1] &&
+				if( ':' == path[1] &&
 					IsLatinLetter(path[0]))
 				{
 					foreach(char ch in PathNameSeparatorCharacters)
@@ -1097,10 +1097,10 @@ namespace Recls.Internal
 				// There are two strategies:
 				//
 				// 1. Check that the message string is the same as that
-				//  obtained from FormatMessage() for the error code
-				//  0x80070035
+				//	obtained from FormatMessage() for the error code
+				//	0x80070035
 				// 2. Use reflection to look into the protected HResult
-				//  property, to see if it is 0x80070035
+				//	property, to see if it is 0x80070035
 
 				// 1.
 				System.ComponentModel.Win32Exception w32x = new System.ComponentModel.Win32Exception(unchecked((int)0x80070035));
@@ -1139,7 +1139,7 @@ namespace Recls.Internal
 			{
 				//if(HasDirEnd(origin))
 				//{
-				//    return String.Format(".{0}", PathNameSeparatorCharacters[0]);
+				//	  return String.Format(".{0}", PathNameSeparatorCharacters[0]);
 				//}
 				//else
 				//{
@@ -1159,7 +1159,7 @@ namespace Recls.Internal
 				{
 					string[]	allPartsOrigin	=	CalculateAllParts(entryOrigin.Path);
 					string[]	allPartsTarget	=	CalculateAllParts(entryTarget.Path);
-					int			numSameDirParts =	CalculateNumSameDirectoryParts(allPartsOrigin, allPartsTarget);
+					int 		numSameDirParts =	CalculateNumSameDirectoryParts(allPartsOrigin, allPartsTarget);
 
 					StringBuilder sb = new StringBuilder(200);
 

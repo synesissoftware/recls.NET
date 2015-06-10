@@ -42,13 +42,13 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Member Types
+		#region Types
 		private class Enumerator
-            : IEnumerator<IEntry>
-        {
-            #region Construction
+			: IEnumerator<IEntry>
+		{
+			#region Construction
 			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler)
-            {
+			{
 				Debug.Assert(null != directory);
 				Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
 				Debug.Assert(Util.IsPathAbsolute(directory), "path must be absolute");
@@ -61,7 +61,7 @@ namespace Recls.Internal
 				m_nodes = new Stack<IDirectorySearchNode>();
 				m_nodes.Push(m_rootNode);
 			}
-            #endregion Construction
+			#endregion Construction
 
 			#region IDisposable Members
 			void IDisposable.Dispose()
@@ -72,21 +72,21 @@ namespace Recls.Internal
 			}
 			#endregion
 
-            #region IEnumerator<Entry> Members
+			#region IEnumerator<Entry> Members
 			IEntry System.Collections.Generic.IEnumerator<IEntry>.Current
-            {
-                get { return GetCurrent_(); }
-            }
-            #endregion
+			{
+				get { return GetCurrent_(); }
+			}
+			#endregion
 
-            #region IEnumerator Members
-            object System.Collections.IEnumerator.Current
-            {
-                get { return GetCurrent_(); }
-            }
+			#region IEnumerator Members
+			object System.Collections.IEnumerator.Current
+			{
+				get { return GetCurrent_(); }
+			}
 
 			bool System.Collections.IEnumerator.MoveNext()
-            {
+			{
 					// The nodes are processed in a stack of directory search
 					// nodes.
 					//
@@ -130,15 +130,15 @@ namespace Recls.Internal
 				}
 
 				return false;
-            }
+			}
 
 			void System.Collections.IEnumerator.Reset()
 			{
 				Reset_(false);
 			}
-            #endregion
+			#endregion
 
-            #region Implementation
+			#region Implementation
 			// Need a separate worker method, as cannot call System.Collections.IEnumerator.Reset() without a cast
 			void Reset_(bool disposing)
 			{
@@ -152,27 +152,27 @@ namespace Recls.Internal
 			}
 
 			private IEntry GetCurrent_()
-            {
-                return m_currentEntry;
-            }
-            #endregion
+			{
+				return m_currentEntry;
+			}
+			#endregion
 
-            #region Member Variables
+			#region Fields
 			readonly int				m_maxDepth;
 			IEntry						m_currentEntry;
-			DirectorySearchNode			m_rootNode;
+			DirectorySearchNode 		m_rootNode;
 			Stack<IDirectorySearchNode> m_nodes;
-            #endregion Member Variables
+			#endregion
 		}
 		#endregion
 
-		#region Member Variables
-        readonly string				m_directory;
-        readonly Patterns			m_patterns;
+		#region Fields
+		readonly string 			m_directory;
+		readonly Patterns			m_patterns;
 		readonly SearchOptions		m_options;
 		readonly int				m_maxDepth;
 		readonly IExceptionHandler	m_exceptionHandler;
 		readonly IProgressHandler	m_progressHandler;
-        #endregion Member Variables
+		#endregion
 	}
 }

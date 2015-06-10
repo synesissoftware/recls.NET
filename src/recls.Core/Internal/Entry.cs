@@ -71,7 +71,7 @@ namespace Recls.Internal
 		#region Internal Properties
 		//protected SearchOptions SearchOptions_
 		//{
-		//    get { return m_options; }
+		//	  get { return m_options; }
 		//}
 		#endregion
 
@@ -285,8 +285,8 @@ namespace Recls.Internal
 		{
 			Debug.Assert(0 != m_partsSpin);
 
-			int				i1;
-			int				i2;
+			int 			i1;
+			int 			i2;
 			List<string>	parts = new List<string>(10);
 
 			for(i1 = i2 = m_lengthOfDrive; i1 != m_endOfDirectory; ++i1)
@@ -311,21 +311,21 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Member Variables
-		private readonly FileSystemInfo		m_info;
+		#region Fields
+		private readonly FileSystemInfo 	m_info;
 		//private readonly SearchOptions	m_options;
-		private readonly string				m_searchRoot;
-		private readonly string				m_fullPath;
+		private readonly string 			m_searchRoot;
+		private readonly string 			m_fullPath;
 		private readonly int				m_lengthOfDrive;
 		private readonly int				m_endOfDirectory;
 		private readonly int				m_endOfFileName;
-		private int							m_partsSpin;
+		private int 						m_partsSpin;
 #if USE_ARRAY_FOR_DIRECTORY_PARTS
 		private string[]					m_directoryParts;
 #elif USE_ILIST_FOR_DIRECTORY_PARTS
 		private IList<string>				m_directoryParts;
 #else
-		private IDirectoryParts				m_directoryParts;
+		private IDirectoryParts 			m_directoryParts;
 #endif
 		#endregion
 	}

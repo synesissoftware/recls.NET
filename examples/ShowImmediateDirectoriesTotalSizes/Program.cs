@@ -14,10 +14,10 @@ namespace ShowImmediateDirectoriesTotalSizes
 			// sub-directories of the current directory.
 
 			FileSearcher.BreadthFirst.Search(
-				null,                        // search current directory
-				null,                        // all names
-				SearchOptions.Directories,   // only want dirs; don't worry about inaccessible entries
-				0                            // do not recurse
+				null,						 // search current directory
+				null,						 // all names
+				SearchOptions.Directories,	 // only want dirs; don't worry about inaccessible entries
+				0							 // do not recurse
 			)
 				 .ForEach((e) => Console.WriteLine("{0} : {1}", e, FileSearcher.CalculateDirectorySize(e)));
 

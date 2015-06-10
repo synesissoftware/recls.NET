@@ -63,8 +63,8 @@ namespace Recls.Internal
 			}
 			#endregion
 
-			#region Member Variables
-			readonly string	m_pattern;
+			#region Fields
+			readonly string m_pattern;
 			#endregion
 		}
 
@@ -106,7 +106,7 @@ namespace Recls.Internal
 			}
 			#endregion
 
-			#region Member Variables
+			#region Fields
 			readonly Regex m_pattern;
 			#endregion
 		}
@@ -179,8 +179,8 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Member Variables
-		readonly IPattern[]	m_patterns;
+		#region Fields
+		readonly IPattern[] m_patterns;
 		#endregion
 	}
 }

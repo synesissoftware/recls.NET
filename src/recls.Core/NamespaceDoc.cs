@@ -83,7 +83,7 @@ namespace Recls
 	///   <code>
 	///    foreach(IEntry entry in FileSearcher.Search(@"C:\windows", "*.fon|*.ttf"))
 	///    {
-	///        Console.WriteLine(entry.Path);
+	/// 	   Console.WriteLine(entry.Path);
 	///    }
 	///   </code>
 	///  </para>
@@ -96,27 +96,27 @@ namespace Recls
 	///   LINQ for filtering and selecting the entry members.
 	///   <code>
 	///    var files = FileSearcher.DepthFirst.Search( // search in depth-first manner
-	///        null,                                   // search current directory
-	///        "m*.exe|n*.dll",                        // all programs beginning with m; all DLLs beginning with n
-	///        SearchOptions.IncludeHidden,            // include hidden files/directories
-	///        3,                                      // descend at most 3 directories
-	///        null,                                   // don't need progress callback
-	///        delegate(string path, Exception x)
-	///        {
-	///            // report on any entries that could not be enumerated, but ...
-	///            Console.Error.WriteLine("could not enumerate {0}: {1}", path, x.Message);
-	///            // ... continue the enumeration
-	///            return ExceptionHandlerResult.ConsumeExceptionAndContinue;
-	///        }
+	/// 	   null,								   // search current directory
+	/// 	   "m*.exe|n*.dll", 					   // all programs beginning with m; all DLLs beginning with n
+	/// 	   SearchOptions.IncludeHidden, 		   // include hidden files/directories
+	/// 	   3,									   // descend at most 3 directories
+	/// 	   null,								   // don't need progress callback
+	/// 	   delegate(string path, Exception x)
+	/// 	   {
+	/// 		   // report on any entries that could not be enumerated, but ...
+	/// 		   Console.Error.WriteLine("could not enumerate {0}: {1}", path, x.Message);
+	/// 		   // ... continue the enumeration
+	/// 		   return ExceptionHandlerResult.ConsumeExceptionAndContinue;
+	/// 	   }
 	///    );
 	///
 	///    var results = from file in files
-	///                  where file.Size &lt; 10240
-	///                  select file.SearchRelativePath;
+	/// 				 where file.Size &lt; 10240
+	/// 				 select file.SearchRelativePath;
 	///
 	///    foreach(var path in results)
 	///    {
-	///        Console.WriteLine("entry: {0}", path);
+	/// 	   Console.WriteLine("entry: {0}", path);
 	///    }
 	///   </code>
 	///  </para>
@@ -127,19 +127,19 @@ namespace Recls
 	///   method ForEach() in combination with a lambda expression.
 	///   <code>
 	///    FileSearcher.BreadthFirst.Search(
-	///        null,                        // search current directory
-	///        null,                        // all names
-	///        SearchOptions.Directories | SearchOptions.IgnoreInaccessibleNodes, // only want dirs; don't worry about inaccessible entries
-	///        0							// do not recurse
-	///     )
-	///         .ForEach((d) => Console.WriteLine("{0} : {1}", d.Path, FileSearcher.CalculateDirectorySize(d.Path, FileSearcher.UnrestrictedDepth)));
+	/// 	   null,						// search current directory
+	/// 	   null,						// all names
+	/// 	   SearchOptions.Directories | SearchOptions.IgnoreInaccessibleNodes, // only want dirs; don't worry about inaccessible entries
+	/// 	   0							// do not recurse
+	/// 	)
+	/// 		.ForEach((d) => Console.WriteLine("{0} : {1}", d.Path, FileSearcher.CalculateDirectorySize(d.Path, FileSearcher.UnrestrictedDepth)));
 	///   </code>
 	///   This can also be expressed in a more conventional syntax.
 	///   <code>
-	///   	foreach(IEntry entry in FileSearcher.BreadthFirst.Search(null, null, SearchOptions.Directories | SearchOptions.IgnoreInaccessibleNodes, 0))
-	///   	{
-	///   	    Console.WriteLine("{0} : {1}", entry.Path, FileSearcher.CalculateDirectorySize(entry, FileSearcher.UnrestrictedDepth));
-	///   	}
+	/// 	foreach(IEntry entry in FileSearcher.BreadthFirst.Search(null, null, SearchOptions.Directories | SearchOptions.IgnoreInaccessibleNodes, 0))
+	/// 	{
+	/// 		Console.WriteLine("{0} : {1}", entry.Path, FileSearcher.CalculateDirectorySize(entry, FileSearcher.UnrestrictedDepth));
+	/// 	}
 	///   </code>
 	///  </para>
 	///  <para>
@@ -150,56 +150,56 @@ namespace Recls
 	///
 	///    if(null == entry)
 	///    {
-	///        Console.Error.Write("file not found");
+	/// 	   Console.Error.Write("file not found");
 	///    }
 	///    else
 	///    {
-	///        Console.WriteLine("{0,20}:\t{1}", "Path", entry.Path);
-	///        Console.WriteLine("{0,20}:\t{1}", "SearchRelativePath", entry.SearchRelativePath);
-	///        Console.WriteLine("{0,20}:\t{1}", "Drive", entry.Drive);
-	///        Console.WriteLine("{0,20}:\t{1}", "DirectoryPath", entry.DirectoryPath);
-	///        Console.WriteLine("{0,20}:\t{1}", "Directory", entry.Directory);
-	///        Console.WriteLine("{0,20}:\t{1}", "SearchDirectory", entry.SearchDirectory);
-	///        Console.WriteLine("{0,20}:\t{1}", "UncDrive", entry.UncDrive);
-	///        Console.WriteLine("{0,20}:\t{1}", "File", entry.File);
-	///        Console.WriteLine("{0,20}:\t{1}", "FileName", entry.FileName);
-	///        Console.WriteLine("{0,20}:\t{1}", "FileExtension", entry.FileExtension);
-	///        Console.WriteLine("{0,20}:\t{1}", "CreationTime", entry.CreationTime);
-	///        Console.WriteLine("{0,20}:\t{1}", "ModificationTime", entry.ModificationTime);
-	///        Console.WriteLine("{0,20}:\t{1}", "LastAccessTime", entry.LastAccessTime);
-	///        Console.WriteLine("{0,20}:\t{1}", "LastStatusChangeTime", entry.LastStatusChangeTime);
-	///        Console.WriteLine("{0,20}:\t{1}", "Size", entry.Size);
-	///        Console.WriteLine("{0,20}:\t{1}", "Attributes", entry.Attributes);
-	///        Console.WriteLine("{0,20}:\t{1}", "IsReadOnly", entry.IsReadOnly);
-	///        Console.WriteLine("{0,20}:\t{1}", "IsDirectory", entry.IsDirectory);
-	///        Console.WriteLine("{0,20}:\t{1}", "IsUnc", entry.IsUnc);
-	///        Console.WriteLine("{0,20}:\t[{1}]", "DirectoryParts", String.Join(", ", entry.DirectoryParts));
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "Path", entry.Path);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "SearchRelativePath", entry.SearchRelativePath);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "Drive", entry.Drive);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "DirectoryPath", entry.DirectoryPath);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "Directory", entry.Directory);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "SearchDirectory", entry.SearchDirectory);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "UncDrive", entry.UncDrive);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "File", entry.File);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "FileName", entry.FileName);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "FileExtension", entry.FileExtension);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "CreationTime", entry.CreationTime);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "ModificationTime", entry.ModificationTime);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "LastAccessTime", entry.LastAccessTime);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "LastStatusChangeTime", entry.LastStatusChangeTime);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "Size", entry.Size);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "Attributes", entry.Attributes);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "IsReadOnly", entry.IsReadOnly);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "IsDirectory", entry.IsDirectory);
+	/// 	   Console.WriteLine("{0,20}:\t{1}", "IsUnc", entry.IsUnc);
+	/// 	   Console.WriteLine("{0,20}:\t[{1}]", "DirectoryParts", String.Join(", ", entry.DirectoryParts));
 	///    }
 	///   </code>
 	///   Gives the following results:
 	///  </para>
 	///  <para>
 	///   <pre>
-	///                    Path:   H:\freelibs\recls\100\recls.net\recls.100.sln
-	///      SearchRelativePath:   recls.100.sln
-	///                   Drive:   H:
-	///           DirectoryPath:   H:\freelibs\recls\100\recls.net\
-	///               Directory:   \freelibs\recls\100\recls.net\
-	///         SearchDirectory:   H:\freelibs\recls\100\recls.net\
-	///                UncDrive:
-	///                    File:   recls.100.sln
-	///                FileName:   recls.100
-	///           FileExtension:   .sln
-	///            CreationTime:   31/07/2009 11:40:44 AM
-	///        ModificationTime:   20/08/2009 3:40:00 PM
-	///          LastAccessTime:   20/08/2009 3:46:33 PM
+	/// 				   Path:   H:\freelibs\recls\100\recls.net\recls.100.sln
+	/// 	 SearchRelativePath:   recls.100.sln
+	/// 				  Drive:   H:
+	/// 		  DirectoryPath:   H:\freelibs\recls\100\recls.net\
+	/// 			  Directory:   \freelibs\recls\100\recls.net\
+	/// 		SearchDirectory:   H:\freelibs\recls\100\recls.net\
+	/// 			   UncDrive:
+	/// 				   File:   recls.100.sln
+	/// 			   FileName:   recls.100
+	/// 		  FileExtension:   .sln
+	/// 		   CreationTime:   31/07/2009 11:40:44 AM
+	/// 	   ModificationTime:   20/08/2009 3:40:00 PM
+	/// 		 LastAccessTime:   20/08/2009 3:46:33 PM
 	///    LastStatusChangeTime:   20/08/2009 3:40:00 PM
-	///                    Size:   34157
-	///              Attributes:   ReadOnly, Archive, Compressed
-	///              IsReadOnly:   True
-	///             IsDirectory:   False
-	///                   IsUnc:   False
-	///          DirectoryParts:   [\, freelibs\, recls\, 100\, recls.net\]
+	/// 				   Size:   34157
+	/// 			 Attributes:   ReadOnly, Archive, Compressed
+	/// 			 IsReadOnly:   True
+	/// 			IsDirectory:   False
+	/// 				  IsUnc:   False
+	/// 		 DirectoryParts:   [\, freelibs\, recls\, 100\, recls.net\]
 	///   </pre>
 	///  </para>
 	///  <para>

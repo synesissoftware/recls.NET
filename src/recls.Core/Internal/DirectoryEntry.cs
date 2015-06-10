@@ -34,24 +34,24 @@ namespace Recls.Internal
 
 		//public override string File
 		//{
-		//    get
-		//    {
-		//        // We must test to see if this is a root path,
-		//        // because FileSystemInfo.File will give
-		//        // "C:\\" for "C:\\"
-		//        //if(RawPath == DirectoryPath)
-		//        //{
-		//        //    string file = Util.GetFileName(RawPath);
+		//	  get
+		//	  {
+		//		  // We must test to see if this is a root path,
+		//		  // because FileSystemInfo.File will give
+		//		  // "C:\\" for "C:\\"
+		//		  //if(RawPath == DirectoryPath)
+		//		  //{
+		//		  //	string file = Util.GetFileName(RawPath);
 
-		//        //    Debug.Assert(RawPath == file);
+		//		  //	Debug.Assert(RawPath == file);
 
-		//        //    return Util.GetFileName(RawPath);
-		//        //}
-		//        //else
-		//        {
-		//            return base.File;
-		//        }
-		//    }
+		//		  //	return Util.GetFileName(RawPath);
+		//		  //}
+		//		  //else
+		//		  {
+		//			  return base.File;
+		//		  }
+		//	  }
 		//}
 
 		public override long Size
@@ -70,7 +70,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Member Variables
+		#region Fields
 		private readonly string m_path;
 		#endregion
 	}
