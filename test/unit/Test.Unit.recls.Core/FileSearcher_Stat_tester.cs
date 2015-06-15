@@ -1,5 +1,5 @@
 ﻿
-// Updated: 10th June 2015
+// Updated: 15th June 2015
 
 #if PSEUDO_UNIX
 #else // PSEUDO_UNIX
@@ -10,36 +10,74 @@ namespace Test.Unit.recls.Core
 	using Recls;
 
 #if NUNIT
-    using global::NUnit.Framework;
+	using global::NUnit.Framework;
 
-    using TestClass = global::NUnit.Framework.TestFixtureAttribute;
-    using TestMethod = global::NUnit.Framework.TestAttribute;
-    using ExpectedException = global::NUnit.Framework.ExpectedExceptionAttribute;
+	using TestClass = global::NUnit.Framework.TestFixtureAttribute;
+	using TestMethod = global::NUnit.Framework.TestAttribute;
+	using ExpectedException = global::NUnit.Framework.ExpectedExceptionAttribute;
 #else
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.IO;
 
 	[TestClass]
 	public class FileSearcher_Stat_tester
 	{
-		private string cwd	=	null;
-		private string root =	null;
-		//private string dir1	=	null;
+		#region Types
+		internal static class Util
+		{
+#if PSEUDO_UNIX
+			private const char              Slash   =   '/';
+			private static readonly char[]  Slashes =   new char[] { '/' };
+#else // ? PSEUDO_UNIX
+			private const char              Slash   =   '\\';
+			private static readonly char[]  Slashes =   new char[] { '\\', '/' };
+#endif // PSEUDO_UNIX
+
+			internal static string EnsureDirEnd(string s)
+			{
+				Debug.Assert(!String.IsNullOrEmpty(s));
+
+				foreach(char slash in Slashes)
+				{
+					if(slash == s[s.Length - 1])
+					{
+						return s;
+					}
+				}
+
+				return s + Slash;
+			}
+		}
+		#endregion
+
+		#region Fields
+		private string	cwd			=	null;
+		private string	parent_dir	=	null;
+		private string	root		=	null;
+		private string	basename	=	null;
+		private string	basename_nx	=	null;
+		#endregion
 
 		[TestInitialize]
 		public void setup()
 		{
-			cwd = Environment.CurrentDirectory;
-			root = Path.GetPathRoot(cwd);
+			cwd			=	Environment.CurrentDirectory;
+			parent_dir	=	Path.GetDirectoryName(cwd);
+			root		=	Path.GetPathRoot(cwd);
+			basename	=	Path.GetFileName(cwd);
+			basename_nx	=	Path.GetFileNameWithoutExtension(cwd);
 
 #if PSEUDO_UNIX
 			cwd = PathUtil.CanonicalizePath(cwd);
+			parent_dir = PathUtil.CanonicalizePath(parent_dir);
 			root = PathUtil.CanonicalizePath(root);
 #endif // PSEUDO_UNIX
+			root = PathUtil.CanonicalizePath(root);
 		}
 
 		[TestMethod]
@@ -137,18 +175,18 @@ namespace Test.Unit.recls.Core
 			//e.CreationTime);
 			//Assert.AreEqual(cwd.Substring(e.Drive.Length), e.Directory);
 			//Assert.AreEqual(1, e.DirectoryParts.Length);
-			//Assert.AreEqual(cwd, e.DirectoryPath);
-			//Assert.AreEqual(cwd, e.Drive);
-			//Assert.AreEqual("", e.File);
+			Assert.AreEqual(Util.EnsureDirEnd(parent_dir), e.DirectoryPath);
+			//Assert.AreEqual(root, e.Drive);
+			Assert.AreEqual(basename, e.File);
 			//Assert.AreEqual("", e.FileExtension);
-			//Assert.AreEqual("", e.FileName);
+			Assert.AreEqual(basename_nx, e.FileName);
 			Assert.IsTrue(e.IsDirectory);
 			//e.IsReadOnly);
-			//e.IsUnc);
+			Assert.IsFalse(e.IsUnc);
 			//e.LastAccessTime);
 			//e.LastStatusChangeTime);
 			//e.ModificationTime);
-			//Assert.AreEqual(root, e.Path);
+			Assert.AreEqual(cwd, e.Path);
 			//Assert.AreEqual(root, e.SearchDirectory);
 			//Assert.AreEqual("", e.SearchRelativePath);
 			Assert.AreEqual(0, e.Size);
