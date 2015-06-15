@@ -9,7 +9,15 @@ namespace Test.Unit.recls.Core
 {
 	using Recls;
 
-	using Microsoft.VisualStudio.TestTools.UnitTesting;
+#if NUNIT
+    using global::NUnit.Framework;
+
+    using TestClass = global::NUnit.Framework.TestFixtureAttribute;
+    using TestMethod = global::NUnit.Framework.TestAttribute;
+    using ExpectedException = global::NUnit.Framework.ExpectedExceptionAttribute;
+#else
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 	using System;
 	using System.Collections.Generic;
