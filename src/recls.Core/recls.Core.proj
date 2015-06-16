@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+  ToolsVersion="4.0"
+  DefaultTargets="Build"
+>
+  <!--
+  - Created: 16th June 2015
+  - Updated: 16th June 2015
+  -->
+
+
+  <!-- properties -->
+
+  <!-- properties: general -->
+  <PropertyGroup>
+    <ProjectName>recls.Core</ProjectName>
+    <ConfigurationTag>release</ConfigurationTag>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration) == Debug">
+    <ConfigurationTag>debug</ConfigurationTag>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration) == Test">
+    <ConfigurationTag>test</ConfigurationTag>
+  </PropertyGroup>
+
+  <!-- properties: directories -->
+  <PropertyGroup>
+    <ProjectBaseDirectory>$(MSBuildProjectDirectory)</ProjectBaseDirectory>
+    <LibraryBaseDirectory>$(ProjectBaseDirectory)\..\..</LibraryBaseDirectory>
+    <LibraryKeyDirectory>$(LibraryBaseDirectory)\keys</LibraryKeyDirectory>
+    <LibrarySrcDirectory>$(ProjectBaseDirectory)\..</LibrarySrcDirectory>
+    <LibraryBuildBaseDirectory>$(LibraryBaseDirectory)\_build</LibraryBuildBaseDirectory>
+
+    <ProjectBuildDirectory>$(LibraryBuildBaseDirectory)\$(ConfigurationTag)</ProjectBuildDirectory>
+  </PropertyGroup>
+
+  <!-- properties: per-configuration default -->
+  <PropertyGroup>
+    <ProjectAssemblyPath>$(ProjectBuildDirectory)\$(ProjectName).dll</ProjectAssemblyPath>
+    <ProjectDocumentationPath>$(ProjectBuildDirectory)\$(ProjectName).xml</ProjectDocumentationPath>
+
+    <Csc_Constants>TRACE;NDEBUG;</Csc_Constants>
+    <Csc_DelaySign>true</Csc_DelaySign>
+    <Csc_KeyFile>$(LibraryKeyDirectory)\Synsoft.public.snk</Csc_KeyFile>
+    <Csc_Optimize>true</Csc_Optimize>
+    <Csc_WarningLevel>4</Csc_WarningLevel>
+  </PropertyGroup>
+
+  <!-- properties: per-configuration Debug -->
+  <PropertyGroup Condition="$(Configuration) == Debug">
+    <ProjectDocumentationPath></ProjectDocumentationPath>
+
+    <Csc_Constants>TRACE;DEBUG;</Csc_Constants>
+    <Csc_Optimize>false</Csc_Optimize>
+  </PropertyGroup>
+
+  <!-- properties: per-configuration Test -->
+  <PropertyGroup Condition="$(Configuration) == Test">
+    <ProjectDocumentationPath></ProjectDocumentationPath>
+
+    <Csc_Constants>TRACE;NDEBUG;TEST;</Csc_Constants>
+    <Csc_Optimize>true</Csc_Optimize>
+    <Csc_DelaySign>false</Csc_DelaySign>
+    <Csc_KeyFile></Csc_KeyFile>
+  </PropertyGroup>
+
+
+
+  <!-- valid configurations -->
+
+  <ItemGroup>
+    <ValidConfigurations Include="Debug"/>
+    <ValidConfigurations Include="Release"/>
+    <ValidConfigurations Include="Test"/>
+  </ItemGroup>
+
+
+  <!-- targets -->
+
+  <!-- target: CreateDirectories -->
+  <Target
+    Name="CreateDirectories"
+    >
+    <MakeDir
+      Condition="!Exists($(ProjectBuildDirectory))"
+      Directories="$(ProjectBuildDirectory)"
+      />
+  </Target>
+
+  <!-- target: ValidateConfiguration -->
+  <Target
+    Name="ValidateConfiguration"
+    >
+    <Error
+      Condition="$(Configuration) == ''"
+      Text="%24(Configuration) not defined; specify /p:Configuration=%3cconfiguration%3e, where %3cconfiguration%3e one of @(ValidConfigurations)"
+      />
+  </Target>
+
+  <!-- target: Build -->
+  <ItemGroup>
+    <Compile Include="$(ProjectBaseDirectory)\*.cs" />
+    <Compile Include="$(ProjectBaseDirectory)\Exceptions\*.cs" />
+    <Compile Include="$(ProjectBaseDirectory)\Internal\*.cs" />
+    <Compile Include="$(ProjectBaseDirectory)\Properties\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.dll" />
+    <Reference Include="System.Core.dll" />
+  </ItemGroup>
+
+  <Target
+    Name="Build"
+    DependsOnTargets="CreateDirectories;ValidateConfiguration"
+    Inputs="@(Compile)"
+    Outputs="$(ProjectAssemblyPath)"
+    >
+    <Csc
+      DefineConstants="$(Csc_Constants)"
+      DelaySign="$(Csc_DelaySign)"
+      DocumentationFile="$(ProjectDocumentationPath)"
+      KeyFile="$(Csc_KeyFile)"
+      OutputAssembly="$(ProjectAssemblyPath)"
+      Optimize="$(Csc_Optimize)"
+      Platform="AnyCPU"
+      References="@(Reference)"
+      Sources="@(Compile)"
+      TargetType="library"
+      TreatWarningsAsErrors="true"
+      WarningLevel="$(Csc_WarningLevel)"
+      >
+    </Csc>
+    <!-- TODO: Post-build step for doing delay-signing registration -->
+  </Target>
+
+  <!-- target: Clean -->
+  <Target
+    Name="Clean"
+    DependsOnTargets="ValidateConfiguration"
+    >
+    <RemoveDir
+      Condition="Exists($(ProjectBuildDirectory))"
+      Directories="$(ProjectBuildDirectory)"
+      />
+  </Target>
+
+</Project>

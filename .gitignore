@@ -1,6 +1,8 @@
 
 # directories (by name)
 
+_build/
+
 TestResults/
 Backup/
 _UpgradeReport_Files/
@@ -28,5 +30,6 @@ TraceAndTestImpact.testsettings
 *.csproj.user
 *.vcproj.user
 *.vcxproj.user
+TestResult*.xml
 UpgradeLog*.XML
 
