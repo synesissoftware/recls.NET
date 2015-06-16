@@ -10,9 +10,9 @@ namespace Test.Unit.recls.Core
 	using Recls;
 
 #if NUNIT
-	using global::NUnit.Framework;
-
+	using Assert = global::NUnit.Framework.Assert;
 	using TestClass = global::NUnit.Framework.TestFixtureAttribute;
+	using TestInitialize = global::NUnit.Framework.SetUpAttribute;
 	using TestMethod = global::NUnit.Framework.TestAttribute;
 	using ExpectedException = global::NUnit.Framework.ExpectedExceptionAttribute;
 #else
