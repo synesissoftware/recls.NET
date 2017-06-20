@@ -1,4 +1,43 @@
 ﻿
+/* /////////////////////////////////////////////////////////////////////////
+ * File:        Internal/Entry.cs
+ *
+ * Created:     30th May 2009
+ * Updated:     20th June 2017
+ *
+ * Home:        http://recls.net/
+ *
+ * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
+ *   names of any contributors may be used to endorse or promote products
+ *   derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ////////////////////////////////////////////////////////////////////// */
+
+
 namespace Recls.Internal
 {
 	using System;
@@ -11,7 +50,7 @@ namespace Recls.Internal
 	internal abstract class Entry
 		: IEntry
 	{
-		#region Construction
+		#region construction
 		protected Entry(FileSystemInfo info, string searchRoot, SearchOptions options)
 		{
 			Debug.Assert(null != info);
@@ -68,14 +107,14 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Internal Properties
+		#region internal Properties
 		//protected SearchOptions SearchOptions_
 		//{
 		//	  get { return m_options; }
 		//}
 		#endregion
 
-		#region IEntry Members
+		#region IEntry members
 		public virtual string Path
 		{
 			get { return RawPath; }
@@ -248,14 +287,14 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Object Overrides
+		#region Object overrides
 		public override string ToString()
 		{
 			return Path;
 		}
 		#endregion
 
-		#region Implementation
+		#region implementation
 		protected FileSystemInfo Info_
 		{
 			get { return m_info; }
@@ -299,7 +338,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Fields
+		#region fields
 		private readonly FileSystemInfo 	m_info;
 		//private readonly SearchOptions	m_options;
 		private readonly string 			m_searchRoot;
@@ -308,13 +347,10 @@ namespace Recls.Internal
 		private readonly int				m_endOfDirectory;
 		private readonly int				m_endOfFileName;
 		private int 						m_partsSpin;
-#if USE_ARRAY_FOR_DIRECTORY_PARTS
-		private string[]					m_directoryParts;
-#elif USE_ILIST_FOR_DIRECTORY_PARTS
-		private IList<string>				m_directoryParts;
-#else
 		private IDirectoryPartsCollection	m_directoryParts;
-#endif
 		#endregion
 	}
 }
+
+/* ///////////////////////////// end of file //////////////////////////// */
+

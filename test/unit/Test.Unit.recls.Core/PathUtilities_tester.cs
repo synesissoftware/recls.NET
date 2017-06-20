@@ -63,13 +63,13 @@ namespace Test.Unit.recls.Core
 			Assert.AreEqual(@"..", PathUtilities.CanonicalizePath(@".."));
 			Assert.AreEqual(@"abc", PathUtilities.CanonicalizePath(@"abc"));
 #if PSEUDO_UNIX
-		Assert.AreEqual(@"C:/", PathUtilities.CanonicalizePath(@"C:/"));
-		Assert.AreEqual(@"C:/abc", PathUtilities.CanonicalizePath(@"C:/abc"));
-		Assert.AreEqual(@"C:/abc", PathUtilities.CanonicalizePath(@"C:/abc/"));
-		Assert.AreEqual(@"C:/abc/def", PathUtilities.CanonicalizePath(@"C:/abc/def"));
-		Assert.AreEqual(@"C:/abc/def", PathUtilities.CanonicalizePath(@"C:/abc/def/"));
-		Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"abc/def/"));
-		Assert.AreEqual(@"/", PathUtilities.CanonicalizePath(@"/"));
+			Assert.AreEqual(@"C:/", PathUtilities.CanonicalizePath(@"C:/"));
+			Assert.AreEqual(@"C:/abc", PathUtilities.CanonicalizePath(@"C:/abc"));
+			Assert.AreEqual(@"C:/abc", PathUtilities.CanonicalizePath(@"C:/abc/"));
+			Assert.AreEqual(@"C:/abc/def", PathUtilities.CanonicalizePath(@"C:/abc/def"));
+			Assert.AreEqual(@"C:/abc/def", PathUtilities.CanonicalizePath(@"C:/abc/def/"));
+			Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"abc/def/"));
+			Assert.AreEqual(@"/", PathUtilities.CanonicalizePath(@"/"));
 #else // PSEUDO_UNIX
 			Assert.AreEqual(@"C:\", PathUtilities.CanonicalizePath(@"C:\"));
 			Assert.AreEqual(@"C:\abc", PathUtilities.CanonicalizePath(@"C:\abc"));
@@ -85,13 +85,13 @@ namespace Test.Unit.recls.Core
 			Assert.AreEqual(@"..", PathUtilities.CanonicalizePath(@".."));
 			Assert.AreEqual(@"abc", PathUtilities.CanonicalizePath(@"abc"));
 #if PSEUDO_UNIX
-		Assert.AreEqual(@"C:/", PathUtilities.CanonicalizePath(@"C:/"));
-		Assert.AreEqual(@"C:/abc", PathUtilities.CanonicalizePath(@"C:/abc"));
-		Assert.AreEqual(@"C:/abc", PathUtilities.CanonicalizePath(@"C:/abc/"));
-		Assert.AreEqual(@"C:/abc/def", PathUtilities.CanonicalizePath(@"C:/abc/def"));
-		Assert.AreEqual(@"C:/abc/def", PathUtilities.CanonicalizePath(@"C:/abc/def/"));
-		Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"abc/def/"));
-		Assert.AreEqual(@"/", PathUtilities.CanonicalizePath(@"/"));
+			Assert.AreEqual(@"C:/", PathUtilities.CanonicalizePath(@"C:/"));
+			Assert.AreEqual(@"C:/abc", PathUtilities.CanonicalizePath(@"C:/abc"));
+			Assert.AreEqual(@"C:/abc", PathUtilities.CanonicalizePath(@"C:/abc/"));
+			Assert.AreEqual(@"C:/abc/def", PathUtilities.CanonicalizePath(@"C:/abc/def"));
+			Assert.AreEqual(@"C:/abc/def", PathUtilities.CanonicalizePath(@"C:/abc/def/"));
+			Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"abc/def/"));
+			Assert.AreEqual(@"/", PathUtilities.CanonicalizePath(@"/"));
 #else // PSEUDO_UNIX
 			Assert.AreEqual(@"C:\", PathUtilities.CanonicalizePath(@"C:/"));
 			Assert.AreEqual(@"C:\abc", PathUtilities.CanonicalizePath(@"C:/abc"));
@@ -106,14 +106,22 @@ namespace Test.Unit.recls.Core
 			Assert.AreEqual(@"abc", PathUtilities.CanonicalizePath(@"abc\def\.."));
 			Assert.AreEqual(@"abc", PathUtilities.CanonicalizePath(@"abc\."));
 #if PSEUDO_UNIX
-		Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"abc/def/."));
-		Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"abc/./././././def/./././././ghi/././././.."));
-		Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"./abc/def"));
+			Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"abc/def/."));
+			Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"abc/./././././def/./././././ghi/././././.."));
+			Assert.AreEqual(@"abc/def", PathUtilities.CanonicalizePath(@"./abc/def"));
 #else // PSEUDO_UNIX
 			Assert.AreEqual(@"abc\def", PathUtilities.CanonicalizePath(@"abc\def\."));
 			Assert.AreEqual(@"abc\def", PathUtilities.CanonicalizePath(@"abc\.\.\.\.\.\def\.\.\.\.\.\ghi\.\.\.\.\.."));
 			Assert.AreEqual(@"abc\def", PathUtilities.CanonicalizePath(@".\abc\def"));
 #endif // PSEUDO_UNIX
+
+#if PSEUDO_UNIX
+#else // PSEUDO_UNIX
+			Assert.AreEqual(@"\\server\drive", PathUtilities.CanonicalizePath(@"\\server\drive"));
+			Assert.AreEqual(@"\\server\drive\", PathUtilities.CanonicalizePath(@"\\server\drive\"));
+			Assert.AreEqual(@"\\server\drive\dir1", PathUtilities.CanonicalizePath(@"\\server\drive\dir1"));
+#endif // PSEUDO_UNIX
+
 		}
 
 		[TestMethod]

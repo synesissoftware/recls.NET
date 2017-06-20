@@ -24,6 +24,11 @@
     <ConfigurationTag>test</ConfigurationTag>
   </PropertyGroup>
 
+  <!-- properties: external tools -->
+  <PropertyGroup>
+    <NUnitBinDirectory Condition="$(NUNIT_BIN_DIRECTORY) != ''">$(NUNIT_BIN_DIRECTORY)</NUnitBinDirectory>
+  </PropertyGroup>
+
   <!-- properties: directories -->
   <PropertyGroup>
     <ProjectBaseDirectory>$(MSBuildProjectDirectory)</ProjectBaseDirectory>
@@ -39,22 +44,29 @@
   <PropertyGroup>
     <ProjectAssemblyPath>$(ProjectBuildDirectory)\$(ProjectName).dll</ProjectAssemblyPath>
 
-    <Csc_Constants>NUNIT;TRACE;NDEBUG;</Csc_Constants>
+
+    <Csc_Defines>NUNIT;TRACE;NDEBUG;</Csc_Defines>
+
+
     <Csc_Optimize>true</Csc_Optimize>
     <Csc_WarningLevel>3</Csc_WarningLevel>
   </PropertyGroup>
 
   <!-- properties: per-configuration Debug -->
   <PropertyGroup Condition="$(Configuration) == Debug">
-    <Csc_Constants>NUNIT;TRACE;DEBUG;</Csc_Constants>
+
+
+    <Csc_Defines>NUNIT;TRACE;DEBUG;</Csc_Defines>
     <Csc_Optimize>false</Csc_Optimize>
   </PropertyGroup>
 
   <!-- properties: per-configuration Test -->
   <PropertyGroup Condition="$(Configuration) == Test">
-    <ProjectDocumentationPath></ProjectDocumentationPath>
 
-    <Csc_Constants>NUNIT;TRACE;NDEBUG;TEST;</Csc_Constants>
+
+    <Csc_Defines>NUNIT;TRACE;NDEBUG;TEST;</Csc_Defines>
+
+
     <Csc_Optimize>true</Csc_Optimize>
   </PropertyGroup>
 
@@ -67,6 +79,9 @@
     <ValidConfigurations Include="Test"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <RequiredDirectories Include="$(NUnitBinDirectory)" />
+  </ItemGroup>
 
   <!-- targets -->
 
@@ -77,6 +92,20 @@
     <MakeDir
       Condition="!Exists($(ProjectBuildDirectory))"
       Directories="$(ProjectBuildDirectory)"
+      />
+  </Target>
+
+  <!-- target: ValidateDirectories -->
+  <Target
+    Name="ValidateDirectories"
+    >
+    <Error
+      Condition="$(NUnitBinDirectory) == ''"
+      Text="%24(NUNIT_BIN_DIRECTORY) not defined; specify /p:NUNIT_BIN_DIRECTORY=%3cnunit-bin-directory%3e, or define it as an environment variable"
+      />
+    <Error
+      Condition="!Exists($(NUnitBinDirectory))"
+      Text="The given NUnit-bin directory '$(NUnitBinDirectory)' does not exist"
       />
   </Target>
 
@@ -98,21 +127,21 @@
 
   <ItemGroup>
     <Reference Include="$(LibraryBuildBaseDirectory)\$(ConfigurationTag)\recls.Core.dll" />
-    <Reference Include="C:\Program Files (x86)\NUnit 2.6.4\bin\framework\nunit.framework.dll" />
+    <Reference Include="$(NUnitBinDirectory)\nunit.framework.dll" />
     <Reference Include="System.dll" />
     <Reference Include="System.Core.dll" />
   </ItemGroup>
 
   <Target
     Name="Build"
-    DependsOnTargets="CreateDirectories;ValidateConfiguration"
+    DependsOnTargets="ValidateConfiguration;ValidateDirectories;CreateDirectories"
     Inputs="@(Compile)"
     Outputs="$(ProjectAssemblyPath)"
     >
     <Csc
-      DefineConstants="$(Csc_Constants)"
+      DefineConstants="$(Csc_Defines)"
       DelaySign=""
-      DocumentationFile="$(ProjectDocumentationPath)"
+      DocumentationFile=""
       KeyFile=""
       OutputAssembly="$(ProjectAssemblyPath)"
       Optimize="$(Csc_Optimize)"
@@ -125,6 +154,32 @@
       >
     </Csc>
     <!-- TODO: Post-build step for doing delay-signing registration -->
+  </Target>
+
+  <!-- target: Test -->
+  <Target
+    Name="Test"
+    DependsOnTargets="ValidateConfiguration;ValidateDirectories;Build"
+    >
+    <Exec
+      Command="&quot;$(NUnitBinDirectory)\nunit-console.exe&quot; /nologo /basepath=&quot;$(NUnitBinDirectory)&quot; $(ProjectAssemblyPath)"
+    >
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+  </Target>
+
+  <!-- target: Clean -->
+  <Target
+    Name="Clean"
+    DependsOnTargets="ValidateConfiguration;ValidateDirectories"
+    >
+    <ItemGroup>
+      <DeleteFile Include="$(ProjectAssemblyPath)" />
+    </ItemGroup>
+    <RemoveDir
+      Condition="Exists($(ProjectBuildDirectory))"
+      Directories="$(ProjectBuildDirectory)"
+      />
   </Target>
 
 </Project>

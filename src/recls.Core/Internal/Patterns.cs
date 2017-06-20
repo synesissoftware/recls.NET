@@ -1,4 +1,43 @@
 ﻿
+/* /////////////////////////////////////////////////////////////////////////
+ * File:        Internal/Patterns.cs
+ *
+ * Created:     5th June 2009
+ * Updated:     20th June 2017
+ *
+ * Home:        http://recls.net/
+ *
+ * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
+ *   names of any contributors may be used to endorse or promote products
+ *   derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ////////////////////////////////////////////////////////////////////// */
+
+
 namespace Recls.Internal
 {
 	using System;
@@ -9,7 +48,7 @@ namespace Recls.Internal
 
 	internal sealed class Patterns
 	{
-		#region Construction
+		#region construction
 		internal Patterns(string patterns)
 		{
 			Debug.Assert(null != patterns);
@@ -18,7 +57,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Operations
+		#region operations
 		internal bool MatchPath(string path)
 		{
 			Debug.Assert(null != path);
@@ -40,7 +79,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Internal Classes
+		#region internal classes
 		private interface IPattern
 		{
 			bool Match(string path);
@@ -49,21 +88,21 @@ namespace Recls.Internal
 		private class SimplePattern
 			: IPattern
 		{
-			#region Construction
+			#region construction
 			internal SimplePattern(string pattern)
 			{
 				m_pattern = pattern;
 			}
 			#endregion
 
-			#region IPattern Members
+			#region IPattern members
 			public bool Match(string path)
 			{
 				return 0 == String.Compare(m_pattern, path, Util.StringComparison);
 			}
 			#endregion
 
-			#region Fields
+			#region fields
 			readonly string m_pattern;
 			#endregion
 		}
@@ -72,13 +111,13 @@ namespace Recls.Internal
 		private class WildcardsAllPattern
 			: IPattern
 		{
-			#region Construction
+			#region construction
 			internal WildcardsAllPattern()
 			{
 			}
 			#endregion
 
-			#region IPattern Members
+			#region IPattern members
 			public bool Match(string path)
 			{
 				return true;
@@ -90,14 +129,14 @@ namespace Recls.Internal
 		private class RegexPattern
 			: IPattern
 		{
-			#region Construction
+			#region construction
 			internal RegexPattern(Regex pattern)
 			{
 				m_pattern = pattern;
 			}
 			#endregion
 
-			#region IPattern Members
+			#region IPattern members
 			public bool Match(string path)
 			{
 				Match m = m_pattern.Match(path);
@@ -106,13 +145,13 @@ namespace Recls.Internal
 			}
 			#endregion
 
-			#region Fields
+			#region fields
 			readonly Regex m_pattern;
 			#endregion
 		}
 		#endregion
 
-		#region Implementation
+		#region implementation
 		private static IPattern[] CreatePatterns_(string[] patterns)
 		{
 			Debug.Assert(null != patterns);
@@ -179,8 +218,11 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Fields
+		#region fields
 		readonly IPattern[] m_patterns;
 		#endregion
 	}
 }
+
+/* ///////////////////////////// end of file //////////////////////////// */
+

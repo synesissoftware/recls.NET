@@ -57,7 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Delegates.cs" />
+    <Compile Include="delegates.cs" />
     <Compile Include="ExceptionHandlerResult.cs" />
     <Compile Include="Exceptions\IllformedUncPathException.cs" />
     <Compile Include="Exceptions\ReclsException.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="Internal\Util.cs" />
     <Compile Include="ISearchProgress.cs" />
     <Compile Include="NamespaceDoc.cs" />
-    <Compile Include="PathUtil.cs" />
+    <Compile Include="PathUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="recls.100.cs" />
     <Compile Include="SearchExtensions.cs" />

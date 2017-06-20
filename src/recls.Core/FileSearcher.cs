@@ -1,18 +1,49 @@
 ﻿
+/* /////////////////////////////////////////////////////////////////////////
+ * File:        FileSearcher.cs
+ *
+ * Created:     30th June 2009
+ * Updated:     20th June 2017
+ *
+ * Home:        http://recls.net/
+ *
+ * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
+ *   names of any contributors may be used to endorse or promote products
+ *   derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ////////////////////////////////////////////////////////////////////// */
+
+
 namespace Recls
 {
 	using Recls.Internal;
 
 	using System;
 	using System.Collections.Generic;
-
-#if NONE
-	/// <summary>
-	///  The namespace of Recls.NET 100%
-	/// </summary>
-	public static class NamespaceDoc
-	{ }
-#endif // NONE
 
 	/// <summary>
 	///  Provides methods for enumerating file-system entities.
@@ -23,11 +54,11 @@ namespace Recls
 	/// </remarks>
 	public static class FileSearcher
 	{
-		#region Fields and Constants
+		#region fields and Constants
 		private const int UNRESTRICTED_DETPH = int.MaxValue;
 		#endregion
 
-		#region Properties
+		#region properties
 		/// <summary>
 		///  A sentinel value that may be passed as the <c>depth</c>
 		///  parameter to request a search of unrestricted depth.
@@ -66,8 +97,8 @@ namespace Recls
 		}
 		#endregion
 
-		#region Operations
-		#region Depth-first Search Operations
+		#region operations
+		#region depth-first search operations
 		/// <summary>
 		///  Depth-first search operations.
 		/// </summary>
@@ -254,7 +285,7 @@ namespace Recls
 		}
 		#endregion
 
-		#region Breadth-first Search Operations
+		#region breadth-first search operations
 		/// <summary>
 		///  Breadth-first search operations.
 		/// </summary>
@@ -438,7 +469,7 @@ namespace Recls
 		}
 		#endregion
 
-		#region Priority-agnostic Search Operations
+		#region priority-agnostic search operations
 		/// <summary>
 		///  Returns an enumerable collection of <see cref="IEntry"/>
 		///  instances representing all file-system entries
@@ -611,7 +642,7 @@ namespace Recls
 		#endregion
 		#endregion
 
-		#region Utility Operations
+		#region utility operations
 		/// <summary>
 		///  Returns an entry representing the given path.
 		/// </summary>
@@ -746,3 +777,6 @@ namespace Recls
 		#endregion
 	}
 }
+
+/* ///////////////////////////// end of file //////////////////////////// */
+

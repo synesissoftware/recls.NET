@@ -31,11 +31,11 @@ namespace Test.Unit.recls.Core
 		internal static class Util
 		{
 #if PSEUDO_UNIX
-			private const char              Slash   =   '/';
-			private static readonly char[]  Slashes =   new char[] { '/' };
+			private const char				Slash	=	'/';
+			private static readonly char[]	Slashes =	new char[] { '/' };
 #else // ? PSEUDO_UNIX
-			private const char              Slash   =   '\\';
-			private static readonly char[]  Slashes =   new char[] { '\\', '/' };
+			private const char				Slash	=	'\\';
+			private static readonly char[]	Slashes =	new char[] { '\\', '/' };
 #endif // PSEUDO_UNIX
 
 			internal static string EnsureDirEnd(string s)
@@ -56,21 +56,21 @@ namespace Test.Unit.recls.Core
 		#endregion
 
 		#region Fields
-		private string	cwd			=	null;
+		private string	cwd 		=	null;
 		private string	parent_dir	=	null;
 		private string	root		=	null;
 		private string	basename	=	null;
-		private string	basename_nx	=	null;
+		private string	basename_nx =	null;
 		#endregion
 
 		[TestInitialize]
 		public void setup()
 		{
-			cwd			=	Environment.CurrentDirectory;
+			cwd 		=	Environment.CurrentDirectory;
 			parent_dir	=	Path.GetDirectoryName(cwd);
 			root		=	Path.GetPathRoot(cwd);
 			basename	=	Path.GetFileName(cwd);
-			basename_nx	=	Path.GetFileNameWithoutExtension(cwd);
+			basename_nx =	Path.GetFileNameWithoutExtension(cwd);
 
 #if PSEUDO_UNIX
 			cwd = PathUtilities.CanonicalizePath(cwd);
@@ -88,7 +88,7 @@ namespace Test.Unit.recls.Core
 			Assert.AreEqual(FileAttributes.Directory, (FileAttributes.Directory & e.Attributes));
 			//e.CreationTime);
 #if PSEUDO_UNIX
-		Assert.AreEqual("/", e.Directory);
+			Assert.AreEqual("/", e.Directory);
 #else // PSEUDO_UNIX
 			Assert.AreEqual("\\", e.Directory);
 #endif // PSEUDO_UNIX
@@ -119,10 +119,11 @@ namespace Test.Unit.recls.Core
 
 			if(String.IsNullOrWhiteSpace(knownSharePath))
 			{
-				if(null != knownSharePath)
-				{
-					Assert.Inconclusive("share path test inconclusive because environment variable RECLS_NET_TESTING_KNOWN_SHARE_PATH not defined");
-				}
+				Assert.Inconclusive("share path test inconclusive because environment variable RECLS_NET_TESTING_KNOWN_SHARE_PATH not defined");
+			}
+			else if(!Directory.Exists(knownSharePath))
+			{
+				Assert.Inconclusive(String.Format("share path test inconclusive because directory specified by environment variable RECLS_NET_TESTING_KNOWN_SHARE_PATH	- '{0}' - does not exist", knownSharePath));
 			}
 			else
 			{
@@ -136,7 +137,7 @@ namespace Test.Unit.recls.Core
 						Assert.AreEqual(FileAttributes.Directory, (FileAttributes.Directory & e.Attributes));
 						//e.CreationTime);
 #if PSEUDO_UNIX
-					Assert.AreEqual("/", e.Directory);
+						Assert.AreEqual("/", e.Directory);
 #else // PSEUDO_UNIX
 						Assert.AreEqual("\\", e.Directory);
 #endif // PSEUDO_UNIX

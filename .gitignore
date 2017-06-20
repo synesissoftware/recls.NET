@@ -3,6 +3,8 @@
 
 _build/
 
+_internal/
+
 TestResults/
 Backup/
 _UpgradeReport_Files/
@@ -10,14 +12,23 @@ _UpgradeReport_Files/
 bin/
 obj/
 
+doc/
+
+images/
+
 src/recls.Core/obsolete/
+
+test/scratch/test.scratch.recls.ruby.stat/
 
 # directories (by pattern)
 
 # files (by name)
 
-Local.testsettings
-TraceAndTestImpact.testsettings
+recls.100.net.nant.build
+recls.100.sln
+recls.NET.proj
+test/test.component.recls.nunit
+test/test.unit.recls.nunit
 
 # files (by pattern)
 

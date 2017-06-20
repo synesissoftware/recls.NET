@@ -16,13 +16,14 @@ using System.Security.Permissions;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Synesis Software Pty Ltd")]
 [assembly: AssemblyProduct("recls.NET")]
-[assembly: AssemblyCopyright("Copyright © Synesis Software Pty Ltd 2003-2015")]
+[assembly: AssemblyCopyright("Copyright © Synesis Software Pty Ltd 2003-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("2.0.1004.0")]
-[assembly: AssemblyFileVersion("2.0.1004.0")]
+[assembly: AssemblyVersion("2.1.1007.0")]
+[assembly: AssemblyFileVersion("2.1.1007.0")]
 
 /* ///////////////////////////// end of file //////////////////////////// */
+

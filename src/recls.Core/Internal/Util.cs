@@ -1,4 +1,43 @@
 ﻿
+/* /////////////////////////////////////////////////////////////////////////
+ * File:        Internal/Util.cs
+ *
+ * Created:     5th June 2009
+ * Updated:     20th June 2017
+ *
+ * Home:        http://recls.net/
+ *
+ * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
+ *   names of any contributors may be used to endorse or promote products
+ *   derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ////////////////////////////////////////////////////////////////////// */
+
+
 namespace Recls.Internal
 {
 	using Recls.Exceptions;
@@ -78,7 +117,7 @@ namespace Recls.Internal
 	// - path functions
 	internal static class Util
 	{
-		#region Constants
+		#region constants
 		internal static readonly char[] WildcardCharacters = { '?', '*' };
 		internal static readonly char[] PathNameSeparatorCharacters = PathNameSeparatorCharacters_;
 		internal static readonly bool IsPathComparisonCaseSensitive = IsPathComparisonCaseSensitive_;
@@ -214,7 +253,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Search Validation Operations
+		#region search validation operations
 		internal static bool consume_options_(SearchOptions options)
 		{
 			return 0 == options;
@@ -348,7 +387,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Search Operations
+		#region search operations
 		internal static FileSystemInfo[] GetEntriesByPatterns(IExceptionHandler exceptionHandler, DirectoryInfo di, Patterns patterns, SearchOptions options)
 		{
 			Debug.Assert(null != exceptionHandler);
@@ -434,7 +473,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Path Elicitation Operations
+		#region path elicitation operations
 		// <summary>
 		//	Evaluates the UNC drive part of a given path.
 		// </summary>
@@ -566,7 +605,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Path Manipulation Operations
+		#region path manipulation operations
 		// <summary>
 		//	Doesn't correct "\\server\share", without fixing a directory
 		//	
@@ -760,6 +799,11 @@ namespace Recls.Internal
 					int u = GetUncDriveLength(path);
 					string[] parts;
 
+					if(u > 2)
+					{
+						return path;
+					}
+
 					if(u < 0)
 					{
 						parts = path.Split(PathNameSeparatorCharacters, StringSplitOptions.RemoveEmptyEntries);
@@ -888,7 +932,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Path Test Functions
+		#region path test functions
 		private static bool IsLatinLetter(char ch)
 		{
 			switch(ch)
@@ -1018,7 +1062,7 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Stat Operations
+		#region stat operations
 		internal static IEntry Stat(string path, bool verifiesThatItExists)
 		{
 			try
@@ -1252,3 +1296,6 @@ namespace Recls.Internal
 		#endregion
 	}
 }
+
+/* ///////////////////////////// end of file //////////////////////////// */
+

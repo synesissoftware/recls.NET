@@ -6,7 +6,7 @@
 >
   <!--
   - Created: 16th June 2015
-  - Updated: 16th June 2015
+  - Updated: 19th June 2015
   -->
 
 
@@ -22,6 +22,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration) == Test">
     <ConfigurationTag>test</ConfigurationTag>
+  </PropertyGroup>
+
+  <!-- properties: external tools -->
+  <PropertyGroup>
+    <FxCopBinDirectory Condition="$(FXCOP_BIN_DIRECTORY) != ''">$(FXCOP_BIN_DIRECTORY)</FxCopBinDirectory>
   </PropertyGroup>
 
   <!-- properties: directories -->
@@ -40,7 +45,7 @@
     <ProjectAssemblyPath>$(ProjectBuildDirectory)\$(ProjectName).dll</ProjectAssemblyPath>
     <ProjectDocumentationPath>$(ProjectBuildDirectory)\$(ProjectName).xml</ProjectDocumentationPath>
 
-    <Csc_Constants>TRACE;NDEBUG;</Csc_Constants>
+    <Csc_Defines>TRACE;NDEBUG;</Csc_Defines>
     <Csc_DelaySign>true</Csc_DelaySign>
     <Csc_KeyFile>$(LibraryKeyDirectory)\Synsoft.public.snk</Csc_KeyFile>
     <Csc_Optimize>true</Csc_Optimize>
@@ -51,7 +56,7 @@
   <PropertyGroup Condition="$(Configuration) == Debug">
     <ProjectDocumentationPath></ProjectDocumentationPath>
 
-    <Csc_Constants>TRACE;DEBUG;</Csc_Constants>
+    <Csc_Defines>TRACE;DEBUG;</Csc_Defines>
     <Csc_Optimize>false</Csc_Optimize>
   </PropertyGroup>
 
@@ -59,12 +64,11 @@
   <PropertyGroup Condition="$(Configuration) == Test">
     <ProjectDocumentationPath></ProjectDocumentationPath>
 
-    <Csc_Constants>TRACE;NDEBUG;TEST;</Csc_Constants>
-    <Csc_Optimize>true</Csc_Optimize>
+    <Csc_Defines>TRACE;NDEBUG;TEST;</Csc_Defines>
     <Csc_DelaySign>false</Csc_DelaySign>
     <Csc_KeyFile></Csc_KeyFile>
+    <Csc_Optimize>true</Csc_Optimize>
   </PropertyGroup>
-
 
 
   <!-- valid configurations -->
@@ -85,6 +89,20 @@
     <MakeDir
       Condition="!Exists($(ProjectBuildDirectory))"
       Directories="$(ProjectBuildDirectory)"
+      />
+  </Target>
+
+  <!-- target: ValidateDirectories -->
+  <Target
+    Name="ValidateDirectories"
+    >
+    <Error
+      Condition="$(FxCopBinDirectory) == ''"
+      Text="%24(FXCOP_BIN_DIRECTORY) not defined; specify /p:FXCOP_BIN_DIRECTORY=%3cfxcop-bin-directory%3e, or define it as an environment variable"
+      />
+    <Error
+      Condition="!Exists($(FxCopBinDirectory))"
+      Text="The given FxCop-bin directory '$(FxCopBinDirectory)' does not exist"
       />
   </Target>
 
@@ -113,12 +131,12 @@
 
   <Target
     Name="Build"
-    DependsOnTargets="CreateDirectories;ValidateConfiguration"
+    DependsOnTargets="ValidateConfiguration;CreateDirectories"
     Inputs="@(Compile)"
     Outputs="$(ProjectAssemblyPath)"
     >
     <Csc
-      DefineConstants="$(Csc_Constants)"
+      DefineConstants="$(Csc_Defines)"
       DelaySign="$(Csc_DelaySign)"
       DocumentationFile="$(ProjectDocumentationPath)"
       KeyFile="$(Csc_KeyFile)"
@@ -135,14 +153,36 @@
     <!-- TODO: Post-build step for doing delay-signing registration -->
   </Target>
 
+  <Target
+    Name="Analyse"
+    DependsOnTargets="ValidateConfiguration;ValidateDirectories;CreateDirectories;Build"
+    Inputs="@(Compile)"
+    Outputs="$(ProjectAssemblyPath)"
+    >
+    <Exec
+      Command="&quot;$(FxCopBinDirectory)\nunit-console.exe&quot; /nologo /basepath=&quot;$(FxCopBinDirectory)&quot; $(ProjectAssemblyPath)"
+    >
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+  </Target>
+
   <!-- target: Clean -->
   <Target
     Name="Clean"
     DependsOnTargets="ValidateConfiguration"
     >
+    <ItemGroup>
+      <DeleteFile Include="$(ProjectAssemblyPath)" />
+      <DeleteFile Include="$(ProjectDocumentationPath)" />
+    </ItemGroup>
+    <!--
     <RemoveDir
       Condition="Exists($(ProjectBuildDirectory))"
       Directories="$(ProjectBuildDirectory)"
+      />
+    -->
+    <Delete
+      Files="@(DeleteFile)"
       />
   </Target>
 
