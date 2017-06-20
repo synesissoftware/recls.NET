@@ -266,12 +266,6 @@ namespace Recls
 		///  array will consist of three elements:
 		///  <c>\</c>, <c>Windows\</c> and <c>System32\</c>
 		/// </remarks>
-#if USE_ARRAY_FOR_DIRECTORY_PARTS
-		string[] DirectoryParts { get; }
-#elif USE_ILIST_FOR_DIRECTORY_PARTS
-		IList<string> DirectoryParts { get; }
-#else
-		IDirectoryParts DirectoryParts { get; }
-#endif
+		IDirectoryPartsCollection DirectoryParts { get; }
 	}
 }

@@ -7,22 +7,22 @@ namespace Recls.Internal
 	using System;
 	using System.Collections.Generic;
 
-	internal sealed class DirectoryParts
-		: IDirectoryParts
+	internal sealed class DirectoryPartsCollection
+		: IDirectoryPartsCollection
 	{
 		#region Fields
 		readonly IList<string>	m_parts;
 		#endregion
 
 		#region Construction
-		internal DirectoryParts(IList<string> parts)
+		internal DirectoryPartsCollection(IList<string> parts)
 		{
 			m_parts = parts;
 		}
 		#endregion
 
-		#region IDirectoryParts Members
-		int IDirectoryParts.Count
+		#region IDirectoryPartsCollection Members
+		int IDirectoryPartsCollection.Count
 		{
 			get
 			{
@@ -30,7 +30,7 @@ namespace Recls.Internal
 			}
 		}
 
-		string IDirectoryParts.this[int index]
+		string IDirectoryPartsCollection.this[int index]
 		{
 			get
 			{
@@ -38,12 +38,12 @@ namespace Recls.Internal
 			}
 		}
 
-		bool IDirectoryParts.Contains(string item)
+		bool IDirectoryPartsCollection.Contains(string item)
 		{
 			return m_parts.Contains(item);
 		}
 
-		void IDirectoryParts.CopyTo(string[] array, int index)
+		void IDirectoryPartsCollection.CopyTo(string[] array, int index)
 		{
 			m_parts.CopyTo(array, index);
 		}

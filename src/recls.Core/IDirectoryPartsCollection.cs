@@ -10,7 +10,7 @@ namespace Recls
 	/// <summary>
 	///  Defines methods and properties for querying directory parts.
 	/// </summary>
-	public interface IDirectoryParts
+	public interface IDirectoryPartsCollection
 		: IEnumerable<string>
 	{
 		/// <summary>

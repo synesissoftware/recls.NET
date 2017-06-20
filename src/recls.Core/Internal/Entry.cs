@@ -216,13 +216,7 @@ namespace Recls.Internal
 			}
 		}
 
-#if USE_ARRAY_FOR_DIRECTORY_PARTS
-		public string[] DirectoryParts
-#elif USE_ILIST_FOR_DIRECTORY_PARTS
-		public IList<string> DirectoryParts
-#else
-		IDirectoryParts IEntry.DirectoryParts
-#endif
+		IDirectoryPartsCollection IEntry.DirectoryParts
 		{
 			get
 			{
@@ -241,13 +235,7 @@ namespace Recls.Internal
 				{
 					if(null == m_directoryParts)
 					{
-#if USE_ARRAY_FOR_DIRECTORY_PARTS
-						m_directoryParts = MakeDirectoryParts().ToArray();
-#elif USE_ILIST_FOR_DIRECTORY_PARTS
-						m_directoryParts = new ReadOnlyCollection<string>(MakeDirectoryParts());
-#else
-						m_directoryParts = new DirectoryParts(MakeDirectoryParts());
-#endif
+						m_directoryParts = new DirectoryPartsCollection(MakeDirectoryParts());
 					}
 
 					return m_directoryParts;
@@ -325,7 +313,7 @@ namespace Recls.Internal
 #elif USE_ILIST_FOR_DIRECTORY_PARTS
 		private IList<string>				m_directoryParts;
 #else
-		private IDirectoryParts 			m_directoryParts;
+		private IDirectoryPartsCollection	m_directoryParts;
 #endif
 		#endregion
 	}

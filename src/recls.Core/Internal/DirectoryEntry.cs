@@ -32,28 +32,6 @@ namespace Recls.Internal
 			}
 		}
 
-		//public override string File
-		//{
-		//	  get
-		//	  {
-		//		  // We must test to see if this is a root path,
-		//		  // because FileSystemInfo.File will give
-		//		  // "C:\\" for "C:\\"
-		//		  //if(RawPath == DirectoryPath)
-		//		  //{
-		//		  //	string file = Util.GetFileName(RawPath);
-
-		//		  //	Debug.Assert(RawPath == file);
-
-		//		  //	return Util.GetFileName(RawPath);
-		//		  //}
-		//		  //else
-		//		  {
-		//			  return base.File;
-		//		  }
-		//	  }
-		//}
-
 		public override long Size
 		{
 			get { return 0; }

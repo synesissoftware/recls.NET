@@ -62,13 +62,13 @@
     <Compile Include="Exceptions\IllformedUncPathException.cs" />
     <Compile Include="Exceptions\ReclsException.cs" />
     <Compile Include="FileSearcher.cs" />
-    <Compile Include="IDirectoryParts.cs" />
+    <Compile Include="IDirectoryPartsCollection.cs" />
     <Compile Include="IEntry.cs" />
     <Compile Include="IErrorHandler.cs" />
     <Compile Include="Internal\BreadthFirstFileSearcher.cs" />
     <Compile Include="Internal\DepthFirstFileSearcher.cs" />
     <Compile Include="Internal\DirectoryEntry.cs" />
-    <Compile Include="Internal\DirectoryParts.cs" />
+    <Compile Include="Internal\DirectoryPartsCollection.cs" />
     <Compile Include="Internal\DirectorySearchNode.cs" />
     <Compile Include="Internal\Entry.cs" />
     <Compile Include="Internal\FileEntry.cs" />

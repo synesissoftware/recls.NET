@@ -1,5 +1,5 @@
 ﻿
-// Updated: 15th June 2015
+// Updated: 20th June 2017
 
 #if PSEUDO_UNIX
 #else // PSEUDO_UNIX
@@ -73,11 +73,11 @@ namespace Test.Unit.recls.Core
 			basename_nx	=	Path.GetFileNameWithoutExtension(cwd);
 
 #if PSEUDO_UNIX
-			cwd = PathUtil.CanonicalizePath(cwd);
-			parent_dir = PathUtil.CanonicalizePath(parent_dir);
-			root = PathUtil.CanonicalizePath(root);
+			cwd = PathUtilities.CanonicalizePath(cwd);
+			parent_dir = PathUtilities.CanonicalizePath(parent_dir);
+			root = PathUtilities.CanonicalizePath(root);
 #endif // PSEUDO_UNIX
-			root = PathUtil.CanonicalizePath(root);
+			root = PathUtilities.CanonicalizePath(root);
 		}
 
 		[TestMethod]
