@@ -99,6 +99,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>sn -Vr $(TargetPath)</PostBuildEvent>
+    <PostBuildEvent>echo Registering '$(TargetPath)' for verification skipping ...
+sn -Vr $(TargetPath)</PostBuildEvent>
   </PropertyGroup>
 </Project>
