@@ -3,7 +3,7 @@
  * File:        delegates.cs
  *
  * Created:     30th June 2009
- * Updated:     20th June 2017
+ * Updated:     11th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -43,9 +43,14 @@ namespace Recls
 	using System;
 
 	#region delegates
+
 	/// <summary>
 	///  Delegate defining function to be called on enumeration failure.
 	/// </summary>
+	/// <param name="context">
+	///  The <c>context</c> parameter passed to the search method;
+	///  <c>null</c> if called a search method that takes no context
+	/// </param>
 	/// <param name="path">
 	///  The full path of the file/directory.
 	/// </param>
@@ -62,16 +67,19 @@ namespace Recls
 	///  which enumeration has failed.
 	/// </remarks>
 	/// 
-	/// <seealso cref="Recls.FileSearcher.Search(string, string, SearchOptions, int, OnProgress, OnException)"/>
-	/// <seealso cref="Recls.FileSearcher.BreadthFirst.Search(string, string, SearchOptions, int, OnProgress, OnException)"/>
-	/// <seealso cref="Recls.FileSearcher.DepthFirst.Search(string, string, SearchOptions, int, OnProgress, OnException)"/>
-	public delegate ExceptionHandlerResult OnException(string path, Exception exception);
-	#endregion
+	/// <seealso cref="Recls.Api.Search(string, string, SearchOptions, int, OnProgress, OnException, object)"/>
+	/// <seealso cref="Recls.Api.BreadthFirst.Search(string, string, SearchOptions, int, OnProgress, OnException, object)"/>
+	/// <seealso cref="Recls.Api.DepthFirst.Search(string, string, SearchOptions, int, OnProgress, OnException, object)"/>
+	public delegate ExceptionHandlerResult OnException(object context, string path, Exception exception);
 
 	/// <summary>
 	///  Delegate defining function to be called for each directory
 	///  traversed in a search.
 	/// </summary>
+	/// <param name="context">
+	///  The <c>context</c> parameter passed to the search method;
+	///  <c>null</c> if called a search method that takes no context
+	/// </param>
 	/// <param name="directory">
 	///  The directory searched, or <b>null</b> to indicate that
 	///  the search has been successfully completed.
@@ -84,10 +92,11 @@ namespace Recls
 	///  determines how the search should proceed.
 	/// </returns>
 	/// 
-	/// <seealso cref="Recls.FileSearcher.Search(string, string, SearchOptions, int, OnProgress, OnException)"/>
-	/// <seealso cref="Recls.FileSearcher.BreadthFirst.Search(string, string, SearchOptions, int, OnProgress, OnException)"/>
-	/// <seealso cref="Recls.FileSearcher.DepthFirst.Search(string, string, SearchOptions, int, OnProgress, OnException)"/>
-	public delegate ProgressHandlerResult OnProgress(string directory, int depth);
+	/// <seealso cref="Recls.Api.Search(string, string, SearchOptions, int, OnProgress, OnException, object)"/>
+	/// <seealso cref="Recls.Api.BreadthFirst.Search(string, string, SearchOptions, int, OnProgress, OnException, object)"/>
+	/// <seealso cref="Recls.Api.DepthFirst.Search(string, string, SearchOptions, int, OnProgress, OnException, object)"/>
+	public delegate ProgressHandlerResult OnProgress(object context, string directory, int depth);
+	#endregion
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

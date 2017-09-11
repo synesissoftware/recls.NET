@@ -22,8 +22,8 @@ using System.Security.Permissions;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("2.2.1008.0")]
-[assembly: AssemblyFileVersion("2.2.1008.0")]
+[assembly: AssemblyVersion("2.2.1010.2")]
+[assembly: AssemblyFileVersion("2.2.1010.2")]
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

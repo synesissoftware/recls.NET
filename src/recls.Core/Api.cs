@@ -5,6 +5,9 @@ namespace Recls
 
 	using global::System.Collections.Generic;
 
+	/// <summary>
+	///  Main API for <b>recls</b>
+	/// </summary>
 	public static class Api
 	{
 		#region constants
@@ -348,6 +351,53 @@ namespace Recls
 			{
 				return Search(directory, patterns, options, depth, Util.GetDelegateProgress(progressHandler), Util.GetDelegateHandler(exceptionHandler));
 			}
+
+			/// <summary>
+			///  Returns an enumerable collection of <see cref="IEntry"/>
+			///  instances representing all file-system entries
+			///  under <paramref name="directory"/>
+			///  matching the given <paramref name="patterns"/>,
+			///  according to the given <paramref name="options"/>,
+			///  using the given <paramref name="progressHandler"/>
+			///   and <paramref name="exceptionHandler"/>,
+			///  to the given maximum <paramref name="depth"/>,
+			///  searched in a depth-first manner.
+			/// </summary>
+			/// <param name="directory">
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
+			/// <param name="patterns">
+			///  One or more search patterns, separated by the <c>|</c>
+			///  character; searches for all if <b>null</b> or
+			///  <see cref="FileSearcher.WildcardsAll"/>.
+			/// </param>
+			/// <param name="options">
+			///  Combination of <see cref="SearchOptions"/> to moderate the search
+			/// </param>
+			/// <param name="depth">
+			///  The maximum search depth; 0 to perform a non-recursive search.
+			/// </param>
+			/// <param name="progressHandler">
+			///  A <see cref="Recls.OnProgress">progress handler</see> delegate.
+			/// </param>
+			/// <param name="exceptionHandler">
+			///  An <see cref="Recls.OnException">error handler</see> delegate.
+			/// </param>
+			/// <param name="context">
+			///  Caller-supplied context value, that will be accessible on
+			///  every search entry via the
+			///  <see cref="Recls.IEntry.Context"/> property.
+			/// </param>
+			/// <returns>
+			///  An instance of a type exhibiting the
+			///  <see name="System.Collections.IEnumerable{T}">IEnumerable</see>&lt;<see cref="IEntry"/>&gt;
+			///  interface.
+			/// </returns>
+			public static IEnumerable<IEntry> Search(string directory, string patterns, SearchOptions options, int depth, OnProgress progressHandler, OnException exceptionHandler, object context)
+			{
+				return Search(directory, patterns, options, depth, Util.GetDelegateProgress(progressHandler), Util.GetDelegateHandler(exceptionHandler), context);
+			}
 		}
 		#endregion
 
@@ -584,6 +634,53 @@ namespace Recls
 			{
 				return Search(directory, patterns, options, depth, Util.GetDelegateProgress(progressHandler), Util.GetDelegateHandler(exceptionHandler));
 			}
+
+			/// <summary>
+			///  Returns an enumerable collection of <see cref="IEntry"/>
+			///  instances representing all file-system entries
+			///  under <paramref name="directory"/>
+			///  matching the given <paramref name="patterns"/>,
+			///  according to the given <paramref name="options"/>,
+			///  using the given <paramref name="progressHandler"/>
+			///   and <paramref name="exceptionHandler"/>,
+			///  to the given maximum <paramref name="depth"/>,
+			///  searched in a breadth-first manner.
+			/// </summary>
+			/// <param name="directory">
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
+			/// <param name="patterns">
+			///  One or more search patterns, separated by the <c>|</c>
+			///  character; searches for all if <b>null</b> or
+			///  <see cref="FileSearcher.WildcardsAll"/>.
+			/// </param>
+			/// <param name="options">
+			///  Combination of <see cref="SearchOptions"/> to moderate the search
+			/// </param>
+			/// <param name="depth">
+			///  The maximum search depth; 0 to perform a non-recursive search.
+			/// </param>
+			/// <param name="progressHandler">
+			///  A <see cref="Recls.OnProgress">progress handler</see> delegate.
+			/// </param>
+			/// <param name="exceptionHandler">
+			///  An <see cref="Recls.OnException">error handler</see> delegate.
+			/// </param>
+			/// <param name="context">
+			///  Caller-supplied context value, that will be accessible on
+			///  every search entry via the
+			///  <see cref="Recls.IEntry.Context"/> property.
+			/// </param>
+			/// <returns>
+			///  An instance of a type exhibiting the
+			///  <see name="System.Collections.IEnumerable{T}">IEnumerable</see>&lt;<see cref="IEntry"/>&gt;
+			///  interface.
+			/// </returns>
+			public static IEnumerable<IEntry> Search(string directory, string patterns, SearchOptions options, int depth, OnProgress progressHandler, OnException exceptionHandler, object context)
+			{
+				return Search(directory, patterns, options, depth, Util.GetDelegateProgress(progressHandler), Util.GetDelegateHandler(exceptionHandler), context);
+			}
 		}
 		#endregion
 
@@ -808,6 +905,53 @@ namespace Recls
 		{
 			return DepthFirst.Search(directory, patterns, options, depth, progressHandler, exceptionHandler);
 		}
+
+		/// <summary>
+		///  Returns an enumerable collection of <see cref="IEntry"/>
+		///  instances representing all file-system entries
+		///  under <paramref name="directory"/>
+		///  matching the given <paramref name="patterns"/>,
+		///  according to the given <paramref name="options"/>,
+		///  using the given <paramref name="progressHandler"/>
+		///   and <paramref name="exceptionHandler"/>,
+		///  to the given maximum <paramref name="depth"/>,
+		///  searched in an implementation-defined manner.
+		/// </summary>
+		/// <param name="directory">
+		///  The directory in which to search; the local directory if
+		///  <b>null</b> or empty.
+		/// </param>
+		/// <param name="patterns">
+		///  One or more search patterns, separated by the <c>|</c>
+		///  character; searches for all if <b>null</b> or
+		///  <see cref="FileSearcher.WildcardsAll"/>.
+		/// </param>
+		/// <param name="options">
+		///  Combination of <see cref="SearchOptions"/> to moderate the search
+		/// </param>
+		/// <param name="depth">
+		///  The maximum search depth; 0 to perform a non-recursive search.
+		/// </param>
+		/// <param name="progressHandler">
+		///  A <see cref="Recls.OnProgress">progress handler</see> delegate.
+		/// </param>
+		/// <param name="exceptionHandler">
+		///  An <see cref="Recls.OnException">error handler</see> delegate.
+		/// </param>
+		/// <param name="context">
+		///  Caller-supplied context value, that will be accessible on
+		///  every search entry via the
+		///  <see cref="Recls.IEntry.Context"/> property.
+		/// </param>
+		/// <returns>
+		///  An instance of a type exhibiting the
+		///  <see name="System.Collections.IEnumerable{T}">IEnumerable</see>&lt;<see cref="IEntry"/>&gt;
+		///  interface.
+		/// </returns>
+		public static IEnumerable<IEntry> Search(string directory, string patterns, SearchOptions options, int depth, OnProgress progressHandler, OnException exceptionHandler, object context)
+		{
+			return DepthFirst.Search(directory, patterns, options, depth, progressHandler, exceptionHandler, context);
+		}
 		#endregion
 
 		#region utility operations
@@ -832,7 +976,7 @@ namespace Recls
 		/// <exception cref="System.Security.SecurityException">
 		///  If the caller does not have the required permission.
 		/// </exception>
-		/// <exception cref="ArgumentException">
+		/// <exception cref="System.ArgumentException">
 		///  If <paramref name="path"/> is empty, contains only white
 		///  spaces, or contains invalid characters.
 		/// </exception>

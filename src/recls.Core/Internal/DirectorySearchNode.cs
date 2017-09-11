@@ -69,11 +69,11 @@ namespace Recls.Internal
 			m_depth = depth;
 			m_searchCancelled = false;
 
-			switch(m_progressHandler.OnProgress(m_directory, m_depth))
+			switch(m_progressHandler.OnProgress(m_context, m_directory, m_depth))
 			{
 				case ProgressHandlerResult.Continue:
-					m_entries = Util.GetEntriesByPatterns(m_exceptionHandler, di, m_patterns, m_options);
-					m_subdirectories = Util.GetSubdirectories(m_exceptionHandler, di, m_options);
+					m_entries = Util.GetEntriesByPatterns(m_context, m_exceptionHandler, di, m_patterns, m_options);
+					m_subdirectories = Util.GetSubdirectories(m_context, m_exceptionHandler, di, m_options);
 					break;
 				case ProgressHandlerResult.CancelDirectory:
 					m_entries = new FileSystemInfo[0];

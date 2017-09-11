@@ -116,6 +116,13 @@ namespace Recls
 		///  and translated into <c>'|'</c> before processing.
 		/// </summary>
 		DoNotTranslatePathSeparators	=	0x00002000,
+
+		/// <summary>
+		///  [Version 2+] Unless specified, the directory in a search will
+		///  be verified at the creation of a search and locked until the
+		///  search is disposed.
+		/// </summary>
+		DoNotLockDirectory				=	0x00400000,
 	}
 }
 

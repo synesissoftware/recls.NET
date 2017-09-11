@@ -47,7 +47,7 @@ namespace Recls.Internal
 		: IExceptionHandler
 	{
 		#region IExceptionHandler members
-		ExceptionHandlerResult IExceptionHandler.OnException(string path, Exception x)
+		ExceptionHandlerResult IExceptionHandler.OnException(object context, string path, Exception x)
 		{
 			return ExceptionHandlerResult.ConsumeExceptionAndContinue;
 		}
@@ -58,7 +58,7 @@ namespace Recls.Internal
 		: IExceptionHandler
 	{
 		#region IExceptionHandler members
-		ExceptionHandlerResult IExceptionHandler.OnException(string path, Exception x)
+		ExceptionHandlerResult IExceptionHandler.OnException(object context, string path, Exception x)
 		{
 			return ExceptionHandlerResult.PropagateException;
 		}
@@ -80,9 +80,9 @@ namespace Recls.Internal
 		#endregion
 
 		#region IExceptionHandler members
-		ExceptionHandlerResult IExceptionHandler.OnException(string path, Exception x)
+		ExceptionHandlerResult IExceptionHandler.OnException(object context, string path, Exception x)
 		{
-			return m_dg(path, x);
+			return m_dg(context, path, x);
 		}
 		#endregion
 	}
@@ -93,7 +93,7 @@ namespace Recls.Internal
 		: IProgressHandler
 	{
 		#region IProgressHandler members
-		ProgressHandlerResult IProgressHandler.OnProgress(string directory, int depth)
+		ProgressHandlerResult IProgressHandler.OnProgress(object context, string directory, int depth)
 		{
 			return ProgressHandlerResult.Continue;
 		}
@@ -115,9 +115,9 @@ namespace Recls.Internal
 		#endregion
 
 		#region IProgressHandler members
-		ProgressHandlerResult IProgressHandler.OnProgress(string directory, int depth)
+		ProgressHandlerResult IProgressHandler.OnProgress(object context, string directory, int depth)
 		{
-			return m_dg(directory, depth);
+			return m_dg(context, directory, depth);
 		}
 		#endregion
 	}

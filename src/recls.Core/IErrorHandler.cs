@@ -69,6 +69,11 @@ namespace Recls
 		/// <param name="exception">
 		///  The exception thrown to indicate the enumeration failure.
 		/// </param>
+		/// <param name="context">
+		///  Caller-supplied context value, that will be accessible on
+		///  every search entry via the
+		///  <see cref="Recls.IEntry.Context"/> property.
+		/// </param>
 		/// <returns>
 		///  A <see cref="Recls.ExceptionHandlerResult">value</see> that
 		///  determines how the search should proceed. Return
@@ -78,7 +83,7 @@ namespace Recls
 		///  <b><see cref="ExceptionHandlerResult.PropagateException"/></b>
 		///  to cancel the search.
 		/// </returns>
-		ExceptionHandlerResult OnException(string path, Exception exception);
+		ExceptionHandlerResult OnException(object context, string path, Exception exception);
 	}
 }
 

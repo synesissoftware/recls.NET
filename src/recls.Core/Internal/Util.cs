@@ -3,7 +3,7 @@
  * File:        Internal/Util.cs
  *
  * Created:     5th June 2009
- * Updated:     20th June 2017
+ * Updated:     11th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -47,7 +47,7 @@ namespace Recls.Internal
 	using System;
 	using System.Collections.Generic;
 	using System.Diagnostics;
-	//using System.IO;
+	using System.IO;
 	using System.Text;
 
 	using DirectoryInfo = System.IO.DirectoryInfo;
@@ -117,7 +117,51 @@ namespace Recls.Internal
 	// - path functions
 	internal static class Util
 	{
+		#region types
+
+		internal sealed class LockFile
+			: IDisposable
+		{
+			internal LockFile(string directory)
+			{
+				string fileName = Guid.NewGuid().ToString().Replace('{', '_').Replace('}', '_');
+
+				m_lockFilePath = Path.Combine(directory, fileName);
+
+				m_lockFile = new FileStream(m_lockFilePath, FileMode.CreateNew, FileAccess.Read, FileShare.None, 0, FileOptions.DeleteOnClose);
+			}
+
+			void IDisposable.Dispose()
+			{
+				if (null != m_lockFile)
+				{
+					m_lockFile.Dispose();
+
+					try
+					{
+						File.Delete(m_lockFilePath);
+					}
+					catch (IOException)
+					{
+					}
+				}
+			}
+
+			readonly string			m_lockFilePath;
+			readonly IDisposable	m_lockFile;
+		}
+
+		internal sealed class StubDisposable
+			: IDisposable
+		{
+			void IDisposable.Dispose()
+			{
+			}
+		}
+		#endregion
+
 		#region constants
+
 		internal static readonly char[] WildcardCharacters = { '?', '*' };
 		internal static readonly char[] PathNameSeparatorCharacters = PathNameSeparatorCharacters_;
 		internal static readonly bool IsPathComparisonCaseSensitive = IsPathComparisonCaseSensitive_;
@@ -238,6 +282,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region search validation operations
+
 		internal static bool consume_options_(SearchOptions options)
 		{
 			return 0 == options;
@@ -372,7 +417,8 @@ namespace Recls.Internal
 		#endregion
 
 		#region search operations
-		internal static FileSystemInfo[] GetEntriesByPatterns(IExceptionHandler exceptionHandler, DirectoryInfo di, Patterns patterns, SearchOptions options)
+
+		internal static FileSystemInfo[] GetEntriesByPatterns(object context, IExceptionHandler exceptionHandler, DirectoryInfo di, Patterns patterns, SearchOptions options)
 		{
 			Debug.Assert(null != exceptionHandler);
 			Debug.Assert(null != patterns);
@@ -389,7 +435,7 @@ namespace Recls.Internal
 			}
 			catch(Exception x)
 			{
-				if(ExceptionHandlerResult.ConsumeExceptionAndContinue == exceptionHandler.OnException(di.FullName, x))
+				if(ExceptionHandlerResult.ConsumeExceptionAndContinue == exceptionHandler.OnException(context, di.FullName, x))
 				{
 					return new FileSystemInfo[0];
 				}
@@ -415,7 +461,7 @@ namespace Recls.Internal
 			return newEntries.ToArray();
 		}
 
-		internal static DirectoryInfo[] GetSubdirectories(IExceptionHandler exceptionHandler, DirectoryInfo di, SearchOptions options)
+		internal static DirectoryInfo[] GetSubdirectories(object context, IExceptionHandler exceptionHandler, DirectoryInfo di, SearchOptions options)
 		{
 			Debug.Assert(null != exceptionHandler);
 
@@ -433,7 +479,7 @@ namespace Recls.Internal
 			}
 			catch(Exception x)
 			{
-				if(ExceptionHandlerResult.ConsumeExceptionAndContinue == exceptionHandler.OnException(di.FullName, x))
+				if(ExceptionHandlerResult.ConsumeExceptionAndContinue == exceptionHandler.OnException(context, di.FullName, x))
 				{
 					return new DirectoryInfo[0];
 				}
@@ -458,6 +504,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region path elicitation operations
+
 		// <summary>
 		//	Evaluates the UNC drive part of a given path.
 		// </summary>
@@ -590,6 +637,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region path manipulation operations
+
 		// <summary>
 		//	Doesn't correct "\\server\share", without fixing a directory
 		//	
@@ -917,6 +965,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region path test functions
+
 		private static bool IsLatinLetter(char ch)
 		{
 			switch(ch)
@@ -1047,6 +1096,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region stat operations
+
 		internal static IEntry Stat(string path, bool verifiesThatItExists)
 		{
 			try
@@ -1277,6 +1327,33 @@ namespace Recls.Internal
 		}
 #endif // PSEUDO_UNIX
 
+		#endregion
+
+		#region file & directory operations
+
+		internal static IDisposable CreateLockFile(string directory, SearchOptions options)
+		{
+			if(0 == (SearchOptions.DoNotLockDirectory & options))
+			{
+				try
+				{
+					return new LockFile(directory);
+				}
+				catch (IOException)
+				{
+				}
+			}
+
+			return new StubDisposable();
+		}
+
+		internal static void CheckDirectoryExistsOrThrow(string directory)
+		{
+			if (!Directory.Exists(directory))
+			{
+				throw new DirectoryNotFoundException(String.Format("given directory '{0}' does not exist", directory));
+			}
+		}
 		#endregion
 	}
 }

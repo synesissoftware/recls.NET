@@ -3,7 +3,7 @@
  * File:        Internal/BreadthFirstFileSearcher.cs
  *
  * Created:     5th June 2009
- * Updated:     20th June 2017
+ * Updated:     11th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -47,8 +47,10 @@ namespace Recls.Internal
 
 	internal class BreadthFirstFileSearcher
 		: IEnumerable<IEntry>
+		, IDisposable
 	{
 		#region construction
+
 		internal BreadthFirstFileSearcher(string directory, string patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
 		{
 			Debug.Assert(null != directory);
@@ -59,6 +61,8 @@ namespace Recls.Internal
 			Debug.Assert(null != exceptionHandler);
 			Debug.Assert(maxDepth >= 0, "maximum depth cannot be less than 0");
 
+			Util.CheckDirectoryExistsOrThrow(directory);
+
 			m_directory = directory;
 			m_patterns = new Patterns(patterns);
 			m_options = options;
@@ -66,10 +70,18 @@ namespace Recls.Internal
 			m_exceptionHandler = exceptionHandler;
 			m_progressHandler = progressHandler;
 			m_context = context;
+
+			m_lockFile = Util.CreateLockFile(directory, options);
+		}
+
+		void IDisposable.Dispose()
+		{
+			m_lockFile.Dispose();
 		}
 		#endregion
 
 		#region IEnumerable<IEntry> members
+
 		System.Collections.Generic.IEnumerator<IEntry> System.Collections.Generic.IEnumerable<IEntry>.GetEnumerator()
 		{
 			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context);
@@ -77,16 +89,20 @@ namespace Recls.Internal
 		#endregion
 
 		#region IEnumerable members
+
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return ((System.Collections.Generic.IEnumerable<IEntry>)this).GetEnumerator();
 		}
 		#endregion
 
+		#region types
+
 		private class Enumerator
 			: IEnumerator<IEntry>
 		{
 			#region construction
+
 			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
 			{
 				Debug.Assert(null != directory);
@@ -112,14 +128,8 @@ namespace Recls.Internal
 			}
 			#endregion construction
 
-			#region IEnumerator<IEntry> members
-			IEntry IEnumerator<IEntry>.Current
-			{
-				get { return GetCurrent_(); }
-			}
-			#endregion
-
 			#region IDisposable members
+
 			void IDisposable.Dispose()
 			{
 				m_currentEntry = null;
@@ -128,6 +138,14 @@ namespace Recls.Internal
 				m_subdirectories.Clear();
 
 				GC.SuppressFinalize(this);
+			}
+			#endregion
+
+			#region IEnumerator<IEntry> members
+
+			IEntry IEnumerator<IEntry>.Current
+			{
+				get { return GetCurrent_(); }
 			}
 			#endregion
 
@@ -175,11 +193,11 @@ namespace Recls.Internal
 
 						foreach(DirectoryInfo di in m_subdirectories)
 						{
-							switch(m_progressHandler.OnProgress(Util.EnsureDirEnd(di.FullName), m_depth))
+							switch(m_progressHandler.OnProgress(m_context, Util.EnsureDirEnd(di.FullName), m_depth))
 							{
 								case ProgressHandlerResult.Continue:
-									nextEntries.AddRange(Util.GetEntriesByPatterns(m_exceptionHandler, di, m_patterns, m_options));
-									nextSubdirectories.AddRange(Util.GetSubdirectories(m_exceptionHandler, di, m_options));
+									nextEntries.AddRange(Util.GetEntriesByPatterns(m_context, m_exceptionHandler, di, m_patterns, m_options));
+									nextSubdirectories.AddRange(Util.GetSubdirectories(m_context, m_exceptionHandler, di, m_options));
 									break;
 								case ProgressHandlerResult.CancelDirectory:
 									break;
@@ -216,11 +234,11 @@ namespace Recls.Internal
 				m_depth = 0;
 				if(!disposing)
 				{
-					switch(m_progressHandler.OnProgress(m_directory, m_depth))
+					switch(m_progressHandler.OnProgress(m_context, m_directory, m_depth))
 					{
 						case ProgressHandlerResult.Continue:
-							m_entries.AddRange(Util.GetEntriesByPatterns(m_exceptionHandler, m_di, m_patterns, m_options));
-							m_subdirectories.AddRange(Util.GetSubdirectories(m_exceptionHandler, m_di, m_options));
+							m_entries.AddRange(Util.GetEntriesByPatterns(m_context, m_exceptionHandler, m_di, m_patterns, m_options));
+							m_subdirectories.AddRange(Util.GetSubdirectories(m_context, m_exceptionHandler, m_di, m_options));
 							break;
 						case ProgressHandlerResult.CancelDirectory:
 							break;
@@ -254,8 +272,10 @@ namespace Recls.Internal
 			readonly object				m_context;
 			#endregion
 		}
+		#endregion
 
 		#region fields
+
 		readonly string 			m_directory;
 		readonly Patterns			m_patterns;
 		readonly SearchOptions		m_options;
@@ -263,6 +283,7 @@ namespace Recls.Internal
 		readonly IExceptionHandler	m_exceptionHandler;
 		readonly IProgressHandler	m_progressHandler;
 		readonly object				m_context;
+		readonly IDisposable		m_lockFile;
 		#endregion
 	}
 }
