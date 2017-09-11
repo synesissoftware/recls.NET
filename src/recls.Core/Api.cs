@@ -1,61 +1,14 @@
 ﻿
-/* /////////////////////////////////////////////////////////////////////////
- * File:        FileSearcher.cs
- *
- * Created:     30th June 2009
- * Updated:     20th June 2017
- *
- * Home:        http://recls.net/
- *
- * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright
- *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- * - Neither the name(s) of Matthew Wilson and Synesis Software nor the
- *   names of any contributors may be used to endorse or promote products
- *   derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * ////////////////////////////////////////////////////////////////////// */
-
-
 namespace Recls
 {
-	using Recls.Internal;
+	using global::Recls.Internal;
 
-	using System;
-	using System.Collections.Generic;
+	using global::System.Collections.Generic;
 
-	/// <summary>
-	///  Provides methods for enumerating file-system entities.
-	/// </summary>
-	/// <remarks>
-	///  This class defines the API for file-system entity enumeration
-	///  and inspection.
-	/// </remarks>
-	public static class FileSearcher
+	public static class Api
 	{
-		#region fields and Constants
-		private const int UNRESTRICTED_DETPH = int.MaxValue;
+		#region constants
+
 		#endregion
 
 		#region properties
@@ -80,7 +33,41 @@ namespace Recls
 		/// </remarks>
 		public static int UnrestrictedDepth
 		{
-			get { return UNRESTRICTED_DETPH; }
+			get
+			{
+				return FileSearcher.UnrestrictedDepth;
+			}
+		}
+
+		/// <summary>
+		///  An array of platform-specific path name separator characters
+		/// </summary>
+		/// <remarks>
+		///  On UNIX systems, this will comprise the character <c>'/'</c>;
+		///  on Windows systems it will be <c>'\\'</c> and <c>'/'</c>.
+		/// </remarks>
+		public static char[] PathNameSeparatorCharacters
+		{
+			get
+			{
+				return Util.PathNameSeparatorCharacters;
+			}
+		}
+
+		/// <summary>
+		///  An array of platform-specific path separator characters
+		/// </summary>
+		/// <remarks>
+		///  On UNIX systems, this will comprise the characters <c>':'</c>
+		///  and <c>'|'</c>; on Windows systems it will be <c>';'</c> and
+		///  <c>'|'</c>.
+		/// </remarks>
+		public static char[] PathSeparatorCharacters
+		{
+			get
+			{
+				return Util.PathSeparatorCharacters;
+			}
 		}
 
 		/// <summary>
@@ -93,12 +80,40 @@ namespace Recls
 		/// </remarks>
 		public static string WildcardsAll
 		{
-			get { return Util.WildcardsAll; }
+			get
+			{
+				return Util.WildcardsAll;
+			}
+		}
+
+		/// <summary>
+		///  Gets an <see cref="System.OperatingSystem"/> object that
+		///  represents the deduced operation system.
+		/// </summary>
+		/// <remarks>
+		///  This property exists primarily for testing of the <b>recls</b>
+		///  libraries. In all deployed scenarios it supplies exactly the
+		///  same result as <see cref="System.Environment.OSVersion"/>
+		/// </remarks>
+		public static System.OperatingSystem DeducedOperatingSystem
+		{
+			get
+			{
+				System.OperatingSystem actualOS = System.Environment.OSVersion;
+
+#if PSEUDO_UNIX
+				return new System.OperatingSystem(System.PlatformID.Unix, actualOS.Version);
+#else
+				return actualOS;
+#endif // PSEUDO_UNIX
+			}
 		}
 		#endregion
 
 		#region operations
+
 		#region depth-first search operations
+
 		/// <summary>
 		///  Depth-first search operations.
 		/// </summary>
@@ -129,6 +144,7 @@ namespace Recls
 			{
 				return Search(directory, patterns, 0, UnrestrictedDepth, null, (IExceptionHandler)null);
 			}
+
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
 			///  instances representing all file-system entries
@@ -159,6 +175,7 @@ namespace Recls
 			{
 				return Search(directory, patterns, options, UnrestrictedDepth, null, (IExceptionHandler)null);
 			}
+
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
 			///  instances representing all file-system entries
@@ -194,6 +211,7 @@ namespace Recls
 			{
 				return Search(directory, patterns, options, depth, null, (IExceptionHandler)null);
 			}
+
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
 			///  instances representing all file-system entries
@@ -233,14 +251,62 @@ namespace Recls
 			/// </returns>
 			public static IEnumerable<IEntry> Search(string directory, string patterns, SearchOptions options, int depth, IProgressHandler progressHandler, IExceptionHandler exceptionHandler)
 			{
+				return Search(directory, patterns, options, depth, progressHandler, exceptionHandler, null);
+			}
+
+			/// <summary>
+			///  Returns an enumerable collection of <see cref="IEntry"/>
+			///  instances representing all file-system entries
+			///  under <paramref name="directory"/>
+			///  matching the given <paramref name="patterns"/>,
+			///  according to the given <paramref name="options"/>,
+			///  using the given <paramref name="progressHandler"/>
+			///   and <paramref name="exceptionHandler"/>,
+			///  to the given maximum <paramref name="depth"/>,
+			///  searched in a depth-first manner.
+			/// </summary>
+			/// <param name="directory">
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
+			/// <param name="patterns">
+			///  One or more search patterns, separated by the <c>|</c>
+			///  character; searches for all if <b>null</b> or
+			///  <see cref="FileSearcher.WildcardsAll"/>.
+			/// </param>
+			/// <param name="options">
+			///  Combination of <see cref="SearchOptions"/> to moderate the search
+			/// </param>
+			/// <param name="depth">
+			///  The maximum search depth; 0 to perform a non-recursive search.
+			/// </param>
+			/// <param name="progressHandler">
+			///  A <see cref="IProgressHandler">progress handler</see> instance. 
+			/// </param>
+			/// <param name="exceptionHandler">
+			///  An <see cref="IExceptionHandler">error handler</see> instance.
+			/// </param>
+			/// <param name="context">
+			///  Caller-supplied context value, that will be accessible on
+			///  every search entry via the
+			///  <see cref="Recls.IEntry.Context"/> property.
+			/// </param>
+			/// <returns>
+			///  An instance of a type exhibiting the
+			///  <see name="System.Collections.IEnumerable{T}">IEnumerable</see>&lt;<see cref="IEntry"/>&gt;
+			///  interface.
+			/// </returns>
+			public static IEnumerable<IEntry> Search(string directory, string patterns, SearchOptions options, int depth, IProgressHandler progressHandler, IExceptionHandler exceptionHandler, object context)
+			{
 				options = Util.ValidateOptions(options);
 				directory = Util.ValidateDirectory(directory, options);
 				patterns = Util.ValidatePatterns(patterns, options);
 				exceptionHandler = Util.ValidateExceptionHandler(exceptionHandler, options);
 				progressHandler = Util.ValidateProgressHandler(progressHandler, options);
 
-				return new DepthFirstFileSearcher(directory, patterns, options, depth, exceptionHandler, progressHandler, null);
+				return new DepthFirstFileSearcher(directory, patterns, options, depth, exceptionHandler, progressHandler, context);
 			}
+
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
 			///  instances representing all file-system entries
@@ -286,6 +352,7 @@ namespace Recls
 		#endregion
 
 		#region breadth-first search operations
+
 		/// <summary>
 		///  Breadth-first search operations.
 		/// </summary>
@@ -316,6 +383,7 @@ namespace Recls
 			{
 				return Search(directory, patterns, 0, UnrestrictedDepth, null, (IExceptionHandler)null);
 			}
+
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
 			///  instances representing all file-system entries
@@ -345,6 +413,7 @@ namespace Recls
 			{
 				return Search(directory, patterns, options, UnrestrictedDepth, null, (IExceptionHandler)null);
 			}
+
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
 			///  instances representing all file-system entries
@@ -378,6 +447,7 @@ namespace Recls
 			{
 				return Search(directory, patterns, options, depth, null, (IExceptionHandler)null);
 			}
+
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
 			///  instances representing all file-system entries
@@ -417,14 +487,62 @@ namespace Recls
 			/// </returns>
 			public static IEnumerable<IEntry> Search(string directory, string patterns, SearchOptions options, int depth, IProgressHandler progressHandler, IExceptionHandler exceptionHandler)
 			{
+				return Search(directory, patterns, options, depth, progressHandler, exceptionHandler, null);
+			}
+
+			/// <summary>
+			///  Returns an enumerable collection of <see cref="IEntry"/>
+			///  instances representing all file-system entries
+			///  under <paramref name="directory"/>
+			///  matching the given <paramref name="patterns"/>,
+			///  according to the given <paramref name="options"/>,
+			///  using the given <paramref name="progressHandler"/>
+			///   and <paramref name="exceptionHandler"/>,
+			///  to the given maximum <paramref name="depth"/>,
+			///  searched in a breadth-first manner.
+			/// </summary>
+			/// <param name="directory">
+			///  The directory in which to search; the local directory if
+			///  <b>null</b> or empty.
+			/// </param>
+			/// <param name="patterns">
+			///  One or more search patterns, separated by the <c>|</c>
+			///  character; searches for all if <b>null</b> or
+			///  <see cref="FileSearcher.WildcardsAll"/>.
+			/// </param>
+			/// <param name="options">
+			///  Combination of <see cref="SearchOptions"/> to moderate the search
+			/// </param>
+			/// <param name="depth">
+			///  The maximum search depth; 0 to perform a non-recursive search.
+			/// </param>
+			/// <param name="progressHandler">
+			///  A <see cref="IProgressHandler">progress handler</see> instance. 
+			/// </param>
+			/// <param name="exceptionHandler">
+			///  An <see cref="IExceptionHandler">error handler</see> instance.
+			/// </param>
+			/// <param name="context">
+			///  Caller-supplied context value, that will be accessible on
+			///  every search entry via the
+			///  <see cref="Recls.IEntry.Context"/> property.
+			/// </param>
+			/// <returns>
+			///  An instance of a type exhibiting the
+			///  <see name="System.Collections.IEnumerable{T}">IEnumerable</see>&lt;<see cref="IEntry"/>&gt;
+			///  interface.
+			/// </returns>
+			public static IEnumerable<IEntry> Search(string directory, string patterns, SearchOptions options, int depth, IProgressHandler progressHandler, IExceptionHandler exceptionHandler, object context)
+			{
 				options = Util.ValidateOptions(options);
 				directory = Util.ValidateDirectory(directory, options);
 				patterns = Util.ValidatePatterns(patterns, options);
 				exceptionHandler = Util.ValidateExceptionHandler(exceptionHandler, options);
 				progressHandler = Util.ValidateProgressHandler(progressHandler, options);
 
-				return new BreadthFirstFileSearcher(directory, patterns, options, depth, exceptionHandler, progressHandler, null);
+				return new BreadthFirstFileSearcher(directory, patterns, options, depth, exceptionHandler, progressHandler, context);
 			}
+
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
 			///  instances representing all file-system entries
@@ -470,6 +588,7 @@ namespace Recls
 		#endregion
 
 		#region priority-agnostic search operations
+
 		/// <summary>
 		///  Returns an enumerable collection of <see cref="IEntry"/>
 		///  instances representing all file-system entries
@@ -524,6 +643,7 @@ namespace Recls
 		{
 			return DepthFirst.Search(directory, patterns, options);
 		}
+
 		/// <summary>
 		///  Returns an enumerable collection of <see cref="IEntry"/>
 		///  instances representing all file-system entries
@@ -557,6 +677,7 @@ namespace Recls
 		{
 			return DepthFirst.Search(directory, patterns, options, depth);
 		}
+
 		/// <summary>
 		///  Returns an enumerable collection of <see cref="IEntry"/>
 		///  instances representing all file-system entries
@@ -598,6 +719,54 @@ namespace Recls
 		{
 			return DepthFirst.Search(directory, patterns, options, depth, progressHandler, exceptionHandler);
 		}
+
+		/// <summary>
+		///  Returns an enumerable collection of <see cref="IEntry"/>
+		///  instances representing all file-system entries
+		///  under <paramref name="directory"/>
+		///  matching the given <paramref name="patterns"/>,
+		///  according to the given <paramref name="options"/>,
+		///  using the given <paramref name="progressHandler"/>
+		///   and <paramref name="exceptionHandler"/>,
+		///  to the given maximum <paramref name="depth"/>,
+		///  searched in an implementation-defined manner.
+		/// </summary>
+		/// <param name="directory">
+		///  The directory in which to search; the local directory if
+		///  <b>null</b> or empty.
+		/// </param>
+		/// <param name="patterns">
+		///  One or more search patterns, separated by the <c>|</c>
+		///  character; searches for all if <b>null</b> or
+		///  <see cref="FileSearcher.WildcardsAll"/>.
+		/// </param>
+		/// <param name="options">
+		///  Combination of <see cref="SearchOptions"/> to moderate the search
+		/// </param>
+		/// <param name="depth">
+		///  The maximum search depth; 0 to perform a non-recursive search.
+		/// </param>
+		/// <param name="progressHandler">
+		///  A <see cref="IProgressHandler">progress handler</see> instance. 
+		/// </param>
+		/// <param name="exceptionHandler">
+		///  An <see cref="IExceptionHandler">error handler</see> instance.
+		/// </param>
+		/// <param name="context">
+		///  Caller-supplied context value, that will be accessible on
+		///  every search entry via the
+		///  <see cref="Recls.IEntry.Context"/> property.
+		/// </param>
+		/// <returns>
+		///  An instance of a type exhibiting the
+		///  <see name="System.Collections.IEnumerable{T}">IEnumerable</see>&lt;<see cref="IEntry"/>&gt;
+		///  interface.
+		/// </returns>
+		public static IEnumerable<IEntry> Search(string directory, string patterns, SearchOptions options, int depth, IProgressHandler progressHandler, IExceptionHandler exceptionHandler, object context)
+		{
+			return DepthFirst.Search(directory, patterns, options, depth, progressHandler, exceptionHandler, context);
+		}
+
 		/// <summary>
 		///  Returns an enumerable collection of <see cref="IEntry"/>
 		///  instances representing all file-system entries
@@ -640,9 +809,9 @@ namespace Recls
 			return DepthFirst.Search(directory, patterns, options, depth, progressHandler, exceptionHandler);
 		}
 		#endregion
-		#endregion
 
 		#region utility operations
+
 		/// <summary>
 		///  Returns an entry representing the given path.
 		/// </summary>
@@ -678,105 +847,7 @@ namespace Recls
 		{
 			return Util.Stat(path, true);
 		}
-
-		/// <summary>
-		///  Calculates the size of the given <paramref name="directory"/> as
-		///  a sum of the sizes of all files within it, to the given
-		///  sub-directory <paramref name="depth"/>.
-		/// </summary>
-		/// <param name="directory">
-		///  The directory whose size will be calculated.
-		/// </param>
-		/// <param name="depth">
-		///  The maximum depth of the calculation search. To search all
-		///  sub-directories without depth limit, specify
-		///  <see cref="Recls.FileSearcher.UnrestrictedDepth">UnrestrictedDepth</see>.
-		/// </param>
-		/// <returns>
-		///  The size of all files in the given directory and in all
-		///  sub-directories (up to the given depth).
-		/// </returns>
-		public static long CalculateDirectorySize(string directory, int depth)
-		{
-			long size = 0;
-
-			checked
-			{
-				foreach(IEntry entry in Search(directory, Util.WildcardsAll, SearchOptions.None, depth))
-				{
-					size += entry.Size;
-				}
-			}
-
-			return size;
-		}
-		/// <summary>
-		///  Calculates the size of the given <paramref name="directory"/>
-		///  as a sum of the sizes of all files within it and all its
-		///  sub-directories.
-		/// </summary>
-		/// <param name="directory">
-		///  The directory whose size will be calculated.
-		/// </param>
-		/// <returns>
-		///  The size of all files in the given directory and all its
-		///  sub-directories.
-		/// </returns>
-		public static long CalculateDirectorySize(string directory)
-		{
-			return CalculateDirectorySize(directory, UnrestrictedDepth);
-		}
-
-		/// <summary>
-		///  Convenience alias for
-		///  <see cref="Recls.FileSearcher.CalculateDirectorySize(string, int)"/>
-		///  that takes an <see cref="Recls.IEntry">IEntry</see> reference
-		///  to a directory entry.
-		/// </summary>
-		/// <param name="directory">
-		///  The directory whose size will be calculated.
-		/// </param>
-		/// <param name="depth">
-		///  The maximum depth of the calculation search. To search all
-		///  sub-directories without depth limit, specify
-		///  <see cref="Recls.FileSearcher.UnrestrictedDepth">UnrestrictedDepth</see>.
-		/// </param>
-		/// <returns>
-		///  The size of all files in the given directory and in all
-		///  sub-directories (up to the given depth).
-		/// </returns>
-		public static long CalculateDirectorySize(IEntry directory, int depth)
-		{
-			if(null != directory)
-			{
-				if(!directory.IsDirectory)
-				{
-					throw new ArgumentException("entry is not a directory", "directory");
-				}
-			}
-
-			return CalculateDirectorySize(directory.Path, depth);
-		}
-		/// <summary>
-		///  Convenience alias for
-		///  <see cref="Recls.FileSearcher.CalculateDirectorySize(string)"/>
-		///  that takes an <see cref="Recls.IEntry">IEntry</see> reference
-		///  to a directory entry.
-		/// </summary>
-		/// <param name="directory">
-		///  The directory whose size will be calculated.
-		/// </param>
-		/// <returns>
-		///  The size of all files in the given directory and all its
-		///  sub-directories.
-		/// </returns>
-		public static long CalculateDirectorySize(IEntry directory)
-		{
-			return CalculateDirectorySize(directory, UnrestrictedDepth);
-		}
+		#endregion
 		#endregion
 	}
 }
-
-/* ///////////////////////////// end of file //////////////////////////// */
-

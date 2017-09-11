@@ -48,7 +48,7 @@ namespace Recls.Internal
 		: IEnumerable<IEntry>
 	{
 		#region construction
-		internal DepthFirstFileSearcher(string directory, string patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler)
+		internal DepthFirstFileSearcher(string directory, string patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
 		{
 			Debug.Assert(null != directory);
 			Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -64,13 +64,14 @@ namespace Recls.Internal
 			m_maxDepth = maxDepth;
 			m_exceptionHandler = exceptionHandler;
 			m_progressHandler = progressHandler;
+			m_context = context;
 		}
 		#endregion
 
 		#region IEnumerable<IEntry> members
 		System.Collections.Generic.IEnumerator<IEntry> System.Collections.Generic.IEnumerable<IEntry>.GetEnumerator()
 		{
-			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler);
+			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context);
 		}
 		#endregion
 
@@ -86,7 +87,7 @@ namespace Recls.Internal
 			: IEnumerator<IEntry>
 		{
 			#region construction
-			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler)
+			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
 			{
 				Debug.Assert(null != directory);
 				Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -96,7 +97,7 @@ namespace Recls.Internal
 				Debug.Assert(maxDepth >= 0, "maximum depth cannot be less than 0");
 
 				m_maxDepth = maxDepth;
-				m_rootNode = new DirectorySearchNode(directory, directory, patterns, options, exceptionHandler, progressHandler, 0);
+				m_rootNode = new DirectorySearchNode(directory, directory, patterns, options, exceptionHandler, progressHandler, 0, context);
 				m_nodes = new Stack<IDirectorySearchNode>();
 				m_nodes.Push(m_rootNode);
 			}
@@ -212,6 +213,7 @@ namespace Recls.Internal
 		readonly int				m_maxDepth;
 		readonly IExceptionHandler	m_exceptionHandler;
 		readonly IProgressHandler	m_progressHandler;
+		readonly object             m_context;
 		#endregion
 	}
 }

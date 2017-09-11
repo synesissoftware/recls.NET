@@ -136,10 +136,7 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return true;
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
@@ -152,7 +149,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return false;
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 
@@ -160,10 +156,7 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return "*";
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
@@ -176,7 +169,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return "*.*";
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 
@@ -184,15 +176,16 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return new char [] { '/', '\\' };
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
 					default:
+#if PSEUDO_UNIX
+						return new char[] { '/', '\\' };
+#else
 						return new char[] { '/' };
+#endif // PSEUDO_UNIX
 					case PlatformID.Win32NT:
 					case PlatformID.Win32S:
 					case PlatformID.Win32Windows:
@@ -200,7 +193,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return new char[] { '\\', '/' };
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 
@@ -208,10 +200,7 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return new char[] { '|', ':' };
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
@@ -224,7 +213,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return new char[] { '|', ';' };
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 
@@ -232,10 +220,7 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return true;
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
@@ -248,7 +233,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return true;
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 		#endregion
@@ -1113,13 +1097,13 @@ namespace Recls.Internal
 				{
 					DirectoryInfo info = new DirectoryInfo(path);
 
-					return new DirectoryEntry(info, directory, SearchOptions.None);
+					return new DirectoryEntry(info, directory, SearchOptions.None, null);
 				}
 				else
 				{
 					FileInfo info = new FileInfo(path);
 
-					return new FileEntry(info, directory, SearchOptions.None);
+					return new FileEntry(info, directory, SearchOptions.None, null);
 				}
 			}
 			catch(DirectoryNotFoundException)

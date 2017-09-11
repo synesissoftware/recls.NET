@@ -48,8 +48,8 @@ namespace Recls.Internal
 		: Entry
 	{
 		#region construction
-		internal DirectoryEntry(DirectoryInfo info, string searchRoot, SearchOptions options)
-			: base(info, searchRoot, options)
+		internal DirectoryEntry(DirectoryInfo info, string searchRoot, SearchOptions options, object context)
+			: base(info, searchRoot, options, context)
 		{
 			if(0 != (options & SearchOptions.MarkDirectories))
 			{

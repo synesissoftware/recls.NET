@@ -49,7 +49,7 @@ namespace Recls.Internal
 		: IEnumerable<IEntry>
 	{
 		#region construction
-		internal BreadthFirstFileSearcher(string directory, string patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler)
+		internal BreadthFirstFileSearcher(string directory, string patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
 		{
 			Debug.Assert(null != directory);
 			Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -65,13 +65,14 @@ namespace Recls.Internal
 			m_maxDepth = maxDepth;
 			m_exceptionHandler = exceptionHandler;
 			m_progressHandler = progressHandler;
+			m_context = context;
 		}
 		#endregion
 
 		#region IEnumerable<IEntry> members
 		System.Collections.Generic.IEnumerator<IEntry> System.Collections.Generic.IEnumerable<IEntry>.GetEnumerator()
 		{
-			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler);
+			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context);
 		}
 		#endregion
 
@@ -86,7 +87,7 @@ namespace Recls.Internal
 			: IEnumerator<IEntry>
 		{
 			#region construction
-			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler)
+			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
 			{
 				Debug.Assert(null != directory);
 				Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -104,6 +105,8 @@ namespace Recls.Internal
 				m_options = options;
 				m_exceptionHandler = exceptionHandler;
 				m_progressHandler = progressHandler;
+
+				m_context = context;
 
 				Reset_(false);
 			}
@@ -149,11 +152,11 @@ namespace Recls.Internal
 
 							if(null != fi)
 							{
-								m_currentEntry = new FileEntry(fi, m_directory, m_options);
+								m_currentEntry = new FileEntry(fi, m_directory, m_options, m_context);
 							}
 							else
 							{
-								m_currentEntry = new DirectoryEntry((DirectoryInfo)fsi, m_directory, m_options);
+								m_currentEntry = new DirectoryEntry((DirectoryInfo)fsi, m_directory, m_options, m_context);
 							}
 
 							++m_entryIndex;
@@ -248,6 +251,7 @@ namespace Recls.Internal
 			List<DirectoryInfo> 		m_subdirectories;
 			int 						m_depth;
 			bool						m_searchCancelled;
+			readonly object				m_context;
 			#endregion
 		}
 
@@ -258,6 +262,7 @@ namespace Recls.Internal
 		readonly int				m_maxDepth;
 		readonly IExceptionHandler	m_exceptionHandler;
 		readonly IProgressHandler	m_progressHandler;
+		readonly object				m_context;
 		#endregion
 	}
 }

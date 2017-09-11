@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Component.FileSearcher
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Component.SearchingInNonexistentDirectory", "test\component\Test.Component.SearchingInNonexistentDirectory\Test.Component.SearchingInNonexistentDirectory.csproj", "{5C38ACA6-ADE9-41E7-A6FB-24B5D8C57C18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.recls.Core.Api", "test\unit\Test.Unit.recls.Core.Api\Test.Unit.recls.Core.Api.csproj", "{50E12AF2-5789-402B-B8C0-B0AA95A675F0}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = recls.NET.vsmdi
@@ -136,6 +138,12 @@ Global
 		{5C38ACA6-ADE9-41E7-A6FB-24B5D8C57C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C38ACA6-ADE9-41E7-A6FB-24B5D8C57C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C38ACA6-ADE9-41E7-A6FB-24B5D8C57C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -156,6 +164,7 @@ Global
 		{58CBAA1C-5F1A-4CB7-8371-D949335FAA2B} = {6B02CDF2-808A-4AF5-BC4A-BD8DF72576B0}
 		{9DD6CF57-03BB-49B9-90C7-8A279083200E} = {6B02CDF2-808A-4AF5-BC4A-BD8DF72576B0}
 		{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D} = {A36748DE-827E-4B64-B9C5-052A472F66D8}
+		{50E12AF2-5789-402B-B8C0-B0AA95A675F0} = {A36748DE-827E-4B64-B9C5-052A472F66D8}
 		{70F04645-C2C6-4E76-8658-B82AEA7C758B} = {9A833437-6840-4222-AA7E-71B928B62D7A}
 		{5C38ACA6-ADE9-41E7-A6FB-24B5D8C57C18} = {9A833437-6840-4222-AA7E-71B928B62D7A}
 	EndGlobalSection

@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api.cs" />
     <Compile Include="delegates.cs" />
     <Compile Include="ExceptionHandlerResult.cs" />
     <Compile Include="Exceptions\IllformedUncPathException.cs" />

@@ -3,7 +3,7 @@
  * File:        Internal/Entry.cs
  *
  * Created:     30th May 2009
- * Updated:     20th June 2017
+ * Updated:     1th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -51,7 +51,8 @@ namespace Recls.Internal
 		: IEntry
 	{
 		#region construction
-		protected Entry(FileSystemInfo info, string searchRoot, SearchOptions options)
+
+		protected Entry(FileSystemInfo info, string searchRoot, SearchOptions options, object context)
 		{
 			Debug.Assert(null != info);
 			Debug.Assert(null != searchRoot);
@@ -104,10 +105,13 @@ namespace Recls.Internal
 
 			m_partsSpin = 0;
 			m_directoryParts = null;
+
+			m_context = context;
 		}
 		#endregion
 
-		#region internal Properties
+		#region internal properties
+
 		//protected SearchOptions SearchOptions_
 		//{
 		//	  get { return m_options; }
@@ -115,6 +119,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region IEntry members
+
 		public virtual string Path
 		{
 			get { return RawPath; }
@@ -285,6 +290,14 @@ namespace Recls.Internal
 				}
 			}
 		}
+
+		object IEntry.Context
+		{
+			get
+			{
+				return m_context;
+			}
+		}
 		#endregion
 
 		#region Object overrides
@@ -339,6 +352,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region fields
+
 		private readonly FileSystemInfo 	m_info;
 		//private readonly SearchOptions	m_options;
 		private readonly string 			m_searchRoot;
@@ -348,6 +362,7 @@ namespace Recls.Internal
 		private readonly int				m_endOfFileName;
 		private int 						m_partsSpin;
 		private IDirectoryPartsCollection	m_directoryParts;
+		private readonly object             m_context;
 		#endregion
 	}
 }

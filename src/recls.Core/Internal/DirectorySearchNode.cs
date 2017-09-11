@@ -48,7 +48,7 @@ namespace Recls.Internal
 		: IDirectorySearchNode
 	{
 		#region construction
-		internal DirectorySearchNode(string searchRoot, string directory, Patterns patterns, SearchOptions options, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, int depth)
+		internal DirectorySearchNode(string searchRoot, string directory, Patterns patterns, SearchOptions options, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, int depth, object context)
 		{
 			Debug.Assert(Util.HasDirEnd(searchRoot), "path must end in terminator");
 			Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -83,11 +83,13 @@ namespace Recls.Internal
 					m_searchCancelled = true;
 					break;
 			}
+
+			m_context = context;
 		}
 
 		internal DirectorySearchNode Restart()
 		{
-			return new DirectorySearchNode(m_searchRoot, m_directory, m_patterns, m_options, m_exceptionHandler, m_progressHandler, m_depth);
+			return new DirectorySearchNode(m_searchRoot, m_directory, m_patterns, m_options, m_exceptionHandler, m_progressHandler, m_depth, m_context);
 		}
 		#endregion
 
@@ -100,7 +102,7 @@ namespace Recls.Internal
 				{
 					DirectoryInfo di = m_subdirectories[m_subdirectoryIndex++];
 
-					return new DirectorySearchNode(m_searchRoot, Util.EnsureDirEnd(di.FullName), m_patterns, m_options, m_exceptionHandler, m_progressHandler, m_depth + 1);
+					return new DirectorySearchNode(m_searchRoot, Util.EnsureDirEnd(di.FullName), m_patterns, m_options, m_exceptionHandler, m_progressHandler, m_depth + 1, m_context);
 				}
 			}
 
@@ -119,11 +121,11 @@ namespace Recls.Internal
 
 					if(null != fi)
 					{
-						entry = new FileEntry(fi, m_searchRoot, m_options);
+						entry = new FileEntry(fi, m_searchRoot, m_options, m_context);
 					}
 					else
 					{
-						entry = new DirectoryEntry((DirectoryInfo)fsi, m_searchRoot, m_options);
+						entry = new DirectoryEntry((DirectoryInfo)fsi, m_searchRoot, m_options, m_context);
 					}
 
 					++m_entryIndex;
@@ -149,6 +151,7 @@ namespace Recls.Internal
 		readonly FileSystemInfo[]	m_entries;
 		int 						m_entryIndex;
 		bool						m_searchCancelled;
+		readonly object				m_context;
 		#endregion
 	}
 }

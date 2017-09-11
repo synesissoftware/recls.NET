@@ -306,6 +306,15 @@ namespace Recls
 		///  <c>\</c>, <c>Windows\</c> and <c>System32\</c>
 		/// </remarks>
 		IDirectoryPartsCollection DirectoryParts { get; }
+
+		/// <summary>
+		///  Context object passed to initiate the search; <c>null</c>
+		///  otherwise
+		/// </summary>
+		object Context
+		{
+			get;
+		}
 	}
 }
 

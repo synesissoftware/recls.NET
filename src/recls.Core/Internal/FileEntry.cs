@@ -46,8 +46,8 @@ namespace Recls.Internal
 		: Entry
 	{
 		#region construction
-		internal FileEntry(FileInfo info, string searchRoot, SearchOptions options)
-			: base(info, searchRoot, options)
+		internal FileEntry(FileInfo info, string searchRoot, SearchOptions options, object context)
+			: base(info, searchRoot, options, context)
 		{}
 		#endregion
 
