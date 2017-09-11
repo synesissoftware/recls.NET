@@ -123,6 +123,22 @@ namespace Recls
 		///  search is disposed.
 		/// </summary>
 		DoNotLockDirectory				=	0x00400000,
+
+		/// <summary>
+		///  [Version 2+] If specified, a missing search directory will
+		///  not result in a thrown exception, but will instead be
+		///  treated as if it is empty, yielding an enumerator with no
+		///  results.
+		/// </summary>
+		/// <remarks>
+		///  Specifying this flag has two effects: (i) the effects of
+		///  <see cref="DoNotLockDirectory"/> are effectively ignored; and (ii)
+		///  the check is done at the creation of the search, and if the directory
+		///  is caused to exist between the creation of the search and the
+		///  enumeration of its first element, the caller will still see an empty
+		///  results set.
+		/// </remarks>
+		TreatMissingDirectoryAsEmpty = 0x00800000,
 	}
 }
 

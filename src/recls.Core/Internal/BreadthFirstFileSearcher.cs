@@ -61,7 +61,7 @@ namespace Recls.Internal
 			Debug.Assert(null != exceptionHandler);
 			Debug.Assert(maxDepth >= 0, "maximum depth cannot be less than 0");
 
-			Util.CheckDirectoryExistsOrThrow(directory);
+			Util.CheckDirectoryExistsOrThrow(directory, options, out m_stubEnumerator, out m_lockFile);
 
 			m_directory = directory;
 			m_patterns = new Patterns(patterns);
@@ -70,8 +70,6 @@ namespace Recls.Internal
 			m_exceptionHandler = exceptionHandler;
 			m_progressHandler = progressHandler;
 			m_context = context;
-
-			m_lockFile = Util.CreateLockFile(directory, options);
 		}
 
 		void IDisposable.Dispose()
@@ -84,6 +82,11 @@ namespace Recls.Internal
 
 		System.Collections.Generic.IEnumerator<IEntry> System.Collections.Generic.IEnumerable<IEntry>.GetEnumerator()
 		{
+			if (null != m_stubEnumerator)
+			{
+				return m_stubEnumerator;
+			}
+
 			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context);
 		}
 		#endregion
@@ -276,14 +279,15 @@ namespace Recls.Internal
 
 		#region fields
 
-		readonly string 			m_directory;
-		readonly Patterns			m_patterns;
-		readonly SearchOptions		m_options;
-		readonly int				m_maxDepth;
-		readonly IExceptionHandler	m_exceptionHandler;
-		readonly IProgressHandler	m_progressHandler;
-		readonly object				m_context;
-		readonly IDisposable		m_lockFile;
+		readonly string 				m_directory;
+		readonly Patterns				m_patterns;
+		readonly SearchOptions			m_options;
+		readonly int					m_maxDepth;
+		readonly IExceptionHandler		m_exceptionHandler;
+		readonly IProgressHandler		m_progressHandler;
+		readonly object					m_context;
+		readonly IDisposable			m_lockFile;
+		readonly IEnumerator<IEntry>	m_stubEnumerator;
 		#endregion
 	}
 }

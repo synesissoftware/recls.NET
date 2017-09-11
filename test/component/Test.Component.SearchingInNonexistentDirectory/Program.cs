@@ -22,8 +22,13 @@ namespace Test.Component.SearchingInNonexistentDirectory
 
 				string directory = Path.Combine(tempDir, guid.ToString());
 
-				foreach (IEntry entry in FileSearcher.Search(directory, FileSearcher.WildcardsAll))
+				SearchOptions options = SearchOptions.None;
+
+				options |= SearchOptions.TreatMissingDirectoryAsEmpty;
+
+				foreach (IEntry entry in FileSearcher.Search(directory, FileSearcher.WildcardsAll, options))
 				{
+					Console.Out.WriteLine("\t{0}", entry);
 				}
 
 				return 0;

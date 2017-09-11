@@ -158,6 +158,39 @@ namespace Recls.Internal
 			{
 			}
 		}
+
+		internal sealed class StubEnumerator
+				: IEnumerator<IEntry>
+		{
+			IEntry IEnumerator<IEntry>.Current
+			{
+				get
+				{
+					return null;
+				}
+			}
+
+			void IDisposable.Dispose()
+			{
+			}
+
+			object System.Collections.IEnumerator.Current
+			{
+				get
+				{
+					return null;
+				}
+			}
+
+			bool System.Collections.IEnumerator.MoveNext()
+			{
+				return false;
+			}
+
+			void System.Collections.IEnumerator.Reset()
+			{
+			}
+		}
 		#endregion
 
 		#region constants
@@ -1331,9 +1364,35 @@ namespace Recls.Internal
 
 		#region file & directory operations
 
+		internal static void CheckDirectoryExistsOrThrow(string directory, SearchOptions options, out IEnumerator<IEntry> stubEnumerator, out IDisposable lockFile)
+		{
+			if (!Directory.Exists(directory))
+			{
+				if (0 == (SearchOptions.TreatMissingDirectoryAsEmpty & options))
+				{
+					throw new DirectoryNotFoundException(String.Format("given directory '{0}' does not exist", directory));
+				}
+
+				stubEnumerator	=	new StubEnumerator();
+				lockFile		=	null;
+			}
+			else
+			{
+				stubEnumerator	=	null;
+				lockFile		=	Util.CreateLockFile(directory, options);
+			}
+		}
+
+		/// <summary>
+		///  Creates a lock file in the given directory if possible; otherwise
+		///  returns <b>null</b>.
+		/// </summary>
+		/// <param name="directory"></param>
+		/// <param name="options"></param>
+		/// <returns></returns>
 		internal static IDisposable CreateLockFile(string directory, SearchOptions options)
 		{
-			if(0 == (SearchOptions.DoNotLockDirectory & options))
+			if (0 == (SearchOptions.DoNotLockDirectory & options))
 			{
 				try
 				{
@@ -1345,14 +1404,6 @@ namespace Recls.Internal
 			}
 
 			return new StubDisposable();
-		}
-
-		internal static void CheckDirectoryExistsOrThrow(string directory)
-		{
-			if (!Directory.Exists(directory))
-			{
-				throw new DirectoryNotFoundException(String.Format("given directory '{0}' does not exist", directory));
-			}
 		}
 		#endregion
 	}
