@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Component.SearchingInN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.recls.Core.Api", "test\unit\Test.Unit.recls.Core.Api\Test.Unit.recls.Core.Api.csproj", "{50E12AF2-5789-402B-B8C0-B0AA95A675F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Scratch.recls.Core", "test\scratch\Test.Scratch.recls.Core\Test.Scratch.recls.Core.csproj", "{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = recls.NET.vsmdi
@@ -144,6 +146,12 @@ Global
 		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50E12AF2-5789-402B-B8C0-B0AA95A675F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,5 +175,6 @@ Global
 		{50E12AF2-5789-402B-B8C0-B0AA95A675F0} = {A36748DE-827E-4B64-B9C5-052A472F66D8}
 		{70F04645-C2C6-4E76-8658-B82AEA7C758B} = {9A833437-6840-4222-AA7E-71B928B62D7A}
 		{5C38ACA6-ADE9-41E7-A6FB-24B5D8C57C18} = {9A833437-6840-4222-AA7E-71B928B62D7A}
+		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92} = {FDBA6FA5-2D72-4DCE-9E52-CCB3D5237FE7}
 	EndGlobalSection
 EndGlobal
