@@ -24,9 +24,11 @@ namespace Test.Component.SearchingInNonexistentDirectory
 
 				SearchOptions options = SearchOptions.None;
 
-				options |= SearchOptions.TreatMissingDirectoryAsEmpty;
+				//options |= SearchOptions.TreatMissingDirectoryAsEmpty;
 
-				foreach (IEntry entry in FileSearcher.Search(directory, FileSearcher.WildcardsAll, options))
+				var search = FileSearcher.Search(directory, FileSearcher.WildcardsAll, options);
+
+				foreach (IEntry entry in search)
 				{
 					Console.Out.WriteLine("\t{0}", entry);
 				}

@@ -1,6 +1,6 @@
 ﻿
 // Created: 10th October 2009
-// Updated: 20th June 2017
+// Updated: 13th September 2017
 
 #pragma warning disable 1607
 
@@ -22,7 +22,8 @@ using System.Security.Permissions;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("2.1.23.0")]
-[assembly: AssemblyFileVersion("2.1.23.0")]
+[assembly: AssemblyVersion("2.0.1020.0")]
+[assembly: AssemblyFileVersion("2.0.1020.1")]
+[assembly: AssemblyInformationalVersion("2.0.1020.1")]
 
 /* ///////////////////////////// end of file //////////////////////////// */

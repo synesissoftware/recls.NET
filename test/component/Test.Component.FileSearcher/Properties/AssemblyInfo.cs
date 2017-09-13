@@ -1,6 +1,6 @@
 ﻿
 // Created: 20th August 2009
-// Updated: 20th June 2017
+// Updated: 13th September 2017
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -16,7 +16,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
-[assembly: Guid("283afdff-f520-4195-bb9e-df04b4c78e6c")]
-
+[
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyInformationalVersion("2.0.1020.1")]
+
+/* ///////////////////////////// end of file //////////////////////////// */
+
