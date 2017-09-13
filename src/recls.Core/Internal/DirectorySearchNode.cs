@@ -3,7 +3,7 @@
  * File:        Internal/DirectorySearchNode.cs
  *
  * Created:     5th June 2009
- * Updated:     20th June 2017
+ * Updated:     13th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -48,7 +48,8 @@ namespace Recls.Internal
 		: IDirectorySearchNode
 	{
 		#region construction
-		internal DirectorySearchNode(string searchRoot, string directory, Patterns patterns, SearchOptions options, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, int depth, object context)
+
+		internal DirectorySearchNode(string searchRoot, string directory, Patterns patterns, SearchOptions options, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, int depth, object context, FileInfo lockFileInfo)
 		{
 			Debug.Assert(Util.HasDirEnd(searchRoot), "path must end in terminator");
 			Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -68,11 +69,13 @@ namespace Recls.Internal
 			m_progressHandler = progressHandler;
 			m_depth = depth;
 			m_searchCancelled = false;
+			m_context = context;
+			m_lockFileInfo = lockFileInfo;
 
 			switch(m_progressHandler.OnProgress(m_context, m_directory, m_depth))
 			{
 				case ProgressHandlerResult.Continue:
-					m_entries = Util.GetEntriesByPatterns(m_context, m_exceptionHandler, di, m_patterns, m_options);
+					m_entries = Util.GetEntriesByPatterns(m_context, m_exceptionHandler, di, m_patterns, m_options, m_lockFileInfo);
 					m_subdirectories = Util.GetSubdirectories(m_context, m_exceptionHandler, di, m_options);
 					break;
 				case ProgressHandlerResult.CancelDirectory:
@@ -83,17 +86,16 @@ namespace Recls.Internal
 					m_searchCancelled = true;
 					break;
 			}
-
-			m_context = context;
 		}
 
 		internal DirectorySearchNode Restart()
 		{
-			return new DirectorySearchNode(m_searchRoot, m_directory, m_patterns, m_options, m_exceptionHandler, m_progressHandler, m_depth, m_context);
+			return new DirectorySearchNode(m_searchRoot, m_directory, m_patterns, m_options, m_exceptionHandler, m_progressHandler, m_depth, m_context, m_lockFileInfo);
 		}
 		#endregion
 
 		#region IDirectorySearchNode members
+
 		IDirectorySearchNode IDirectorySearchNode.GetNextNode()
 		{
 			if(!m_searchCancelled)
@@ -102,12 +104,13 @@ namespace Recls.Internal
 				{
 					DirectoryInfo di = m_subdirectories[m_subdirectoryIndex++];
 
-					return new DirectorySearchNode(m_searchRoot, Util.EnsureDirEnd(di.FullName), m_patterns, m_options, m_exceptionHandler, m_progressHandler, m_depth + 1, m_context);
+					return new DirectorySearchNode(m_searchRoot, Util.EnsureDirEnd(di.FullName), m_patterns, m_options, m_exceptionHandler, m_progressHandler, m_depth + 1, m_context, m_lockFileInfo);
 				}
 			}
 
 			return null;
 		}
+
 		IEntry IDirectorySearchNode.GetNextEntry()
 		{
 			if(!m_searchCancelled)
@@ -139,6 +142,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region fields
+
 		readonly string 			m_searchRoot;
 		readonly string 			m_directory;
 		readonly Patterns			m_patterns;
@@ -152,6 +156,7 @@ namespace Recls.Internal
 		int 						m_entryIndex;
 		bool						m_searchCancelled;
 		readonly object				m_context;
+		readonly FileInfo			m_lockFileInfo;
 		#endregion
 	}
 }

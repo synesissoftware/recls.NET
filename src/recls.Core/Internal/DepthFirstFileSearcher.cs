@@ -61,7 +61,7 @@ namespace Recls.Internal
 			Debug.Assert(null != exceptionHandler);
 			Debug.Assert(maxDepth >= 0, "maximum depth cannot be less than 0");
 
-			Util.CheckDirectoryExistsOrThrow(directory, options, out m_stubEnumerator, out m_lockFile);
+			Util.CheckDirectoryExistsOrThrow(directory, options, out m_stubEnumerator, out m_lockFile, out m_lockFileInfo);
 
 			m_directory = directory;
 			m_patterns = new Patterns(patterns);
@@ -87,7 +87,7 @@ namespace Recls.Internal
 				return m_stubEnumerator;
 			}
 
-			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context);
+			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context, m_lockFileInfo);
 		}
 		#endregion
 
@@ -106,7 +106,7 @@ namespace Recls.Internal
 		{
 			#region construction
 
-			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
+			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context, FileInfo lockFileInfo)
 			{
 				Debug.Assert(null != directory);
 				Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -116,7 +116,7 @@ namespace Recls.Internal
 				Debug.Assert(maxDepth >= 0, "maximum depth cannot be less than 0");
 
 				m_maxDepth = maxDepth;
-				m_rootNode = new DirectorySearchNode(directory, directory, patterns, options, exceptionHandler, progressHandler, 0, context);
+				m_rootNode = new DirectorySearchNode(directory, directory, patterns, options, exceptionHandler, progressHandler, 0, context, lockFileInfo);
 				m_nodes = new Stack<IDirectorySearchNode>();
 				m_nodes.Push(m_rootNode);
 			}
@@ -148,17 +148,18 @@ namespace Recls.Internal
 
 			bool System.Collections.IEnumerator.MoveNext()
 			{
-					// The nodes are processed in a stack of directory search
-					// nodes.
-					//
-					// The top of the stack is processed in each iteration. When
-					// all the files are processed from the head node, it is
-					// queried for its next (sub) search node. If one exists,
-					// then it is pushed onto the stack, and will be processed
-					// on the next iteration. If there are no more sub search
-					// nodes, then the top is popped off the stack.
-					//
-					// When the stack is empty, the processing is complete.
+				// The nodes are processed in a stack of directory search
+				// nodes.
+				//
+				// The top of the stack is processed in each iteration. When
+				// all the files are processed from the head node, it is
+				// queried for its next (sub) search node. If one exists,
+				// then it is pushed onto the stack, and will be processed
+				// on the next iteration. If there are no more sub search
+				// nodes, then the top is popped off the stack.
+				//
+				// When the stack is empty, the processing is complete.
+
 				for(; 0 != m_nodes.Count; )
 				{
 					IDirectorySearchNode	node	=	m_nodes.Peek();
@@ -237,6 +238,7 @@ namespace Recls.Internal
 		readonly IProgressHandler		m_progressHandler;
 		readonly object					m_context;
 		readonly IDisposable			m_lockFile;
+		readonly FileInfo				m_lockFileInfo;
 		readonly IEnumerator<IEntry>	m_stubEnumerator;
 		#endregion
 	}

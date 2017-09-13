@@ -122,13 +122,19 @@ namespace Recls.Internal
 		internal sealed class LockFile
 			: IDisposable
 		{
-			internal LockFile(string directory)
+			internal LockFile(string directory, out FileInfo lockFilePath)
 			{
-				string fileName = Guid.NewGuid().ToString().Replace('{', '_').Replace('}', '_');
+				string fileName = String.Format(@"reclssrch.{0}.lockfile", Guid.NewGuid().ToString().Replace('{', '_').Replace('}', '_'));
 
-				m_lockFilePath = Path.Combine(directory, fileName);
+				string path = Path.Combine(directory, fileName);
 
-				m_lockFile = new FileStream(m_lockFilePath, FileMode.CreateNew, FileAccess.Read, FileShare.None, 0, FileOptions.DeleteOnClose);
+				m_lockFilePath = Path.GetFullPath(path);
+
+				m_lockFile = new FileStream(m_lockFilePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1, FileOptions.DeleteOnClose);
+
+				File.SetAttributes(m_lockFilePath, FileAttributes.Hidden);
+
+				lockFilePath = new FileInfo(m_lockFilePath);
 			}
 
 			void IDisposable.Dispose()
@@ -144,6 +150,14 @@ namespace Recls.Internal
 					catch (IOException)
 					{
 					}
+				}
+			}
+
+			public string LockFilePath
+			{
+				get
+				{
+					return m_lockFilePath;
 				}
 			}
 
@@ -321,6 +335,33 @@ namespace Recls.Internal
 			return 0 == options;
 		}
 
+		private static bool MatchesLockFile(FileSystemInfo candidateInfo, FileInfo lockFileInfo)
+		{
+			if (null == lockFileInfo)
+			{
+				return false;
+			}
+
+			FileInfo candidateFileInfo = candidateInfo as FileInfo;
+
+			if (null == candidateFileInfo)
+			{
+				return false;
+			}
+
+			if (candidateFileInfo == lockFileInfo)
+			{
+				return true;
+			}
+
+			if (candidateFileInfo.FullName.Length != lockFileInfo.FullName.Length)
+			{
+				return false;
+			}
+
+			return 0 == String.Compare(candidateFileInfo.FullName, lockFileInfo.FullName, Util.StringComparison);
+		}
+
 		private static bool EntryMatchesOptions(FileSystemInfo info, SearchOptions options)
 		{
 			Debug.Assert(0 != (options & (SearchOptions.Files | SearchOptions.Directories)));
@@ -451,7 +492,7 @@ namespace Recls.Internal
 
 		#region search operations
 
-		internal static FileSystemInfo[] GetEntriesByPatterns(object context, IExceptionHandler exceptionHandler, DirectoryInfo di, Patterns patterns, SearchOptions options)
+		internal static FileSystemInfo[] GetEntriesByPatterns(object context, IExceptionHandler exceptionHandler, DirectoryInfo di, Patterns patterns, SearchOptions options, FileInfo lockFileInfo)
 		{
 			Debug.Assert(null != exceptionHandler);
 			Debug.Assert(null != patterns);
@@ -482,6 +523,11 @@ namespace Recls.Internal
 
 			foreach(FileSystemInfo fi in entries)
 			{
+				if (MatchesLockFile(fi, lockFileInfo))
+				{
+					continue;
+				}
+
 				if(EntryMatchesOptions(fi, options))
 				{
 					if(patterns.MatchPath(fi.Name))
@@ -1364,7 +1410,7 @@ namespace Recls.Internal
 
 		#region file & directory operations
 
-		internal static void CheckDirectoryExistsOrThrow(string directory, SearchOptions options, out IEnumerator<IEntry> stubEnumerator, out IDisposable lockFile)
+		internal static void CheckDirectoryExistsOrThrow(string directory, SearchOptions options, out IEnumerator<IEntry> stubEnumerator, out IDisposable lockFile, out FileInfo lockFileInfo)
 		{
 			if (!Directory.Exists(directory))
 			{
@@ -1375,33 +1421,29 @@ namespace Recls.Internal
 
 				stubEnumerator	=	new StubEnumerator();
 				lockFile		=	null;
+				lockFileInfo	=	null;
 			}
 			else
 			{
 				stubEnumerator	=	null;
-				lockFile		=	Util.CreateLockFile(directory, options);
+				lockFile		=	Util.CreateLockFile(directory, options, out lockFileInfo);
 			}
 		}
 
-		/// <summary>
-		///  Creates a lock file in the given directory if possible; otherwise
-		///  returns <b>null</b>.
-		/// </summary>
-		/// <param name="directory"></param>
-		/// <param name="options"></param>
-		/// <returns></returns>
-		internal static IDisposable CreateLockFile(string directory, SearchOptions options)
+		internal static IDisposable CreateLockFile(string directory, SearchOptions options, out FileInfo lockFileInfo)
 		{
 			if (0 == (SearchOptions.DoNotLockDirectory & options))
 			{
 				try
 				{
-					return new LockFile(directory);
+					return new LockFile(directory, out lockFileInfo);
 				}
 				catch (IOException)
 				{
 				}
 			}
+
+			lockFileInfo = null;
 
 			return new StubDisposable();
 		}

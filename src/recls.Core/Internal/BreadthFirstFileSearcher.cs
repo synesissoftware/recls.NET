@@ -61,7 +61,7 @@ namespace Recls.Internal
 			Debug.Assert(null != exceptionHandler);
 			Debug.Assert(maxDepth >= 0, "maximum depth cannot be less than 0");
 
-			Util.CheckDirectoryExistsOrThrow(directory, options, out m_stubEnumerator, out m_lockFile);
+			Util.CheckDirectoryExistsOrThrow(directory, options, out m_stubEnumerator, out m_lockFile, out m_lockFileInfo);
 
 			m_directory = directory;
 			m_patterns = new Patterns(patterns);
@@ -87,7 +87,7 @@ namespace Recls.Internal
 				return m_stubEnumerator;
 			}
 
-			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context);
+			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context, m_lockFileInfo);
 		}
 		#endregion
 
@@ -106,7 +106,7 @@ namespace Recls.Internal
 		{
 			#region construction
 
-			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
+			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context, FileInfo lockFileInfo)
 			{
 				Debug.Assert(null != directory);
 				Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -126,6 +126,7 @@ namespace Recls.Internal
 				m_progressHandler = progressHandler;
 
 				m_context = context;
+				m_lockFileInfo = lockFileInfo;
 
 				Reset_(false);
 			}
@@ -162,7 +163,6 @@ namespace Recls.Internal
 			{
 				if(!m_searchCancelled)
 				{
-
 					for(; 0 != m_entries.Count || 0 != m_subdirectories.Count; )
 					{
 						Debug.Assert(m_entryIndex <= m_entries.Count);
@@ -199,7 +199,7 @@ namespace Recls.Internal
 							switch(m_progressHandler.OnProgress(m_context, Util.EnsureDirEnd(di.FullName), m_depth))
 							{
 								case ProgressHandlerResult.Continue:
-									nextEntries.AddRange(Util.GetEntriesByPatterns(m_context, m_exceptionHandler, di, m_patterns, m_options));
+									nextEntries.AddRange(Util.GetEntriesByPatterns(m_context, m_exceptionHandler, di, m_patterns, m_options, m_lockFileInfo));
 									nextSubdirectories.AddRange(Util.GetSubdirectories(m_context, m_exceptionHandler, di, m_options));
 									break;
 								case ProgressHandlerResult.CancelDirectory:
@@ -240,7 +240,7 @@ namespace Recls.Internal
 					switch(m_progressHandler.OnProgress(m_context, m_directory, m_depth))
 					{
 						case ProgressHandlerResult.Continue:
-							m_entries.AddRange(Util.GetEntriesByPatterns(m_context, m_exceptionHandler, m_di, m_patterns, m_options));
+							m_entries.AddRange(Util.GetEntriesByPatterns(m_context, m_exceptionHandler, m_di, m_patterns, m_options, m_lockFileInfo));
 							m_subdirectories.AddRange(Util.GetSubdirectories(m_context, m_exceptionHandler, m_di, m_options));
 							break;
 						case ProgressHandlerResult.CancelDirectory:
@@ -273,6 +273,7 @@ namespace Recls.Internal
 			int 						m_depth;
 			bool						m_searchCancelled;
 			readonly object				m_context;
+			readonly FileInfo			m_lockFileInfo;
 			#endregion
 		}
 		#endregion
@@ -287,6 +288,7 @@ namespace Recls.Internal
 		readonly IProgressHandler		m_progressHandler;
 		readonly object					m_context;
 		readonly IDisposable			m_lockFile;
+		readonly FileInfo				m_lockFileInfo;
 		readonly IEnumerator<IEntry>	m_stubEnumerator;
 		#endregion
 	}
