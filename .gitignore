@@ -1,6 +1,8 @@
 
 # directories (by name)
 
+.git-/
+
 _build/
 
 _internal/
@@ -34,6 +36,7 @@ test/test.unit.recls.nunit
 
 *~
 *.*~
+*.nupkg
 *.scc
 *.suo
 *.swp
