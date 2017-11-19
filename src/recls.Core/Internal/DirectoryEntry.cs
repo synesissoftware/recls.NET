@@ -3,7 +3,7 @@
  * File:        Internal/DirectoryEntry.cs
  *
  * Created:     5th June 2009
- * Updated:     20th June 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -88,6 +88,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region fields
+
 		private readonly string m_path;
 		#endregion
 	}

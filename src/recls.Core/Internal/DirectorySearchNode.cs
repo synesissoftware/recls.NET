@@ -3,7 +3,7 @@
  * File:        Internal/DirectorySearchNode.cs
  *
  * Created:     5th June 2009
- * Updated:     13th September 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *

@@ -24,7 +24,8 @@ namespace Test.Unit.recls.Core
 	[TestClass]
 	public class PathUtilities_DeriveRelativePath_tester
 	{
-		#region null Tests
+		#region null tests
+
 		[TestMethod]
 		public void Test_null_1()
 		{
@@ -37,7 +38,8 @@ namespace Test.Unit.recls.Core
 		}
 		#endregion
 
-		#region empty Tests
+		#region empty tests
+
 		[TestMethod]
 		public void Test_empty_1()
 		{
@@ -50,7 +52,8 @@ namespace Test.Unit.recls.Core
 		}
 		#endregion
 
-		#region relative Tests
+		#region relative tests
+
 		[TestMethod]
 		public void Test_relative_1()
 		{
@@ -68,7 +71,8 @@ namespace Test.Unit.recls.Core
 		}
 		#endregion
 
-		#region absolute (same drive) Tests
+		#region absolute (same drive) tests
+
 		[TestMethod]
 		public void Test_absolute_samedrive_1()
 		{
@@ -105,7 +109,8 @@ namespace Test.Unit.recls.Core
 		}
 		#endregion
 
-		#region absolute (different drive) Tests
+		#region absolute (different drive) tests
+
 		[TestMethod]
 		public void Test_absolute_differentdrive_1()
 		{
@@ -132,6 +137,5 @@ namespace Test.Unit.recls.Core
 			Assert.AreEqual(@"D:\abc\", PathUtilities.DeriveRelativePath(@"C:\abc\def\", @"D:\abc\"));
 		}
 		#endregion
-
 	}
 }

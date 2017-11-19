@@ -1,5 +1,5 @@
 ﻿
-// Updated: 13th September 2017
+// Updated: 26th September 2017
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("2.0.1020.1")]
+[assembly: AssemblyInformationalVersion("2.0.1100.0")]
 
 /* ///////////////////////////// end of file //////////////////////////// */
 

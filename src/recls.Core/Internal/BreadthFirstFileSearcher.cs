@@ -3,7 +3,7 @@
  * File:        Internal/BreadthFirstFileSearcher.cs
  *
  * Created:     5th June 2009
- * Updated:     11th September 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -130,7 +130,7 @@ namespace Recls.Internal
 
 				Reset_(false);
 			}
-			#endregion construction
+			#endregion
 
 			#region IDisposable members
 
@@ -259,6 +259,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region fields
+
 			readonly string 			m_directory;
 			readonly DirectoryInfo		m_di;
 			readonly Patterns			m_patterns;

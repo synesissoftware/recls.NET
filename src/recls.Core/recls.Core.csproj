@@ -12,15 +12,17 @@
     <AssemblyName>recls.NET.Core</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\keys\Synsoft.public.snk</AssemblyOriginatorKeyFile>
     <ApplicationIcon>
     </ApplicationIcon>
-    <DelaySign>true</DelaySign>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <AssemblyOriginatorKeyFile>..\..\keys\Synsoft.public.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,6 +74,7 @@
     <Compile Include="Internal\DirectoryPartsCollection.cs" />
     <Compile Include="Internal\DirectorySearchNode.cs" />
     <Compile Include="Internal\Entry.cs" />
+    <Compile Include="Internal\ExceptionUtil.cs" />
     <Compile Include="Internal\FileEntry.cs" />
     <Compile Include="Internal\IDirectorySearchNode.cs" />
     <Compile Include="Internal\Patterns.cs" />
@@ -100,7 +103,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>echo Registering '$(TargetPath)' for verification skipping ...
-sn -Vr $(TargetPath)</PostBuildEvent>
+    <PostBuildEvent>$(ProjectDir)../../scripts/register_for_skipped_verification.cmd "$(TargetPath)" "$(Configuration)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

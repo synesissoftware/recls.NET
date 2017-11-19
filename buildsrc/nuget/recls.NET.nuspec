@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+		<id>recls.NET</id>
+		<version>2.0.1100.0</version>
+		<authors>Matthew Wilson</authors>
+		<description>recls.NET Core components</description>
+
+		<title>recls.NET Core NuGet package</title>
+		<owners>Synesis Software Pty Ltd</owners>
+		<projectUrl>https://www.synesis.com.au/software</projectUrl>
+		<iconUrl>http://www.synesis.com.au/images/synesis_small.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<developmentDependency>false</developmentDependency>
+		<summary>recls.NET Core components</summary>
+		<tags>recls command-line argument parsing .NET Synesis</tags>
+	</metadata>
+	<files>
+		<file src="..\..\src\recls.Core\bin\Release\recls.NET.Core.dll" target="lib\net40\" />
+		<file src="..\..\src\recls.Core\bin\Release\recls.NET.Core.xml" target="lib\net40\" />
+	</files>
+</package>
+

@@ -50,11 +50,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
-      <Visible>False</Visible>
-    </CodeAnalysisDependentAssemblyPaths>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="FileSearcher_tester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

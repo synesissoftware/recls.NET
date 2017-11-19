@@ -3,7 +3,7 @@
  * File:        Internal/DepthFirstFileSearcher.cs
  *
  * Created:     30th May 2009
- * Updated:     11th September 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -120,7 +120,7 @@ namespace Recls.Internal
 				m_nodes = new Stack<IDirectorySearchNode>();
 				m_nodes.Push(m_rootNode);
 			}
-			#endregion construction
+			#endregion
 
 			#region IDisposable members
 
@@ -201,6 +201,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region implementation
+
 			// Need a separate worker method, as cannot call System.Collections.IEnumerator.Reset() without a cast
 			void Reset_(bool disposing)
 			{
@@ -220,6 +221,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region fields
+
 			readonly int				m_maxDepth;
 			IEntry						m_currentEntry;
 			DirectorySearchNode 		m_rootNode;

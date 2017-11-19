@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "recls.Core", "src\recls.Core\recls.Core.csproj", "{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.recls.Core", "test\unit\Test.Unit.recls.Core\Test.Unit.recls.Core.csproj", "{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D}"
@@ -60,6 +60,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.recls.Core.Api", "test\unit\Test.Unit.recls.Core.Api\Test.Unit.recls.Core.Api.csproj", "{50E12AF2-5789-402B-B8C0-B0AA95A675F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Scratch.recls.Core", "test\scratch\Test.Scratch.recls.Core\Test.Scratch.recls.Core.csproj", "{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B414A3A2-8CF0-4175-BE90-580B225CFEA3}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\register_for_skipped_verification.cmd = scripts\register_for_skipped_verification.cmd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -162,6 +167,7 @@ Global
 		{A36748DE-827E-4B64-B9C5-052A472F66D8} = {DC4642E2-030E-4F21-9565-76D3E3F25C99}
 		{9A833437-6840-4222-AA7E-71B928B62D7A} = {DC4642E2-030E-4F21-9565-76D3E3F25C99}
 		{FDBA6FA5-2D72-4DCE-9E52-CCB3D5237FE7} = {DC4642E2-030E-4F21-9565-76D3E3F25C99}
+		{B414A3A2-8CF0-4175-BE90-580B225CFEA3} = {1F9D291F-3DBD-4906-AA36-7A1DD8F30DB4}
 		{B17561D7-611E-4DB1-BF88-648108C6A0CE} = {6B02CDF2-808A-4AF5-BC4A-BD8DF72576B0}
 		{60FF4F0E-B340-43D7-A40C-0F3ECADCDEC0} = {6B02CDF2-808A-4AF5-BC4A-BD8DF72576B0}
 		{958506CF-365C-40B4-8E76-E2ABB2E3B149} = {6B02CDF2-808A-4AF5-BC4A-BD8DF72576B0}

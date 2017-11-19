@@ -45,6 +45,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionUtil_tester.cs" />
     <Compile Include="PathUtilities_DeriveRelativePath_tester.cs" />
     <Compile Include="PathUtilities_tester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

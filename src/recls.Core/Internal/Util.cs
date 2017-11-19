@@ -3,7 +3,7 @@
  * File:        Internal/Util.cs
  *
  * Created:     5th June 2009
- * Updated:     11th September 2017
+ * Updated:     19th November 2017
  *
  * Home:        http://recls.net/
  *
@@ -147,7 +147,11 @@ namespace Recls.Internal
 					{
 						File.Delete(m_lockFilePath);
 					}
-					catch (IOException)
+                    catch(OutOfMemoryException)
+                    {
+                        throw;
+                    }
+					catch(IOException)
 					{
 					}
 				}
@@ -1176,6 +1180,67 @@ namespace Recls.Internal
 
 		#region stat operations
 
+        internal static IEntry Stat(string path, SearchOptions options)
+        {
+            SearchOptions validOptions 
+                =   0
+                |   SearchOptions.Directories
+                |   SearchOptions.Files
+                |   SearchOptions.StatInfoForNonexistentPath
+                |   SearchOptions.MarkDirectories
+                |   SearchOptions.DoNotTranslatePathSeparators
+                ;
+
+            if(0 != (~validOptions & options))
+            {
+                Trace.WriteLine(String.Format("Stat(path='{0}', options={{{1}}}) - options contains enumerators other than {{{2}}}", path, options, validOptions));
+            }
+
+            IEntry e = Stat(path, true);
+
+            if(null == e)
+            {
+                if(0 != (SearchOptions.StatInfoForNonexistentPath & options))
+                {
+				    string directory = GetDirectoryPath(path);
+
+                    if(Util.HasDirEnd(path))
+                    {
+                        goto do_directory;
+                    }
+                    else
+                    {
+                        switch(options & (SearchOptions.Directories | SearchOptions.Files))
+                        {
+                        case SearchOptions.Directories:
+
+                            goto do_directory;
+
+                        case SearchOptions.Files:
+					        FileInfo fi = new FileInfo(path);
+
+					        return new FileEntry(fi, directory, SearchOptions.None, null);
+
+                        case 0:
+                            break;
+
+                        default:
+                            break;
+                        }
+                    }
+
+                    return null;
+
+do_directory:
+					DirectoryInfo di = new DirectoryInfo(path);
+
+    				return new DirectoryEntry(di, directory, SearchOptions.Directories | (SearchOptions.MarkDirectories & options), null);
+                }
+            }
+
+            return e;
+        }
+
 		internal static IEntry Stat(string path, bool verifiesThatItExists)
 		{
 			try
@@ -1235,6 +1300,10 @@ namespace Recls.Internal
 					return new FileEntry(info, directory, SearchOptions.None, null);
 				}
 			}
+            catch(OutOfMemoryException)
+            {
+                throw;
+            }
 			catch(DirectoryNotFoundException)
 			{
 				return null;
@@ -1259,18 +1328,15 @@ namespace Recls.Internal
 				// 2. Use reflection to look into the protected HResult
 				//	property, to see if it is 0x80070035
 
-				// 1.
-				System.ComponentModel.Win32Exception w32x = new System.ComponentModel.Win32Exception(unchecked((int)0x80070035));
+                int hresult = ExceptionUtil.HResultFromException(x);
 
-				string m1 = w32x.Message.Trim().Trim('.');
-				string m2 = x.Message.Trim().Trim('.');
-
-				if(0 == String.CompareOrdinal(m1, m2))
-				{
-					return null;
-				}
-
-				throw;
+                switch(unchecked((uint)hresult))
+                {
+                case 0x80070035: // ERROR_BAD_NETPATH
+                    return null;
+                default:
+                    throw;
+                }
 			}
 		}
 
@@ -1405,7 +1471,6 @@ namespace Recls.Internal
 			return path;
 		}
 #endif // PSEUDO_UNIX
-
 		#endregion
 
 		#region file & directory operations
@@ -1438,7 +1503,11 @@ namespace Recls.Internal
 				{
 					return new LockFile(directory, out lockFileInfo);
 				}
-				catch (IOException)
+                catch(OutOfMemoryException)
+                {
+                    throw;
+                }
+				catch(IOException)
 				{
 				}
 			}
@@ -1448,7 +1517,7 @@ namespace Recls.Internal
 			return new StubDisposable();
 		}
 		#endregion
-	}
+    }
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

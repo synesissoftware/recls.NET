@@ -3,7 +3,7 @@
  * File:        Internal/Entry.cs
  *
  * Created:     30th May 2009
- * Updated:     1th September 2017
+ * Updated:     19th November 2017
  *
  * Home:        http://recls.net/
  *
@@ -49,6 +49,7 @@ namespace Recls.Internal
 
 	internal abstract class Entry
 		: IEntry
+        , IEntry2_1
 	{
 		#region construction
 
@@ -300,8 +301,28 @@ namespace Recls.Internal
 		}
 		#endregion
 
-		#region Object overrides
-		public override string ToString()
+        #region IEntry2_1 members
+
+        public bool IsFile
+        {
+            get
+            {
+                return !IsDirectory;
+            }
+        }
+
+        public bool Existed
+        {
+            get
+            {
+                return -1 != (int)Attributes;
+            }
+        }
+        #endregion
+
+        #region Object overrides
+
+        public override string ToString()
 		{
 			return Path;
 		}
@@ -364,7 +385,7 @@ namespace Recls.Internal
 		private IDirectoryPartsCollection	m_directoryParts;
 		private readonly object             m_context;
 		#endregion
-	}
+    }
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

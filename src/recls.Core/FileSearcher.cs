@@ -3,7 +3,7 @@
  * File:        FileSearcher.cs
  *
  * Created:     30th June 2009
- * Updated:     20th June 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *

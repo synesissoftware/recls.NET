@@ -3,7 +3,7 @@
  * File:        Internal/StockHandlers.cs
  *
  * Created:     24th July 2009
- * Updated:     20th June 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -43,10 +43,12 @@ namespace Recls.Internal
 	using System;
 
 	#region IExceptionHandler classes
+
 	internal class IgnoreAllExceptionHandler
 		: IExceptionHandler
 	{
 		#region IExceptionHandler members
+
 		ExceptionHandlerResult IExceptionHandler.OnException(object context, string path, Exception x)
 		{
 			return ExceptionHandlerResult.ConsumeExceptionAndContinue;
@@ -58,6 +60,7 @@ namespace Recls.Internal
 		: IExceptionHandler
 	{
 		#region IExceptionHandler members
+
 		ExceptionHandlerResult IExceptionHandler.OnException(object context, string path, Exception x)
 		{
 			return ExceptionHandlerResult.PropagateException;
@@ -69,10 +72,12 @@ namespace Recls.Internal
 		: IExceptionHandler
 	{
 		#region fields
+
 		private OnException m_dg;
 		#endregion
 
 		#region construction
+
 		public DelegateExceptionHandler(OnException dg)
 		{
 			m_dg = dg;
@@ -80,6 +85,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region IExceptionHandler members
+
 		ExceptionHandlerResult IExceptionHandler.OnException(object context, string path, Exception x)
 		{
 			return m_dg(context, path, x);
@@ -89,10 +95,12 @@ namespace Recls.Internal
 	#endregion
 
 	#region IProgressHandler classes
+
 	internal class ContinueAllProgressHandler
 		: IProgressHandler
 	{
 		#region IProgressHandler members
+
 		ProgressHandlerResult IProgressHandler.OnProgress(object context, string directory, int depth)
 		{
 			return ProgressHandlerResult.Continue;
@@ -104,10 +112,12 @@ namespace Recls.Internal
 		: IProgressHandler
 	{
 		#region fields
+
 		private OnProgress	m_dg;
 		#endregion
 
 		#region construction
+
 		public DelegateProgressHandler(OnProgress dg)
 		{
 			m_dg = dg;
@@ -115,6 +125,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region IProgressHandler members
+
 		ProgressHandlerResult IProgressHandler.OnProgress(object context, string directory, int depth)
 		{
 			return m_dg(context, directory, depth);

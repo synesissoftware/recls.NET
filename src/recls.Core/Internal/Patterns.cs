@@ -49,6 +49,7 @@ namespace Recls.Internal
 	internal sealed class Patterns
 	{
 		#region construction
+
 		internal Patterns(string patterns)
 		{
 			Debug.Assert(null != patterns);
@@ -58,6 +59,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region operations
+
 		internal bool MatchPath(string path)
 		{
 			Debug.Assert(null != path);
@@ -80,6 +82,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region internal classes
+
 		private interface IPattern
 		{
 			bool Match(string path);
@@ -89,6 +92,7 @@ namespace Recls.Internal
 			: IPattern
 		{
 			#region construction
+
 			internal SimplePattern(string pattern)
 			{
 				m_pattern = pattern;
@@ -96,6 +100,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region IPattern members
+
 			public bool Match(string path)
 			{
 				return 0 == String.Compare(m_pattern, path, Util.StringComparison);
@@ -103,6 +108,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region fields
+
 			readonly string m_pattern;
 			#endregion
 		}
@@ -112,12 +118,14 @@ namespace Recls.Internal
 			: IPattern
 		{
 			#region construction
+
 			internal WildcardsAllPattern()
 			{
 			}
 			#endregion
 
 			#region IPattern members
+
 			public bool Match(string path)
 			{
 				return true;
@@ -130,6 +138,7 @@ namespace Recls.Internal
 			: IPattern
 		{
 			#region construction
+
 			internal RegexPattern(Regex pattern)
 			{
 				m_pattern = pattern;
@@ -137,6 +146,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region IPattern members
+
 			public bool Match(string path)
 			{
 				Match m = m_pattern.Match(path);
@@ -146,12 +156,14 @@ namespace Recls.Internal
 			#endregion
 
 			#region fields
+
 			readonly Regex m_pattern;
 			#endregion
 		}
 		#endregion
 
 		#region implementation
+
 		private static IPattern[] CreatePatterns_(string[] patterns)
 		{
 			Debug.Assert(null != patterns);
@@ -219,6 +231,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region fields
+
 		readonly IPattern[] m_patterns;
 		#endregion
 	}

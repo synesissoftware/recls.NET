@@ -1,5 +1,6 @@
 ﻿
-// Updated: 20th June 2017
+// Created: 31st July 2009
+// Updated: 19th November 2017
 
 #if PSEUDO_UNIX
 #else // PSEUDO_UNIX
@@ -8,6 +9,7 @@
 namespace Test.Unit.recls.Core
 {
 	using Recls;
+    using IEntry2 = global::Recls.IEntry2_1;
 
 #if NUNIT
 	using Assert = global::NUnit.Framework.Assert;
@@ -27,7 +29,8 @@ namespace Test.Unit.recls.Core
 	[TestClass]
 	public class FileSearcher_Stat_tester
 	{
-		#region Types
+		#region types
+
 		internal static class Util
 		{
 #if PSEUDO_UNIX
@@ -55,7 +58,8 @@ namespace Test.Unit.recls.Core
 		}
 		#endregion
 
-		#region Fields
+		#region fields
+
 		private string	cwd 		=	null;
 		private string	parent_dir	=	null;
 		private string	root		=	null;
@@ -84,6 +88,7 @@ namespace Test.Unit.recls.Core
 		public void test_Root()
 		{
 			IEntry	e = FileSearcher.Stat("/");
+            IEntry2 e2 = e as IEntry2;
 
 			Assert.AreEqual(FileAttributes.Directory, (FileAttributes.Directory & e.Attributes));
 			//e.CreationTime);
@@ -99,7 +104,9 @@ namespace Test.Unit.recls.Core
 			Assert.AreEqual("", e.File);
 			Assert.AreEqual("", e.FileExtension);
 			Assert.AreEqual("", e.FileName);
+			Assert.IsTrue(e2.Existed);
 			Assert.IsTrue(e.IsDirectory);
+			Assert.IsFalse(e2.IsFile);
 			//e.IsReadOnly);
 			//e.IsUnc);
 			//e.LastAccessTime);
@@ -131,6 +138,7 @@ namespace Test.Unit.recls.Core
 				{
 					string	sharePath	=	knownSharePath;
 					IEntry	e			=	FileSearcher.Stat(sharePath);
+                    IEntry2 e2          =   e as IEntry2;
 
 					if(null != e)
 					{
@@ -147,7 +155,9 @@ namespace Test.Unit.recls.Core
 						Assert.AreEqual("", e.File);
 						Assert.AreEqual("", e.FileExtension);
 						Assert.AreEqual("", e.FileName);
+            			Assert.IsTrue(e2.Existed);
 						Assert.IsTrue(e.IsDirectory);
+            			Assert.IsFalse(e2.IsFile);
 						//e.IsReadOnly);
 						Assert.IsTrue(e.IsUnc);
 						//e.LastAccessTime);
@@ -160,6 +170,10 @@ namespace Test.Unit.recls.Core
 						Assert.AreEqual(e.Drive, e.UncDrive);
 					}
 				}
+                catch(OutOfMemoryException)
+                {
+                    throw;
+                }
 				catch(System.UnauthorizedAccessException x)
 				{
 					Assert.Inconclusive("test involving sharing of '{0}' inconclusive: {1}", knownSharePath, x);
@@ -170,7 +184,8 @@ namespace Test.Unit.recls.Core
 		[TestMethod]
 		public void test_Cwd()
 		{
-			IEntry	e = FileSearcher.Stat(cwd);
+			IEntry	e   =   FileSearcher.Stat(cwd);
+            IEntry2 e2  =   e as IEntry2;
 
 			Assert.AreEqual(FileAttributes.Directory, (FileAttributes.Directory & e.Attributes));
 			//e.CreationTime);
@@ -181,7 +196,9 @@ namespace Test.Unit.recls.Core
 			Assert.AreEqual(basename, e.File);
 			//Assert.AreEqual("", e.FileExtension);
 			Assert.AreEqual(basename_nx, e.FileName);
+			Assert.IsTrue(e2.Existed);
 			Assert.IsTrue(e.IsDirectory);
+			Assert.IsFalse(e2.IsFile);
 			//e.IsReadOnly);
 			Assert.IsFalse(e.IsUnc);
 			//e.LastAccessTime);
@@ -198,5 +215,239 @@ namespace Test.Unit.recls.Core
 			Assert.AreEqual(e.Directory, String.Join("", new List<string>(e.DirectoryParts).ToArray()));
 			Assert.AreEqual(e.File, e.FileName + e.FileExtension);
 		}
-	}
+
+        [TestMethod]
+        public void test_non_existent_directory_from_path_with_1_param_Stat()
+        {
+            string tempRoot = Path.GetTempPath();
+            string createdDir = null;
+
+            try
+            {
+                for(int i = 1; ; ++i)
+                {
+                    createdDir = Path.Combine(tempRoot, new string('a', i));
+
+                    if(!File.Exists(createdDir))
+                    {
+                        Directory.CreateDirectory(createdDir);
+
+                        break;
+                    }
+                }
+
+                string nonExistingDir = Path.Combine(createdDir, @"abc\");
+
+                IEntry  e   =   Api.Stat(nonExistingDir);
+
+                Assert.IsNull(e);
+            }
+            catch(PathTooLongException x)
+            {
+                Assert.Inconclusive("could not create temporary directory: {0}", x.Message);
+            }
+            finally
+            {
+                Directory.Delete(createdDir);
+            }
+        }
+
+        [TestMethod]
+        public void test_non_existent_directory_from_path_with_trailing_slash()
+        {
+            string tempRoot = Path.GetTempPath();
+            string createdDir = null;
+
+            try
+            {
+                for(int i = 1; ; ++i)
+                {
+                    createdDir = Path.Combine(tempRoot, new string('a', i));
+
+                    if(!File.Exists(createdDir))
+                    {
+                        Directory.CreateDirectory(createdDir);
+
+                        break;
+                    }
+                }
+
+                string nonExistingDir = Path.Combine(createdDir, @"abc\");
+
+                IEntry  e   =   Api.Stat(nonExistingDir, SearchOptions.StatInfoForNonexistentPath);
+                IEntry2 e2  =   e as IEntry2;
+
+                Assert.IsNotNull(e);
+                Assert.IsNotNull(e2);
+
+                Assert.IsTrue(e.IsDirectory);
+                Assert.IsFalse(e2.IsFile);
+                Assert.IsFalse(e2.Existed);
+            }
+            catch(PathTooLongException x)
+            {
+                Assert.Inconclusive("could not create temporary directory: {0}", x.Message);
+            }
+            finally
+            {
+                Directory.Delete(createdDir);
+            }
+        }
+
+        [TestMethod]
+        public void test_non_existent_directory_from_path_without_trailing_slash_with_None_flag()
+        {
+            string tempRoot = Path.GetTempPath();
+            string createdDir = null;
+
+            try
+            {
+                for(int i = 1; ; ++i)
+                {
+                    createdDir = Path.Combine(tempRoot, new string('a', i));
+
+                    if(!File.Exists(createdDir))
+                    {
+                        Directory.CreateDirectory(createdDir);
+
+                        break;
+                    }
+                }
+
+                string nonExistingDir = Path.Combine(createdDir, @"abc\");
+
+                IEntry  e   =   Api.Stat(nonExistingDir, SearchOptions.None);
+
+                Assert.IsNull(e);
+            }
+            catch(PathTooLongException x)
+            {
+                Assert.Inconclusive("could not create temporary directory: {0}", x.Message);
+            }
+            finally
+            {
+                Directory.Delete(createdDir);
+            }
+        }
+
+        [TestMethod]
+        public void test_non_existent_directory_from_path_without_trailing_slash_with_Directories_flag()
+        {
+            string tempRoot = Path.GetTempPath();
+            string createdDir = null;
+
+            try
+            {
+                for(int i = 1; ; ++i)
+                {
+                    createdDir = Path.Combine(tempRoot, new string('a', i));
+
+                    if(!File.Exists(createdDir))
+                    {
+                        Directory.CreateDirectory(createdDir);
+
+                        break;
+                    }
+                }
+
+                string nonExistingDir = Path.Combine(createdDir, @"abc");
+
+                IEntry  e   =   Api.Stat(nonExistingDir, SearchOptions.StatInfoForNonexistentPath | SearchOptions.Directories);
+                IEntry2 e2  =   e as IEntry2;
+
+                Assert.IsNotNull(e);
+                Assert.IsNotNull(e2);
+
+                Assert.IsTrue(e.IsDirectory);
+                Assert.IsFalse(e2.IsFile);
+                Assert.IsFalse(e2.Existed);
+            }
+            catch(PathTooLongException x)
+            {
+                Assert.Inconclusive("could not create temporary directory: {0}", x.Message);
+            }
+            finally
+            {
+                Directory.Delete(createdDir);
+            }
+        }
+
+        [TestMethod]
+        public void test_non_existent_directory_from_path_without_trailing_slash_with_Files_flag()
+        {
+            string tempRoot = Path.GetTempPath();
+            string createdDir = null;
+
+            try
+            {
+                for(int i = 1; ; ++i)
+                {
+                    createdDir = Path.Combine(tempRoot, new string('a', i));
+
+                    if(!File.Exists(createdDir))
+                    {
+                        Directory.CreateDirectory(createdDir);
+
+                        break;
+                    }
+                }
+
+                string nonExistingDir = Path.Combine(createdDir, @"abc");
+
+                IEntry  e   =   Api.Stat(nonExistingDir, SearchOptions.StatInfoForNonexistentPath | SearchOptions.Files);
+                IEntry2 e2  =   e as IEntry2;
+
+                Assert.IsNotNull(e);
+                Assert.IsNotNull(e2);
+
+                Assert.IsFalse(e.IsDirectory);
+                Assert.IsTrue(e2.IsFile);
+                Assert.IsFalse(e2.Existed);
+            }
+            catch(PathTooLongException x)
+            {
+                Assert.Inconclusive("could not create temporary directory: {0}", x.Message);
+            }
+            finally
+            {
+                Directory.Delete(createdDir);
+            }
+        }
+
+        [TestMethod]
+        public void test_non_existent_directory_from_path_without_trailing_slash_with_Directories_and_Files_flags()
+        {
+            string tempRoot = Path.GetTempPath();
+            string createdDir = null;
+
+            try
+            {
+                for(int i = 1; ; ++i)
+                {
+                    createdDir = Path.Combine(tempRoot, new string('a', i));
+
+                    if(!File.Exists(createdDir))
+                    {
+                        Directory.CreateDirectory(createdDir);
+
+                        break;
+                    }
+                }
+
+                string nonExistingDir = Path.Combine(createdDir, @"abc\");
+
+                IEntry  e   =   Api.Stat(nonExistingDir, SearchOptions.Directories | SearchOptions.Files);
+
+                Assert.IsNull(e);
+            }
+            catch(PathTooLongException x)
+            {
+                Assert.Inconclusive("could not create temporary directory: {0}", x.Message);
+            }
+            finally
+            {
+                Directory.Delete(createdDir);
+            }
+        }
+    }
 }

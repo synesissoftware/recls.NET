@@ -3,7 +3,7 @@
  * File:        SearchOptions.cs
  *
  * Created:     30th June 2009
- * Updated:     20th June 2017
+ * Updated:     19th November 2017
  *
  * Home:        http://recls.net/
  *
@@ -138,7 +138,16 @@ namespace Recls
 		///  enumeration of its first element, the caller will still see an empty
 		///  results set.
 		/// </remarks>
-		TreatMissingDirectoryAsEmpty = 0x00800000,
+		TreatMissingDirectoryAsEmpty    =   0x00800000,
+
+        /// <summary>
+        ///  .
+        /// </summary>
+        /// <remarks>
+        ///  <b>NOTE</b>: Only used by
+        ///  <see cref="Recls.Api.Stat(System.String, SearchOptions)"/>.
+        /// </remarks>
+        StatInfoForNonexistentPath      =   0x00080000,
 	}
 }
 

@@ -18,7 +18,8 @@ namespace Recls.SearchControls
 	public partial class SimpleSearchSpecificationControl
 		: UserControl
 	{
-		#region Types
+		#region types
+
 		struct Map
 		{
 			public Map(CheckBox control, SearchOptions flag)
@@ -32,10 +33,11 @@ namespace Recls.SearchControls
 		}
 		#endregion
 
-		#region Fields
-		Map[] m_maps;
-		bool m_showSearchOptions;
-		bool m_showSearchDepth;
+		#region fields
+
+		Map[]   m_maps;
+		bool    m_showSearchOptions;
+		bool    m_showSearchDepth;
 		#endregion
 
 		#region Construction
@@ -106,7 +108,8 @@ namespace Recls.SearchControls
 		}
 		#endregion
 
-		#region Properties
+		#region properties
+
 		public string Directory
 		{
 			get
@@ -213,7 +216,8 @@ namespace Recls.SearchControls
 		}
 		#endregion
 
-		#region Event Handlers
+		#region event handlers
+
 		private void SimpleSearchSpecificationControl_Load(object sender, EventArgs e)
 		{
 			if(null != DirectoryHistory)

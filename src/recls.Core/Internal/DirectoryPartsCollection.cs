@@ -48,10 +48,12 @@ namespace Recls.Internal
 		: IDirectoryPartsCollection
 	{
 		#region fields
+
 		readonly IList<string>	m_parts;
 		#endregion
 
 		#region construction
+
 		internal DirectoryPartsCollection(IList<string> parts)
 		{
 			m_parts = parts;
@@ -59,6 +61,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region IDirectoryPartsCollection members
+
 		int IDirectoryPartsCollection.Count
 		{
 			get
@@ -87,6 +90,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region IEnumerable<string> members
+
 		IEnumerator<string> IEnumerable<string>.GetEnumerator()
 		{
 			return m_parts.GetEnumerator();
@@ -94,6 +98,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region IEnumerable members
+
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return m_parts.GetEnumerator();

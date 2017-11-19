@@ -33,7 +33,7 @@ namespace Test.Scratch.recls.Core
 
 				return 0;
 			}
-			catch (Exception x)
+			catch(Exception x)
 			{
 				Console.Error.WriteLine("exception ({0}): {1}", x.GetType().FullName, x.Message);
 
