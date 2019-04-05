@@ -66,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B414
 		scripts\register_for_skipped_verification.cmd = scripts\register_for_skipped_verification.cmd
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test.scratch.Stat", "test\scratch\test.scratch.Stat\test.scratch.Stat.csproj", "{C5CF7094-D2A8-4175-B146-7E64298D063B}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = recls.NET.vsmdi
@@ -83,6 +85,7 @@ Global
 		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}.Release|Any CPU.Build.0 = Release|Any CPU
 		{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
 		{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -157,6 +160,12 @@ Global
 		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5CF7094-D2A8-4175-B146-7E64298D063B}.Debug pseudoUNIX|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5CF7094-D2A8-4175-B146-7E64298D063B}.Debug pseudoUNIX|Any CPU.Build.0 = Debug|Any CPU
+		{C5CF7094-D2A8-4175-B146-7E64298D063B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5CF7094-D2A8-4175-B146-7E64298D063B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5CF7094-D2A8-4175-B146-7E64298D063B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5CF7094-D2A8-4175-B146-7E64298D063B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,5 +191,6 @@ Global
 		{70F04645-C2C6-4E76-8658-B82AEA7C758B} = {9A833437-6840-4222-AA7E-71B928B62D7A}
 		{5C38ACA6-ADE9-41E7-A6FB-24B5D8C57C18} = {9A833437-6840-4222-AA7E-71B928B62D7A}
 		{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92} = {FDBA6FA5-2D72-4DCE-9E52-CCB3D5237FE7}
+		{C5CF7094-D2A8-4175-B146-7E64298D063B} = {FDBA6FA5-2D72-4DCE-9E52-CCB3D5237FE7}
 	EndGlobalSection
 EndGlobal
