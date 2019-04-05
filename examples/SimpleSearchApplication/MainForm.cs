@@ -58,7 +58,8 @@ namespace SimpleSearchApplication
 				);
 			}
 
-			#region Fields
+			#region fields
+
 			public readonly MainForm			Form;
 			public readonly OnProgress			HandleProgress;
 			public readonly OnEntry 			HandleEntry;
@@ -66,14 +67,16 @@ namespace SimpleSearchApplication
 			public readonly IEnumerable<IEntry> Entries;
 			#endregion
 
-			#region IProgressHandler Members
+			#region IProgressHandler members
+
 			ProgressHandlerResult IProgressHandler.OnProgress(string directory, int depth)
 			{
 				return (ProgressHandlerResult)Form.Invoke(HandleProgress, directory, depth);
 			}
 			#endregion
 
-			#region IExceptionHandler Members
+			#region IExceptionHandler members
+
 			ExceptionHandlerResult IExceptionHandler.OnException(string path, Exception x)
 			{
 				return (ExceptionHandlerResult)Form.Invoke(HandleException, path, x);
@@ -82,7 +85,8 @@ namespace SimpleSearchApplication
 		}
 		#endregion
 
-		#region Fields
+		#region fields
+
 		SearchState m_searchState;
 		int 		m_numFiles;
 		int 		m_numDirectories;
@@ -197,6 +201,10 @@ namespace SimpleSearchApplication
 						info.Form.Invoke(info.HandleEntry, entry);
 					}
 				}
+                catch(OutOfMemoryException)
+                {
+                    throw;
+                }
 				catch(Exception x)
 				{
 					Api.Log(Severity.Critical, "search failed: ", Api.Insert.Exception(x));

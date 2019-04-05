@@ -3,7 +3,7 @@
  * File:        Internal/DepthFirstFileSearcher.cs
  *
  * Created:     30th May 2009
- * Updated:     20th June 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -43,12 +43,15 @@ namespace Recls.Internal
 	using System;
 	using System.Collections.Generic;
 	using System.Diagnostics;
+	using System.IO;
 
 	internal class DepthFirstFileSearcher
 		: IEnumerable<IEntry>
+		, IDisposable
 	{
 		#region construction
-		internal DepthFirstFileSearcher(string directory, string patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler)
+
+		internal DepthFirstFileSearcher(string directory, string patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context)
 		{
 			Debug.Assert(null != directory);
 			Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -58,23 +61,38 @@ namespace Recls.Internal
 			Debug.Assert(null != exceptionHandler);
 			Debug.Assert(maxDepth >= 0, "maximum depth cannot be less than 0");
 
+			Util.CheckDirectoryExistsOrThrow(directory, options, out m_stubEnumerator, out m_lockFile, out m_lockFileInfo);
+
 			m_directory = directory;
 			m_patterns = new Patterns(patterns);
 			m_options = options;
 			m_maxDepth = maxDepth;
 			m_exceptionHandler = exceptionHandler;
 			m_progressHandler = progressHandler;
+			m_context = context;
+		}
+
+		void IDisposable.Dispose()
+		{
+			m_lockFile.Dispose();
 		}
 		#endregion
 
 		#region IEnumerable<IEntry> members
+
 		System.Collections.Generic.IEnumerator<IEntry> System.Collections.Generic.IEnumerable<IEntry>.GetEnumerator()
 		{
-			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler);
+			if (null != m_stubEnumerator)
+			{
+				return m_stubEnumerator;
+			}
+
+			return new Enumerator(m_directory, m_patterns, m_options, m_maxDepth, m_exceptionHandler, m_progressHandler, m_context, m_lockFileInfo);
 		}
 		#endregion
 
 		#region IEnumerable members
+
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return ((System.Collections.Generic.IEnumerable<IEntry>)this).GetEnumerator();
@@ -82,11 +100,13 @@ namespace Recls.Internal
 		#endregion
 
 		#region types
+
 		private class Enumerator
 			: IEnumerator<IEntry>
 		{
 			#region construction
-			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler)
+
+			internal Enumerator(string directory, Patterns patterns, SearchOptions options, int maxDepth, IExceptionHandler exceptionHandler, IProgressHandler progressHandler, object context, FileInfo lockFileInfo)
 			{
 				Debug.Assert(null != directory);
 				Debug.Assert(Util.HasDirEnd(directory), "path must end in terminator");
@@ -96,13 +116,14 @@ namespace Recls.Internal
 				Debug.Assert(maxDepth >= 0, "maximum depth cannot be less than 0");
 
 				m_maxDepth = maxDepth;
-				m_rootNode = new DirectorySearchNode(directory, directory, patterns, options, exceptionHandler, progressHandler, 0);
+				m_rootNode = new DirectorySearchNode(directory, directory, patterns, options, exceptionHandler, progressHandler, 0, context, lockFileInfo);
 				m_nodes = new Stack<IDirectorySearchNode>();
 				m_nodes.Push(m_rootNode);
 			}
-			#endregion construction
+			#endregion
 
 			#region IDisposable members
+
 			void IDisposable.Dispose()
 			{
 				Reset_(true);
@@ -112,6 +133,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region IEnumerator<Entry> members
+
 			IEntry System.Collections.Generic.IEnumerator<IEntry>.Current
 			{
 				get { return GetCurrent_(); }
@@ -126,17 +148,18 @@ namespace Recls.Internal
 
 			bool System.Collections.IEnumerator.MoveNext()
 			{
-					// The nodes are processed in a stack of directory search
-					// nodes.
-					//
-					// The top of the stack is processed in each iteration. When
-					// all the files are processed from the head node, it is
-					// queried for its next (sub) search node. If one exists,
-					// then it is pushed onto the stack, and will be processed
-					// on the next iteration. If there are no more sub search
-					// nodes, then the top is popped off the stack.
-					//
-					// When the stack is empty, the processing is complete.
+				// The nodes are processed in a stack of directory search
+				// nodes.
+				//
+				// The top of the stack is processed in each iteration. When
+				// all the files are processed from the head node, it is
+				// queried for its next (sub) search node. If one exists,
+				// then it is pushed onto the stack, and will be processed
+				// on the next iteration. If there are no more sub search
+				// nodes, then the top is popped off the stack.
+				//
+				// When the stack is empty, the processing is complete.
+
 				for(; 0 != m_nodes.Count; )
 				{
 					IDirectorySearchNode	node	=	m_nodes.Peek();
@@ -178,6 +201,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region implementation
+
 			// Need a separate worker method, as cannot call System.Collections.IEnumerator.Reset() without a cast
 			void Reset_(bool disposing)
 			{
@@ -197,6 +221,7 @@ namespace Recls.Internal
 			#endregion
 
 			#region fields
+
 			readonly int				m_maxDepth;
 			IEntry						m_currentEntry;
 			DirectorySearchNode 		m_rootNode;
@@ -206,12 +231,17 @@ namespace Recls.Internal
 		#endregion
 
 		#region fields
-		readonly string 			m_directory;
-		readonly Patterns			m_patterns;
-		readonly SearchOptions		m_options;
-		readonly int				m_maxDepth;
-		readonly IExceptionHandler	m_exceptionHandler;
-		readonly IProgressHandler	m_progressHandler;
+
+		readonly string 				m_directory;
+		readonly Patterns				m_patterns;
+		readonly SearchOptions			m_options;
+		readonly int					m_maxDepth;
+		readonly IExceptionHandler		m_exceptionHandler;
+		readonly IProgressHandler		m_progressHandler;
+		readonly object					m_context;
+		readonly IDisposable			m_lockFile;
+		readonly FileInfo				m_lockFileInfo;
+		readonly IEnumerator<IEntry>	m_stubEnumerator;
 		#endregion
 	}
 }

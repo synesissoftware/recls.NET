@@ -20,7 +20,7 @@ namespace FindCertainSmallExecutablesAndReportInaccessibilities
 				SearchOptions.IncludeHidden,			// include hidden files/directories
 				3,										// descend at most 3 directories
 				null,									// don't require progress
-				delegate(string path, Exception x)
+				delegate(object context, string path, Exception x)
 				{
 					// report on any entries that could not be enumerated, but ...
 					Console.Error.WriteLine("could not enumerate {0}: {1}", path, x.Message);

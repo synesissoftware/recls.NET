@@ -2,6 +2,7 @@
 namespace StatAFile
 {
 	using Recls;
+	using IEntry2 = global::Recls.IEntry2_1;
 
 	using System;
 	using System.Linq;
@@ -29,6 +30,7 @@ namespace StatAFile
 			// 4. Get an entry representing a given path.
 
 			IEntry entry = FileSearcher.Stat(path);
+            IEntry2 entry2 = entry as IEntry2;
 
 			if(null == entry)
 			{
@@ -54,6 +56,7 @@ namespace StatAFile
 				Console.WriteLine("{0,20}:\t{1}", "Attributes", entry.Attributes);
 				Console.WriteLine("{0,20}:\t{1}", "IsReadOnly", entry.IsReadOnly);
 				Console.WriteLine("{0,20}:\t{1}", "IsDirectory", entry.IsDirectory);
+				Console.WriteLine("{0,20}:\t{1}", "IsFile", entry2.IsFile);
 				Console.WriteLine("{0,20}:\t{1}", "IsUnc", entry.IsUnc);
 				Console.WriteLine("{0,20}:\t[{1}]", "DirectoryParts", String.Join(", ", entry.DirectoryParts.ToArray()));
 			}

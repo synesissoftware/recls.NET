@@ -3,7 +3,7 @@
  * File:        FileSearcher.cs
  *
  * Created:     30th June 2009
- * Updated:     20th June 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -239,7 +239,7 @@ namespace Recls
 				exceptionHandler = Util.ValidateExceptionHandler(exceptionHandler, options);
 				progressHandler = Util.ValidateProgressHandler(progressHandler, options);
 
-				return new DepthFirstFileSearcher(directory, patterns, options, depth, exceptionHandler, progressHandler);
+				return new DepthFirstFileSearcher(directory, patterns, options, depth, exceptionHandler, progressHandler, null);
 			}
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>
@@ -423,7 +423,7 @@ namespace Recls
 				exceptionHandler = Util.ValidateExceptionHandler(exceptionHandler, options);
 				progressHandler = Util.ValidateProgressHandler(progressHandler, options);
 
-				return new BreadthFirstFileSearcher(directory, patterns, options, depth, exceptionHandler, progressHandler);
+				return new BreadthFirstFileSearcher(directory, patterns, options, depth, exceptionHandler, progressHandler, null);
 			}
 			/// <summary>
 			///  Returns an enumerable collection of <see cref="IEntry"/>

@@ -3,7 +3,7 @@
  * File:        Internal/Util.cs
  *
  * Created:     5th June 2009
- * Updated:     20th June 2017
+ * Updated:     19th November 2017
  *
  * Home:        http://recls.net/
  *
@@ -47,7 +47,7 @@ namespace Recls.Internal
 	using System;
 	using System.Collections.Generic;
 	using System.Diagnostics;
-	//using System.IO;
+	using System.IO;
 	using System.Text;
 
 	using DirectoryInfo = System.IO.DirectoryInfo;
@@ -117,7 +117,102 @@ namespace Recls.Internal
 	// - path functions
 	internal static class Util
 	{
+		#region types
+
+		internal sealed class LockFile
+			: IDisposable
+		{
+			internal LockFile(string directory, out FileInfo lockFilePath)
+			{
+				string fileName = String.Format(@"reclssrch.{0}.lockfile", Guid.NewGuid().ToString().Replace('{', '_').Replace('}', '_'));
+
+				string path = Path.Combine(directory, fileName);
+
+				m_lockFilePath = Path.GetFullPath(path);
+
+				m_lockFile = new FileStream(m_lockFilePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1, FileOptions.DeleteOnClose);
+
+				File.SetAttributes(m_lockFilePath, FileAttributes.Hidden);
+
+				lockFilePath = new FileInfo(m_lockFilePath);
+			}
+
+			void IDisposable.Dispose()
+			{
+				if (null != m_lockFile)
+				{
+					m_lockFile.Dispose();
+
+					try
+					{
+						File.Delete(m_lockFilePath);
+					}
+                    catch(OutOfMemoryException)
+                    {
+                        throw;
+                    }
+					catch(IOException)
+					{
+					}
+				}
+			}
+
+			public string LockFilePath
+			{
+				get
+				{
+					return m_lockFilePath;
+				}
+			}
+
+			readonly string			m_lockFilePath;
+			readonly IDisposable	m_lockFile;
+		}
+
+		internal sealed class StubDisposable
+			: IDisposable
+		{
+			void IDisposable.Dispose()
+			{
+			}
+		}
+
+		internal sealed class StubEnumerator
+				: IEnumerator<IEntry>
+		{
+			IEntry IEnumerator<IEntry>.Current
+			{
+				get
+				{
+					return null;
+				}
+			}
+
+			void IDisposable.Dispose()
+			{
+			}
+
+			object System.Collections.IEnumerator.Current
+			{
+				get
+				{
+					return null;
+				}
+			}
+
+			bool System.Collections.IEnumerator.MoveNext()
+			{
+				return false;
+			}
+
+			void System.Collections.IEnumerator.Reset()
+			{
+			}
+		}
+		#endregion
+
 		#region constants
+
 		internal static readonly char[] WildcardCharacters = { '?', '*' };
 		internal static readonly char[] PathNameSeparatorCharacters = PathNameSeparatorCharacters_;
 		internal static readonly bool IsPathComparisonCaseSensitive = IsPathComparisonCaseSensitive_;
@@ -136,10 +231,7 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return true;
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
@@ -152,7 +244,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return false;
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 
@@ -160,10 +251,7 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return "*";
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
@@ -176,7 +264,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return "*.*";
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 
@@ -184,15 +271,16 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return new char [] { '/', '\\' };
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
 					default:
+#if PSEUDO_UNIX
+						return new char[] { '/', '\\' };
+#else
 						return new char[] { '/' };
+#endif // PSEUDO_UNIX
 					case PlatformID.Win32NT:
 					case PlatformID.Win32S:
 					case PlatformID.Win32Windows:
@@ -200,7 +288,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return new char[] { '\\', '/' };
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 
@@ -208,10 +295,7 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return new char[] { '|', ':' };
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
@@ -224,7 +308,6 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return new char[] { '|', ';' };
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 
@@ -232,10 +315,7 @@ namespace Recls.Internal
 		{
 			get
 			{
-#if PSEUDO_UNIX
-				return true;
-#else // PSEUDO_UNIX
-				switch(Environment.OSVersion.Platform)
+				switch(Api.DeducedOperatingSystem.Platform)
 				{
 					case PlatformID.Unix:
 					case PlatformID.MacOSX:
@@ -248,15 +328,42 @@ namespace Recls.Internal
 					case PlatformID.Xbox:
 						return true;
 				}
-#endif // PSEUDO_UNIX
 			}
 		}
 		#endregion
 
 		#region search validation operations
+
 		internal static bool consume_options_(SearchOptions options)
 		{
 			return 0 == options;
+		}
+
+		private static bool MatchesLockFile(FileSystemInfo candidateInfo, FileInfo lockFileInfo)
+		{
+			if (null == lockFileInfo)
+			{
+				return false;
+			}
+
+			FileInfo candidateFileInfo = candidateInfo as FileInfo;
+
+			if (null == candidateFileInfo)
+			{
+				return false;
+			}
+
+			if (candidateFileInfo == lockFileInfo)
+			{
+				return true;
+			}
+
+			if (candidateFileInfo.FullName.Length != lockFileInfo.FullName.Length)
+			{
+				return false;
+			}
+
+			return 0 == String.Compare(candidateFileInfo.FullName, lockFileInfo.FullName, Util.StringComparison);
 		}
 
 		private static bool EntryMatchesOptions(FileSystemInfo info, SearchOptions options)
@@ -388,7 +495,8 @@ namespace Recls.Internal
 		#endregion
 
 		#region search operations
-		internal static FileSystemInfo[] GetEntriesByPatterns(IExceptionHandler exceptionHandler, DirectoryInfo di, Patterns patterns, SearchOptions options)
+
+		internal static FileSystemInfo[] GetEntriesByPatterns(object context, IExceptionHandler exceptionHandler, DirectoryInfo di, Patterns patterns, SearchOptions options, FileInfo lockFileInfo)
 		{
 			Debug.Assert(null != exceptionHandler);
 			Debug.Assert(null != patterns);
@@ -405,7 +513,7 @@ namespace Recls.Internal
 			}
 			catch(Exception x)
 			{
-				if(ExceptionHandlerResult.ConsumeExceptionAndContinue == exceptionHandler.OnException(di.FullName, x))
+				if(ExceptionHandlerResult.ConsumeExceptionAndContinue == exceptionHandler.OnException(context, di.FullName, x))
 				{
 					return new FileSystemInfo[0];
 				}
@@ -419,6 +527,11 @@ namespace Recls.Internal
 
 			foreach(FileSystemInfo fi in entries)
 			{
+				if (MatchesLockFile(fi, lockFileInfo))
+				{
+					continue;
+				}
+
 				if(EntryMatchesOptions(fi, options))
 				{
 					if(patterns.MatchPath(fi.Name))
@@ -431,7 +544,7 @@ namespace Recls.Internal
 			return newEntries.ToArray();
 		}
 
-		internal static DirectoryInfo[] GetSubdirectories(IExceptionHandler exceptionHandler, DirectoryInfo di, SearchOptions options)
+		internal static DirectoryInfo[] GetSubdirectories(object context, IExceptionHandler exceptionHandler, DirectoryInfo di, SearchOptions options)
 		{
 			Debug.Assert(null != exceptionHandler);
 
@@ -449,7 +562,7 @@ namespace Recls.Internal
 			}
 			catch(Exception x)
 			{
-				if(ExceptionHandlerResult.ConsumeExceptionAndContinue == exceptionHandler.OnException(di.FullName, x))
+				if(ExceptionHandlerResult.ConsumeExceptionAndContinue == exceptionHandler.OnException(context, di.FullName, x))
 				{
 					return new DirectoryInfo[0];
 				}
@@ -474,6 +587,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region path elicitation operations
+
 		// <summary>
 		//	Evaluates the UNC drive part of a given path.
 		// </summary>
@@ -606,6 +720,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region path manipulation operations
+
 		// <summary>
 		//	Doesn't correct "\\server\share", without fixing a directory
 		//	
@@ -933,6 +1048,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region path test functions
+
 		private static bool IsLatinLetter(char ch)
 		{
 			switch(ch)
@@ -1063,6 +1179,70 @@ namespace Recls.Internal
 		#endregion
 
 		#region stat operations
+
+        internal static IEntry Stat(string path, SearchOptions options)
+        {
+            SearchOptions validOptions 
+                =   0
+                |   SearchOptions.Directories
+                |   SearchOptions.Files
+                |   SearchOptions.StatInfoForNonexistentPath
+                |   SearchOptions.MarkDirectories
+                |   SearchOptions.DoNotTranslatePathSeparators
+                ;
+
+            if(0 != (~validOptions & options))
+            {
+                Trace.WriteLine(String.Format("Stat(path='{0}', options={{{1}}}) - options contains enumerators other than {{{2}}}", path, options, validOptions));
+            }
+
+            IEntry e = Stat(path, true);
+
+            if(null == e)
+            {
+                if(0 != (SearchOptions.StatInfoForNonexistentPath & options))
+                {
+				    string directory = GetDirectoryPath(path);
+
+                    if(Util.HasDirEnd(path))
+                    {
+                        goto do_directory;
+                    }
+                    else
+                    {
+                        switch(options & (SearchOptions.Directories | SearchOptions.Files))
+                        {
+                        case SearchOptions.Directories:
+
+                            goto do_directory;
+
+                        case SearchOptions.Files:
+					        FileInfo fi = new FileInfo(path);
+
+					        return new FileEntry(fi, directory, SearchOptions.None, null);
+
+                        case 0:
+                            Trace.Write(String.Format("Warning: Recls.Stat(string , SearchOptions ) invoked with SearchOptions.StatInfoForNonexistentPath but with neither SearchOptions.Directories nor SearchOptions.Files\n"));
+                            break;
+
+                        case SearchOptions.Directories | SearchOptions.Files:
+                            Trace.Write(String.Format("Warning: Recls.Stat(string , SearchOptions ) invoked with SearchOptions.StatInfoForNonexistentPath and with both SearchOptions.Directories and SearchOptions.Files\n"));
+                            break;
+                        }
+                    }
+
+                    return null;
+
+do_directory:
+					DirectoryInfo di = new DirectoryInfo(path);
+
+    				return new DirectoryEntry(di, directory, SearchOptions.Directories | (SearchOptions.MarkDirectories & options), null);
+                }
+            }
+
+            return e;
+        }
+
 		internal static IEntry Stat(string path, bool verifiesThatItExists)
 		{
 			try
@@ -1113,15 +1293,19 @@ namespace Recls.Internal
 				{
 					DirectoryInfo info = new DirectoryInfo(path);
 
-					return new DirectoryEntry(info, directory, SearchOptions.None);
+					return new DirectoryEntry(info, directory, SearchOptions.None, null);
 				}
 				else
 				{
 					FileInfo info = new FileInfo(path);
 
-					return new FileEntry(info, directory, SearchOptions.None);
+					return new FileEntry(info, directory, SearchOptions.None, null);
 				}
 			}
+            catch(OutOfMemoryException)
+            {
+                throw;
+            }
 			catch(DirectoryNotFoundException)
 			{
 				return null;
@@ -1146,18 +1330,15 @@ namespace Recls.Internal
 				// 2. Use reflection to look into the protected HResult
 				//	property, to see if it is 0x80070035
 
-				// 1.
-				System.ComponentModel.Win32Exception w32x = new System.ComponentModel.Win32Exception(unchecked((int)0x80070035));
+                int hresult = ExceptionUtil.HResultFromException(x);
 
-				string m1 = w32x.Message.Trim().Trim('.');
-				string m2 = x.Message.Trim().Trim('.');
-
-				if(0 == String.CompareOrdinal(m1, m2))
-				{
-					return null;
-				}
-
-				throw;
+                switch(unchecked((uint)hresult))
+                {
+                case 0x80070035: // ERROR_BAD_NETPATH
+                    return null;
+                default:
+                    throw;
+                }
 			}
 		}
 
@@ -1292,9 +1473,53 @@ namespace Recls.Internal
 			return path;
 		}
 #endif // PSEUDO_UNIX
-
 		#endregion
-	}
+
+		#region file & directory operations
+
+		internal static void CheckDirectoryExistsOrThrow(string directory, SearchOptions options, out IEnumerator<IEntry> stubEnumerator, out IDisposable lockFile, out FileInfo lockFileInfo)
+		{
+			if (!Directory.Exists(directory))
+			{
+				if (0 == (SearchOptions.TreatMissingDirectoryAsEmpty & options))
+				{
+					throw new DirectoryNotFoundException(String.Format("given directory '{0}' does not exist", directory));
+				}
+
+				stubEnumerator	=	new StubEnumerator();
+				lockFile		=	null;
+				lockFileInfo	=	null;
+			}
+			else
+			{
+				stubEnumerator	=	null;
+				lockFile		=	Util.CreateLockFile(directory, options, out lockFileInfo);
+			}
+		}
+
+		internal static IDisposable CreateLockFile(string directory, SearchOptions options, out FileInfo lockFileInfo)
+		{
+			if (0 == (SearchOptions.DoNotLockDirectory & options))
+			{
+				try
+				{
+					return new LockFile(directory, out lockFileInfo);
+				}
+                catch(OutOfMemoryException)
+                {
+                    throw;
+                }
+				catch(IOException)
+				{
+				}
+			}
+
+			lockFileInfo = null;
+
+			return new StubDisposable();
+		}
+		#endregion
+    }
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

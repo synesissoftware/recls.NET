@@ -3,7 +3,7 @@
  * File:        Internal/DirectoryEntry.cs
  *
  * Created:     5th June 2009
- * Updated:     20th June 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -48,8 +48,8 @@ namespace Recls.Internal
 		: Entry
 	{
 		#region construction
-		internal DirectoryEntry(DirectoryInfo info, string searchRoot, SearchOptions options)
-			: base(info, searchRoot, options)
+		internal DirectoryEntry(DirectoryInfo info, string searchRoot, SearchOptions options, object context)
+			: base(info, searchRoot, options, context)
 		{
 			if(0 != (options & SearchOptions.MarkDirectories))
 			{
@@ -88,6 +88,7 @@ namespace Recls.Internal
 		#endregion
 
 		#region fields
+
 		private readonly string m_path;
 		#endregion
 	}

@@ -12,15 +12,18 @@ namespace Recls.SearchControls
 	public partial class PatternsEditorForm
 		: Form
 	{
-		#region Fields
+		#region fields
+
 		private ListViewItem m_newEditedItem;
 		#endregion
 
-		#region Properties
+		#region properties
+
 		public string Patterns { get; private set; }
 		#endregion
 
-		#region Construction
+		#region construction
+
 		public PatternsEditorForm(string patterns)
 		{
 			InitializeComponent();
@@ -29,7 +32,8 @@ namespace Recls.SearchControls
 		}
 		#endregion
 
-		#region Implementation
+		#region implementation
+
 		ListViewItem GetOnlySelectedItem()
 		{
 			if(1 == lvwPatterns.SelectedItems.Count)
@@ -101,7 +105,8 @@ namespace Recls.SearchControls
 		delegate void RemoveDelegate(ListView listview, int index);
 		#endregion
 
-		#region Event Handlers
+		#region event handlers
+
 		private void PatternsEditorForm_Load(object sender, EventArgs e)
 		{
 			AcceptButton = btnOK;

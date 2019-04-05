@@ -1,10 +1,11 @@
 ﻿
 // Created: 20th August 2009
-// Updated: 20th June 2017
+// Updated: 19th November 2017
 
 namespace Test.Component.FileSearcher
 {
 	using global::Recls;
+    using IEntry2 = global::Recls.IEntry2_1;
 
 #if NUNIT
 	using Assert = global::NUnit.Framework.Assert;
@@ -87,7 +88,9 @@ namespace Test.Component.FileSearcher
 			foreach(KeyValuePair<string, IEntry> pair in m_directories)
 			{
 				IEntry entry = pair.Value;
+				IEntry2 entry2 = entry as IEntry2;
 				IEntry markedEntry = m_markedDirectories[entry.Path + "\\"];
+                IEntry2 markedEntry2 = markedEntry as IEntry2;
 
 				Assert.AreEqual(entry.SearchRelativePath + "\\", markedEntry.SearchRelativePath);
 				Assert.AreEqual(entry.Drive, markedEntry.Drive);
@@ -103,6 +106,7 @@ namespace Test.Component.FileSearcher
 				Assert.AreEqual(entry.Attributes, markedEntry.Attributes);
 				Assert.AreEqual(entry.IsReadOnly, markedEntry.IsReadOnly);
 				Assert.AreEqual(entry.IsDirectory, markedEntry.IsDirectory);
+				Assert.AreEqual(entry2.IsFile, markedEntry2.IsFile);
 				Assert.AreEqual(entry.IsUnc, markedEntry.IsUnc);
 				Assert.AreEqual(entry.DirectoryParts.Count, markedEntry.DirectoryParts.Count);
 				for(int i = 0; i != entry.DirectoryParts.Count; ++i)
@@ -111,6 +115,7 @@ namespace Test.Component.FileSearcher
 				}
 				Assert.AreEqual(0, markedEntry.Size);
 				Assert.IsTrue(markedEntry.IsDirectory);
+				Assert.IsFalse(markedEntry2.IsFile);
 
 				Assert.AreEqual(entry.IsDirectory, 0 != (entry.Attributes & System.IO.FileAttributes.Directory));
 

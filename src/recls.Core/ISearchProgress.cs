@@ -3,7 +3,7 @@
  * File:        ISearchProgress.cs
  *
  * Created:     8th September 2009
- * Updated:     20th June 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -55,6 +55,11 @@ namespace Recls
 		/// <param name="depth">
 		///  The search depth corresponding to the directory.
 		/// </param>
+		/// <param name="context">
+		///  Caller-supplied context value, that will be accessible on
+		///  every search entry via the
+		///  <see cref="Recls.IEntry.Context"/> property.
+		/// </param>
 		/// <returns>
 		///  A <see cref="Recls.ProgressHandlerResult">value</see> that
 		///  determines how the search should proceed. Return
@@ -66,7 +71,7 @@ namespace Recls
 		///  <b><see cref="ProgressHandlerResult.CancelSearch"/></b>
 		///  to cancel the search.
 		/// </returns>
-		ProgressHandlerResult OnProgress(string directory, int depth);
+		ProgressHandlerResult OnProgress(object context, string directory, int depth);
 	}
 }
 

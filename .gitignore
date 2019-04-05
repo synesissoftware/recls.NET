@@ -1,6 +1,8 @@
 
 # directories (by name)
 
+.git-/
+
 _build/
 
 _internal/
@@ -22,11 +24,18 @@ test/scratch/test.scratch.recls.ruby.stat/
 
 # directories (by pattern)
 
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
 # files (by name)
+
+project.lock.json
+project.assets.json
 
 recls.100.net.nant.build
 recls.100.sln
 recls.NET.proj
+
 test/test.component.recls.nunit
 test/test.unit.recls.nunit
 
@@ -34,9 +43,14 @@ test/test.unit.recls.nunit
 
 *~
 *.*~
+*.nupkg
 *.scc
 *.suo
 *.swp
+*.zip
+
+*.nuget.props
+*.nuget.targets
 
 *.csproj.user
 *.vcproj.user

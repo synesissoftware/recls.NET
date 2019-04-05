@@ -3,7 +3,7 @@
  * File:        IEntry.cs
  *
  * Created:     5th June 2009
- * Updated:     20th June 2017
+ * Updated:     24th September 2017
  *
  * Home:        http://recls.net/
  *
@@ -306,7 +306,42 @@ namespace Recls
 		///  <c>\</c>, <c>Windows\</c> and <c>System32\</c>
 		/// </remarks>
 		IDirectoryPartsCollection DirectoryParts { get; }
+
+		/// <summary>
+		///  Context object passed to initiate the search; <c>null</c>
+		///  otherwise
+		/// </summary>
+		object Context
+		{
+			get;
+		}
 	}
+
+    /// <summary>
+    ///  Extended interface
+    /// </summary>
+    /// <remarks>
+    ///  This interface is introduced with Recls 2.1, and its elements will
+    ///  be introduced into <see cref="Recls.IEntry"/> in version 3
+    /// </remarks>
+    public interface IEntry2_1
+    {
+		/// <summary>
+		///  Indicates whether the entry is a file.
+		/// </summary>
+		/// <value>
+		///  <b>true</b> if the entry is a file; <b>false</b>
+		///  otherwise.
+		/// </value>
+        bool IsFile { get; }
+
+        /// <summary>
+        ///  Indicates whether the represented file-system entry existed at
+        ///  the time the object was created
+        /// </summary>
+        /// <seealso cref="Recls.Api.Stat(System.String, Recls.SearchOptions)"/>
+        bool Existed { get; }
+    }
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

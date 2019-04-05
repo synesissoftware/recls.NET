@@ -3,7 +3,7 @@
  * File:        Internal/FileEntry.cs
  *
  * Created:     5th June 2009
- * Updated:     20th June 2017
+ * Updated:     19th November 2017
  *
  * Home:        http://recls.net/
  *
@@ -46,15 +46,25 @@ namespace Recls.Internal
 		: Entry
 	{
 		#region construction
-		internal FileEntry(FileInfo info, string searchRoot, SearchOptions options)
-			: base(info, searchRoot, options)
+
+		internal FileEntry(FileInfo info, string searchRoot, SearchOptions options, object context)
+			: base(info, searchRoot, options, context)
 		{}
 		#endregion
 
 		#region IEntry members
+
 		public override long Size
 		{
-			get { return ((FileInfo)Info_).Length; }
+			get
+            {
+                if(!Existed)
+                {
+                    return 0;
+                }
+
+                return ((FileInfo)Info_).Length;
+            }
 		}
 
 		public override bool IsReadOnly
