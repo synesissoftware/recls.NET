@@ -1222,9 +1222,11 @@ namespace Recls.Internal
 					        return new FileEntry(fi, directory, SearchOptions.None, null);
 
                         case 0:
+                            Trace.Write(String.Format("Warning: Recls.Stat(string , SearchOptions ) invoked with SearchOptions.StatInfoForNonexistentPath but with neither SearchOptions.Directories nor SearchOptions.Files\n"));
                             break;
 
-                        default:
+                        case SearchOptions.Directories | SearchOptions.Files:
+                            Trace.Write(String.Format("Warning: Recls.Stat(string , SearchOptions ) invoked with SearchOptions.StatInfoForNonexistentPath and with both SearchOptions.Directories and SearchOptions.Files\n"));
                             break;
                         }
                     }
