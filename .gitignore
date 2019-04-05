@@ -43,8 +43,25 @@ test/test.unit.recls.nunit
 
 *~
 *.*~
+*.a
+*.app
+*.dll
+*.dylib
+*.exe
+*.gch
+*.la
+*.lai
+*.lib
+*.lo
+*.mod
 *.nupkg
+*.o
+*.obj
+*.out
+*.pch
 *.scc
+*.slo
+*.so
 *.suo
 *.swp
 *.zip
