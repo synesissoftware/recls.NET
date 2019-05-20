@@ -7,7 +7,7 @@ namespace InaccessibleDirectories.with.standard.search
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			test_multipart_patterns();
 

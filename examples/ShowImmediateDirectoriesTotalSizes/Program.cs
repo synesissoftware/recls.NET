@@ -8,7 +8,7 @@ namespace ShowImmediateDirectoriesTotalSizes
 
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			// 3. Display the names and sizes of all the immediate
 			// sub-directories of the current directory.

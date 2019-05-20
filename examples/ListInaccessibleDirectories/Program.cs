@@ -9,7 +9,7 @@ namespace ListInaccessibleDirectories
 
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			FileSearcher.Search(null, null,
 				SearchOptions.Directories | SearchOptions.IncludeHidden | SearchOptions.IncludeSystem,

@@ -8,19 +8,19 @@ namespace Test.Scratch.recls.Core
 
 	class Program
 	{
-		static int Main(string[] args)
+		static int Main(string[] argv)
 		{
 			try
 			{
-				if (2 != args.Length)
+				if (2 != argv.Length)
 				{
 					Console.Error.WriteLine("USAGE: {0} <directory> <patterns-separated-by-comma>", System.Diagnostics.Process.GetCurrentProcess().ProcessName);
 
 					return 1;
 				}
 
-				string directory	=	args[0];
-				string patterns		=	args[1];
+				string directory	=	argv[0];
+				string patterns		=	argv[1];
 
 				Console.Out.WriteLine("Searching in '{0}' for files matching pattern(s) '{1}'", directory, patterns);
 

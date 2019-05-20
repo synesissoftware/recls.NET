@@ -8,7 +8,7 @@ namespace FindWindowsFontFiles
 
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			// 1. List all font files in the windows directory or any of its subdirectories.
 

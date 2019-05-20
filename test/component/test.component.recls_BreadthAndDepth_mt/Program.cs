@@ -78,18 +78,18 @@ namespace test.component.recls_BreadthAndDepth_mt
 			info.Run();
 		}
 
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			string directory = null;
 			string patterns = null;
 			int depth = FileSearcher.UnrestrictedDepth;
 
-			switch(args.Length)
+			switch(argv.Length)
 			{
 				case 0:
 					break;
 				case 1:
-					directory = args[0];
+					directory = argv[0];
 					if(directory.IndexOfAny(new char[] { '?', '*', '|' }) >= 0)
 					{
 						patterns = directory;
@@ -97,13 +97,13 @@ namespace test.component.recls_BreadthAndDepth_mt
 					}
 					break;
 				case 2:
-					directory = args[0];
-					patterns = args[1];
+					directory = argv[0];
+					patterns = argv[1];
 					break;
 				case 3:
-					directory = args[0];
-					patterns = args[1];
-					depth = int.Parse(args[2]);
+					directory = argv[0];
+					patterns = argv[1];
+					depth = int.Parse(argv[2]);
 					break;
 				default:
 					Console.Error.WriteLine("USAGE: {0} [<directory>]", EnvironmentUtil.TryEvaluateProcessName(null));

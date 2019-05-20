@@ -10,7 +10,7 @@ namespace FindEmptyDirectories
 
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			SearchOptions all = SearchOptions.IncludeHidden | SearchOptions.IncludeSystem | SearchOptions.IgnoreInaccessibleNodes;
 

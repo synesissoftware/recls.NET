@@ -20,11 +20,11 @@ namespace DirectoryEntryCountFrequencyAnalyser
 			Environment.Exit(exitCode);
 		}
 
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			string directory = null;
 
-			foreach(string arg in args)
+			foreach(string arg in argv)
 			{
 				if(0 != arg.Length && '-' == arg[0])
 				{

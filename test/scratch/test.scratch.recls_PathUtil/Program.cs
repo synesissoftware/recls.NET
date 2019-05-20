@@ -7,7 +7,7 @@
 
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			Console.WriteLine("PathUtil scratch test {0}{0}", Environment.NewLine);
 

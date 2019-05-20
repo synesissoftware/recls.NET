@@ -7,7 +7,7 @@ namespace FindCertainSmallExecutablesAndReportInaccessibilities
 
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			// 2. Search for all writeable program and DLL files (including hidden)
 			// smaller than 10k in the current directory and all

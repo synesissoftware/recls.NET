@@ -10,20 +10,20 @@ namespace StatAFile
 
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main(string[] argv)
 		{
 			string path = Assembly.GetEntryAssembly().Location;
 
-			if(0 != args.Length)
+			if(0 != argv.Length)
 			{
-				if("--help" == args[0])
+				if("--help" == argv[0])
 				{
 					Console.Out.WriteLine("USAGE: StatAFile [<path>]");
 					Environment.Exit(0);
 				}
 				else
 				{
-					path = args[0];
+					path = argv[0];
 				}
 			}
 
