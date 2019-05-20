@@ -58,20 +58,26 @@ test/test.unit.recls.nunit
 *.o
 *.obj
 *.out
+*.opensdf
+*.org
 *.pch
+*.pkg
+*.proj
 *.scc
+*.sdf
 *.slo
 *.so
 *.suo
 *.swp
+*.tmp
 *.zip
 
 *.nuget.props
 *.nuget.targets
 
-*.csproj.user
-*.vcproj.user
-*.vcxproj.user
+*.csproj*.user
+*.vcproj*.user
+*.vcxproj*.user
 TestResult*.xml
 UpgradeLog*.XML
 
