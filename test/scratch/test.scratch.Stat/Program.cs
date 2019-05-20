@@ -11,7 +11,7 @@ namespace ConsoleApplication1
 
 	class Program
 	{
-		static void Main(string[] argv)
+		static void Main(string[] args)
 		{
 			try
 			{

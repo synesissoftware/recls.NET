@@ -1,19 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "recls.Core", "src\recls.Core\recls.Core.csproj", "{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{6B02CDF2-808A-4AF5-BC4A-BD8DF72576B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.recls.Core", "test\unit\Test.Unit.recls.Core\Test.Unit.recls.Core.csproj", "{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13} = {D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{9FB35102-162D-4D8A-BDC1-52723B40479A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F9D291F-3DBD-4906-AA36-7A1DD8F30DB4}"
 	ProjectSection(SolutionItems) = preProject
+		CHANGES.md = CHANGES.md
 		Local.testsettings = Local.testsettings
 		recls.NET.vsmdi = recls.NET.vsmdi
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B414A3A2-8CF0-4175-BE90-580B225CFEA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DC4642E2-030E-4F21-9565-76D3E3F25C99}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "component", "component", "{9A833437-6840-4222-AA7E-71B928B62D7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scratch", "scratch", "{FDBA6FA5-2D72-4DCE-9E52-CCB3D5237FE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{A36748DE-827E-4B64-B9C5-052A472F66D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryEntryCountFrequencyAnalyser", "examples\DirectoryEntryCountFrequencyAnalyser\DirectoryEntryCountFrequencyAnalyser.csproj", "{58CBAA1C-5F1A-4CB7-8371-D949335FAA2B}"
 EndProject
@@ -35,21 +43,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListInaccessibleDirectories
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowImmediateDirectoriesTotalSizes", "examples\ShowImmediateDirectoriesTotalSizes\ShowImmediateDirectoriesTotalSizes.csproj", "{CF42F631-46CC-43B0-8B0F-A6329BA2352D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSearchApplication", "examples\SimpleSearchApplication\SimpleSearchApplication.csproj", "{9DD6CF57-03BB-49B9-90C7-8A279083200E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatAFile", "examples\StatAFile\StatAFile.csproj", "{C07D9DE6-8768-4730-A033-8CFEA5035D1E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{6B02CDF2-808A-4AF5-BC4A-BD8DF72576B0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libraries", "libraries", "{9FB35102-162D-4D8A-BDC1-52723B40479A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DC4642E2-030E-4F21-9565-76D3E3F25C99}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "component", "component", "{9A833437-6840-4222-AA7E-71B928B62D7A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scratch", "scratch", "{FDBA6FA5-2D72-4DCE-9E52-CCB3D5237FE7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{A36748DE-827E-4B64-B9C5-052A472F66D8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSearchApplication", "examples\SimpleSearchApplication\SimpleSearchApplication.csproj", "{9DD6CF57-03BB-49B9-90C7-8A279083200E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "recls.Core", "src\recls.Core\recls.Core.csproj", "{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "recls.SearchControls", "src\recls.SearchControls\recls.SearchControls.csproj", "{02B4349E-F69E-48F3-A673-707DDF986AF4}"
 EndProject
@@ -57,13 +55,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Component.FileSearcher
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Component.SearchingInNonexistentDirectory", "test\component\Test.Component.SearchingInNonexistentDirectory\Test.Component.SearchingInNonexistentDirectory.csproj", "{5C38ACA6-ADE9-41E7-A6FB-24B5D8C57C18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.recls.Core.Api", "test\unit\Test.Unit.recls.Core.Api\Test.Unit.recls.Core.Api.csproj", "{50E12AF2-5789-402B-B8C0-B0AA95A675F0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Scratch.recls.Core", "test\scratch\Test.Scratch.recls.Core\Test.Scratch.recls.Core.csproj", "{3F1F2A5B-AA57-4ED7-BD89-C1B33CDB5D92}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{B414A3A2-8CF0-4175-BE90-580B225CFEA3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test.scratch.Stat", "test\scratch\test.scratch.Stat\test.scratch.Stat.csproj", "{C5CF7094-D2A8-4175-B146-7E64298D063B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.recls.Core", "test\unit\Test.Unit.recls.Core\Test.Unit.recls.Core.csproj", "{59EBEBF5-20DB-40D7-9EE9-86BC5B671C7D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13} = {D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.recls.Core.Api", "test\unit\Test.Unit.recls.Core.Api\Test.Unit.recls.Core.Api.csproj", "{50E12AF2-5789-402B-B8C0-B0AA95A675F0}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

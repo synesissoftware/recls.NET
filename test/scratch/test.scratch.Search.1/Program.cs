@@ -12,11 +12,11 @@
 
 	class Program
 	{
-		static void Main(string[] argv)
+		static void Main(string[] args)
 		{
 			try
 			{
-				Main_(argv);
+				Main_(args);
 			}
 			catch (Exception x)
 			{
@@ -26,7 +26,7 @@
 			}
 		}
 
-		private static void Main_(string[] argv)
+		private static void Main_(string[] args)
 		{
 			try
 			{

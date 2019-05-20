@@ -145,7 +145,7 @@ namespace Recls
 		/// <example>
 		///  <code>
 		///   IEntry entry = FileSearch.Stat(@"\\myserver\myshare\dir1");
-		///   
+		///
 		///   Debug.Assert(@"\\myserver\myshare\" == entry.UncDrive);
 		///  </code>
 		/// </example>
@@ -341,6 +341,28 @@ namespace Recls
 		/// </summary>
 		/// <seealso cref="Recls.Api.Stat(System.String, Recls.SearchOptions)"/>
 		bool Existed { get; }
+	}
+
+	/// <summary>
+	///  Extended interface
+	/// </summary>
+	/// <remarks>
+	///  This interface is introduced with Recls 2.2, and its elements will
+	///  be introduced into <see cref="Recls.IEntry"/> in version 3
+	/// </remarks>
+	public interface IEntry2_2
+	{
+		/// <summary>
+		///  A mutable dictionary of application-defined elements.
+		/// </summary>
+		/// <value>
+		///  The dictionary. Will not be <c>null</c>
+		/// </value>
+		/// <remarks>
+		///  The method <b>Clear()</b> is not to be used - it is ignored, and
+		///  may result in a thrown exception in future versions
+		/// </remarks>
+		IDictionary<string, object> Extras { get; }
 	}
 }
 

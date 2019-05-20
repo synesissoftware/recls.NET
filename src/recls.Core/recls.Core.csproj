@@ -64,6 +64,7 @@
     <Compile Include="ExceptionHandlerResult.cs" />
     <Compile Include="Exceptions\IllformedUncPathException.cs" />
     <Compile Include="Exceptions\ReclsException.cs" />
+    <Compile Include="Extensions\EntryExtensions.cs" />
     <Compile Include="FileSearcher.cs" />
     <Compile Include="IDirectoryPartsCollection.cs" />
     <Compile Include="IEntry.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Internal\IDirectorySearchNode.cs" />
     <Compile Include="Internal\Patterns.cs" />
     <Compile Include="Internal\StockHandlers.cs" />
+    <Compile Include="Internal\UnclearableDictionary.cs" />
     <Compile Include="Internal\Util.cs" />
     <Compile Include="ISearchProgress.cs" />
     <Compile Include="NamespaceDoc.cs" />

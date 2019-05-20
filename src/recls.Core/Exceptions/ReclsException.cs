@@ -3,11 +3,11 @@
  * File:        Exceptions/ReclsException.cs
  *
  * Created:     4th August 2009
- * Updated:     20th June 2017
+ * Updated:     6th May 2019
  *
  * Home:        http://recls.net/
  *
- * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 2009-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,8 @@ namespace Recls.Exceptions
 		///  Constructs an instance.
 		/// </summary>
 		public ReclsException()
-		{ }
+		{
+		}
 
 		/// <summary>
 		///  Constructs an instance from the given
@@ -68,7 +69,8 @@ namespace Recls.Exceptions
 		/// </param>
 		public ReclsException(string message)
 			: base(message)
-		{ }
+		{
+		}
 
 		/// <summary>
 		///  Constructs an instance of the exception from the given
@@ -83,7 +85,8 @@ namespace Recls.Exceptions
 		/// </param>
 		public ReclsException(string message, Exception innerException)
 			: base(message, innerException)
-		{ }
+		{
+		}
 
 		/// <summary>
 		///  Initializes a new instance of the exception with serialized
@@ -97,7 +100,8 @@ namespace Recls.Exceptions
 		/// </param>
 		protected ReclsException(SerializationInfo info, StreamingContext context)
 			: base(info, context)
-		{ }
+		{
+		}
 		#endregion
 	}
 }

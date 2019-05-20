@@ -50,6 +50,7 @@ namespace Recls.Internal
 	internal abstract class Entry
 		: IEntry
 		, IEntry2_1
+		, IEntry2_2
 	{
 		#region construction
 
@@ -108,6 +109,8 @@ namespace Recls.Internal
 			m_directoryParts = null;
 
 			m_context = context;
+
+			m_extras = new Internal.UnclearableDictionary<string,object>();
 		}
 		#endregion
 
@@ -320,6 +323,17 @@ namespace Recls.Internal
 		}
 		#endregion
 
+		#region IEntry2_2 members
+
+		public IDictionary<string, object> Extras
+		{
+			get
+			{
+				return m_extras;
+			}
+		}
+		#endregion
+
 		#region Object overrides
 
 		public override string ToString()
@@ -374,16 +388,17 @@ namespace Recls.Internal
 
 		#region fields
 
-		private readonly FileSystemInfo 	m_info;
-		//private readonly SearchOptions	m_options;
-		private readonly string 			m_searchRoot;
-		private readonly string 			m_fullPath;
-		private readonly int				m_lengthOfDrive;
-		private readonly int				m_endOfDirectory;
-		private readonly int				m_endOfFileName;
-		private int 						m_partsSpin;
-		private IDirectoryPartsCollection	m_directoryParts;
-		private readonly object             m_context;
+		private readonly FileSystemInfo 				m_info;
+		//private readonly SearchOptions				m_options;
+		private readonly string 						m_searchRoot;
+		private readonly string 						m_fullPath;
+		private readonly int							m_lengthOfDrive;
+		private readonly int							m_endOfDirectory;
+		private readonly int							m_endOfFileName;
+		private int 									m_partsSpin;
+		private IDirectoryPartsCollection				m_directoryParts;
+		private readonly object							m_context;
+		private readonly IDictionary<string, object>	m_extras;
 		#endregion
 	}
 }

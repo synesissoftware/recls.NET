@@ -36,6 +36,38 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Pantheios.NET.Core, Version=0.9.1046.2, Culture=neutral, PublicKeyToken=10fae791631c5716, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Pantheios.NET.0.9.1046.2\lib\net40\Pantheios.NET.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pantheios.NET.Interfaces, Version=0.7.1014.0, Culture=neutral, PublicKeyToken=10fae791631c5716, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Pantheios.NET.0.9.1046.2\lib\net40\Pantheios.NET.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Pantheios.NET.Services.Stock, Version=0.9.1044.0, Culture=neutral, PublicKeyToken=10fae791631c5716, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Pantheios.NET.0.9.1046.2\lib\net40\Pantheios.NET.Services.Stock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SynesisSoftware.Pantheios.NET.Extensions.Common, Version=0.7.1011.0, Culture=neutral, PublicKeyToken=10fae791631c5716, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SynesisSoftware.Pantheios.NET.Extensions.0.9.1046.2\lib\net40\SynesisSoftware.Pantheios.NET.Extensions.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SynesisSoftware.Pantheios.NET.Filters, Version=0.7.1008.0, Culture=neutral, PublicKeyToken=10fae791631c5716, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SynesisSoftware.Pantheios.NET.Extensions.0.9.1046.2\lib\net40\SynesisSoftware.Pantheios.NET.Filters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SynesisSoftware.Pantheios.NET.Inserters, Version=0.7.1010.1, Culture=neutral, PublicKeyToken=10fae791631c5716, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SynesisSoftware.Pantheios.NET.Extensions.0.9.1046.2\lib\net40\SynesisSoftware.Pantheios.NET.Inserters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SynesisSoftware.Pantheios.NET.Scopes, Version=0.7.1010.0, Culture=neutral, PublicKeyToken=10fae791631c5716, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SynesisSoftware.Pantheios.NET.Extensions.0.9.1046.2\lib\net40\SynesisSoftware.Pantheios.NET.Scopes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SynesisSoftware.Pantheios.NET.Services, Version=0.9.1045.1, Culture=neutral, PublicKeyToken=10fae791631c5716, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SynesisSoftware.Pantheios.NET.Extensions.0.9.1046.2\lib\net40\SynesisSoftware.Pantheios.NET.Services.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -76,6 +108,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -90,26 +123,6 @@
     <ProjectReference Include="..\..\..\..\SynSoft\dotNET\4.0\trunk\src\SynSoft.NET.Collections\SynSoft.NET.Collections.csproj">
       <Project>{88A96B74-FFCC-4BA2-8C59-08803E98396E}</Project>
       <Name>SynSoft.NET.Collections</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\pantheios\pantheios.net\0.3\src\Pantheios.Core\Pantheios.Core.csproj">
-      <Project>{71AE64C6-9EA0-4F86-A4FC-BBD5582EFD03}</Project>
-      <Name>Pantheios.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\pantheios\pantheios.net\0.3\src\Pantheios.Interfaces\Pantheios.Interfaces.csproj">
-      <Project>{41E12039-35C6-44AD-9B20-F6E37B67CEC9}</Project>
-      <Name>Pantheios.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\pantheios\pantheios.net\0.3\src\SynesisSoftware.Pantheios.Extensions.Common\SynesisSoftware.Pantheios.Extensions.Common.csproj">
-      <Project>{FC561EB8-E063-4A04-B10F-1F2FF5726748}</Project>
-      <Name>SynesisSoftware.Pantheios.Extensions.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\pantheios\pantheios.net\0.3\src\SynesisSoftware.Pantheios.Inserters\SynesisSoftware.Pantheios.Inserters.csproj">
-      <Project>{73542FD4-2E8B-4B8B-AA3D-5CAD09976DBE}</Project>
-      <Name>SynesisSoftware.Pantheios.Inserters</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\pantheios\pantheios.net\0.3\src\SynesisSoftware.Pantheios.Scopes\SynesisSoftware.Pantheios.Scopes.csproj">
-      <Project>{FAB080A3-E3EC-47F2-8314-0584869A10E7}</Project>
-      <Name>SynesisSoftware.Pantheios.Scopes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\recls.Core\recls.Core.csproj">
       <Project>{D6759E7B-3B30-46F5-B3E9-9E40CBE6BA13}</Project>
