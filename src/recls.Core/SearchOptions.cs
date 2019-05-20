@@ -3,11 +3,11 @@
  * File:        SearchOptions.cs
  *
  * Created:     30th June 2009
- * Updated:     19th November 2017
+ * Updated:     20th May 2019
  *
  * Home:        http://recls.net/
  *
- * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 2009-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -140,14 +140,14 @@ namespace Recls
 		/// </remarks>
 		TreatMissingDirectoryAsEmpty    =   0x00800000,
 
-        /// <summary>
-        ///  .
-        /// </summary>
-        /// <remarks>
-        ///  <b>NOTE</b>: Only used by
-        ///  <see cref="Recls.Api.Stat(System.String, SearchOptions)"/>.
-        /// </remarks>
-        StatInfoForNonexistentPath      =   0x00080000,
+		/// <summary>
+		///  .
+		/// </summary>
+		/// <remarks>
+		///  <b>NOTE</b>: Only used by
+		///  <see cref="Recls.Api.Stat(System.String, SearchOptions)"/>.
+		/// </remarks>
+		StatInfoForNonexistentPath      =   0x00080000,
 	}
 }
 

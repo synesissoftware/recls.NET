@@ -201,10 +201,10 @@ namespace SimpleSearchApplication
 						info.Form.Invoke(info.HandleEntry, entry);
 					}
 				}
-                catch(OutOfMemoryException)
-                {
-                    throw;
-                }
+				catch(OutOfMemoryException)
+				{
+					throw;
+				}
 				catch(Exception x)
 				{
 					Api.Log(Severity.Critical, "search failed: ", Api.Insert.Exception(x));

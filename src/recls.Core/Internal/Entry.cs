@@ -3,11 +3,11 @@
  * File:        Internal/Entry.cs
  *
  * Created:     30th May 2009
- * Updated:     19th November 2017
+ * Updated:     20th May 2019
  *
  * Home:        http://recls.net/
  *
- * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 2009-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,7 @@ namespace Recls.Internal
 
 	internal abstract class Entry
 		: IEntry
-        , IEntry2_1
+		, IEntry2_1
 	{
 		#region construction
 
@@ -301,28 +301,28 @@ namespace Recls.Internal
 		}
 		#endregion
 
-        #region IEntry2_1 members
+		#region IEntry2_1 members
 
-        public bool IsFile
-        {
-            get
-            {
-                return !IsDirectory;
-            }
-        }
+		public bool IsFile
+		{
+			get
+			{
+				return !IsDirectory;
+			}
+		}
 
-        public bool Existed
-        {
-            get
-            {
-                return -1 != (int)Attributes;
-            }
-        }
-        #endregion
+		public bool Existed
+		{
+			get
+			{
+				return -1 != (int)Attributes;
+			}
+		}
+		#endregion
 
-        #region Object overrides
+		#region Object overrides
 
-        public override string ToString()
+		public override string ToString()
 		{
 			return Path;
 		}
@@ -385,7 +385,7 @@ namespace Recls.Internal
 		private IDirectoryPartsCollection	m_directoryParts;
 		private readonly object             m_context;
 		#endregion
-    }
+	}
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

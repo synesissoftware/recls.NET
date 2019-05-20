@@ -5,7 +5,7 @@
 namespace Test.Component.FileSearcher
 {
 	using global::Recls;
-    using IEntry2 = global::Recls.IEntry2_1;
+	using IEntry2 = global::Recls.IEntry2_1;
 
 #if NUNIT
 	using Assert = global::NUnit.Framework.Assert;
@@ -90,7 +90,7 @@ namespace Test.Component.FileSearcher
 				IEntry entry = pair.Value;
 				IEntry2 entry2 = entry as IEntry2;
 				IEntry markedEntry = m_markedDirectories[entry.Path + "\\"];
-                IEntry2 markedEntry2 = markedEntry as IEntry2;
+				IEntry2 markedEntry2 = markedEntry as IEntry2;
 
 				Assert.AreEqual(entry.SearchRelativePath + "\\", markedEntry.SearchRelativePath);
 				Assert.AreEqual(entry.Drive, markedEntry.Drive);

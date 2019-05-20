@@ -3,11 +3,11 @@
  * File:        Api.cs
  *
  * Created:     30th June 2009
- * Updated:     19th November 2017
+ * Updated:     20th May 2019
  *
  * Home:        http://recls.net/
  *
- * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 2009-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1001,7 +1001,7 @@ namespace Recls
 		/// </summary>
 		/// <param name="path">
 		///  The path of the entry to be evaluated. May not be <b>null</b>,
-        ///  or <b>empty</b> (or <b>whitespace</b>).
+		///  or <b>empty</b> (or <b>whitespace</b>).
 		/// </param>
 		/// <returns>
 		///  An instance of <see cref="IEntry"/> corresponding to the
@@ -1026,135 +1026,135 @@ namespace Recls
 			return Util.Stat(path, SearchOptions.None);
 		}
 
-        /// <summary>
+		/// <summary>
 		///  Returns an entry representing the given path, or <b>null</b>.
-        /// </summary>
-        /// <param name="path">
+		/// </summary>
+		/// <param name="path">
 		///  The path of the entry to be evaluated. May not be <b>null</b>,
-        ///  or <b>empty</b> (or <b>whitespace</b>).
-        /// </param>
-        /// <param name="options">
-        ///  The following enumerators from the
-        ///  <see cref="Recls.SearchOptions"/> enumeration are recognised:
-        ///  <list type="bullet">
-        ///   <item>
-        ///    <description>
-        ///     <see cref="Recls.SearchOptions.Directories"/>
-        ///    </description>
-        ///    <description>
-        ///     <see cref="Recls.SearchOptions.Files"/>
-        ///    </description>
-        ///    <description>
-        ///     <see cref="Recls.SearchOptions.StatInfoForNonexistentPath"/>
-        ///    </description>
-        ///    <description>
-        ///     <see cref="Recls.SearchOptions.MarkDirectories"/>
-        ///    </description>
-        ///    <description>
-        ///     <see cref="Recls.SearchOptions.DoNotTranslatePathSeparators"/>
-        ///    </description>
-        ///   </item>
-        ///  </list>
-        ///  <para>
-        ///   <b>NOTE</b>: other enumerator values are ignored, but their
-        ///   presence does result in a diagnostics trace warning.
-        ///  </para>
-        /// </param>
+		///  or <b>empty</b> (or <b>whitespace</b>).
+		/// </param>
+		/// <param name="options">
+		///  The following enumerators from the
+		///  <see cref="Recls.SearchOptions"/> enumeration are recognised:
+		///  <list type="bullet">
+		///   <item>
+		///    <description>
+		///     <see cref="Recls.SearchOptions.Directories"/>
+		///    </description>
+		///    <description>
+		///     <see cref="Recls.SearchOptions.Files"/>
+		///    </description>
+		///    <description>
+		///     <see cref="Recls.SearchOptions.StatInfoForNonexistentPath"/>
+		///    </description>
+		///    <description>
+		///     <see cref="Recls.SearchOptions.MarkDirectories"/>
+		///    </description>
+		///    <description>
+		///     <see cref="Recls.SearchOptions.DoNotTranslatePathSeparators"/>
+		///    </description>
+		///   </item>
+		///  </list>
+		///  <para>
+		///   <b>NOTE</b>: other enumerator values are ignored, but their
+		///   presence does result in a diagnostics trace warning.
+		///  </para>
+		/// </param>
 		/// <returns>
 		///  An instance of <see cref="IEntry"/> corresponding to the
 		///  file-system entry, or <b>null</b> if no such entry exists.
 		/// </returns>
-        ///
+		///
 		/// <remarks>
 		///  If no file-system entry exists, <b>null</b> is returned unless
-        ///  the parameter <paramref name="options"/>
-        ///  contains the enumerator
-        ///  <see cref="Recls.SearchOptions.StatInfoForNonexistentPath"/>,
-        ///  in which case a "non-existing" entry is returned, according to
-        ///  the following table:
-        ///  
-        ///  <list type="table">
-        ///   <listheader>
-        ///    <term>
-        ///     <paramref name="path"/> ends with path-name separator
-        ///    </term>
-        ///    <term>
-        ///     Additional
-        ///     <see cref="Recls.SearchOptions"/>
-        ///     enumerators in <paramref name="options"/>
-        ///    </term>
-        ///    <term>Result</term>
-        ///   </listheader>
-        ///   <item>
-        ///    <term>
-        ///     yes
-        ///    </term>
-        ///    <term> any permutation </term>
-        ///    <term>
-        ///     non-existing entry assumed to be a directory
-        ///    </term>
-        ///   </item>
-        ///   <item>
-        ///    <term>
-        ///     no
-        ///    </term>
-        ///    <term>
-        ///     <c><see cref="Recls.SearchOptions.Directories"/></c>
-        ///    </term>
-        ///    <term>
-        ///     non-existing entry assumed to be a directory
-        ///    </term>
-        ///   </item>
-        ///   <item>
-        ///    <term>
-        ///     no
-        ///    </term>
-        ///    <term>
-        ///     <c><see cref="Recls.SearchOptions.Files"/></c>
-        ///    </term>
-        ///    <term>
-        ///     non-existing entry assumed to be a file
-        ///    </term>
-        ///   </item>
-        ///   <item>
-        ///    <term>
-        ///     no
-        ///    </term>
-        ///    <term>
-        ///     <c><see cref="Recls.SearchOptions.Directories"/> | <see cref="Recls.SearchOptions.Files"/></c>
-        ///    </term>
-        ///    <term>
-        ///     <b>null</b> is returned (and a trace warning is emitted)
-        ///    </term>
-        ///   </item>
-        ///   <item>
-        ///    <term>
-        ///     no
-        ///    </term>
-        ///    <term>
-        ///     <c>0</c>
-        ///    </term>
-        ///    <term>
-        ///     <b>null</b> is returned (and a trace warning is emitted)
-        ///    </term>
-        ///   </item>
-        ///  </list>
-        ///
-        /// <para>
-        ///  If such a "non-existing" entry is returned, then
-        ///  its <see cref="Recls.IEntry.Size"/> property will be <b>0</b>,
-        ///  its <see cref="Recls.IEntry2_1.Existed"/> property will be
-        ///  false, and
-        ///  its <see cref="Recls.IEntry.Attributes"/> property will be
-        ///  equal to <b>-1</b> (of type <c>int</c>).
-        /// </para>
-        ///
-        ///  <para>
-        ///   <b>NOTE</b>: other enumerator values are ignored, but their
-        ///   presence does result in a diagnostics trace warning.
-        ///  </para>
+		///  the parameter <paramref name="options"/>
+		///  contains the enumerator
+		///  <see cref="Recls.SearchOptions.StatInfoForNonexistentPath"/>,
+		///  in which case a "non-existing" entry is returned, according to
+		///  the following table:
+		///  
+		///  <list type="table">
+		///   <listheader>
+		///    <term>
+		///     <paramref name="path"/> ends with path-name separator
+		///    </term>
+		///    <term>
+		///     Additional
+		///     <see cref="Recls.SearchOptions"/>
+		///     enumerators in <paramref name="options"/>
+		///    </term>
+		///    <term>Result</term>
+		///   </listheader>
+		///   <item>
+		///    <term>
+		///     yes
+		///    </term>
+		///    <term> any permutation </term>
+		///    <term>
+		///     non-existing entry assumed to be a directory
+		///    </term>
+		///   </item>
+		///   <item>
+		///    <term>
+		///     no
+		///    </term>
+		///    <term>
+		///     <c><see cref="Recls.SearchOptions.Directories"/></c>
+		///    </term>
+		///    <term>
+		///     non-existing entry assumed to be a directory
+		///    </term>
+		///   </item>
+		///   <item>
+		///    <term>
+		///     no
+		///    </term>
+		///    <term>
+		///     <c><see cref="Recls.SearchOptions.Files"/></c>
+		///    </term>
+		///    <term>
+		///     non-existing entry assumed to be a file
+		///    </term>
+		///   </item>
+		///   <item>
+		///    <term>
+		///     no
+		///    </term>
+		///    <term>
+		///     <c><see cref="Recls.SearchOptions.Directories"/> | <see cref="Recls.SearchOptions.Files"/></c>
+		///    </term>
+		///    <term>
+		///     <b>null</b> is returned (and a trace warning is emitted)
+		///    </term>
+		///   </item>
+		///   <item>
+		///    <term>
+		///     no
+		///    </term>
+		///    <term>
+		///     <c>0</c>
+		///    </term>
+		///    <term>
+		///     <b>null</b> is returned (and a trace warning is emitted)
+		///    </term>
+		///   </item>
+		///  </list>
+		///
+		/// <para>
+		///  If such a "non-existing" entry is returned, then
+		///  its <see cref="Recls.IEntry.Size"/> property will be <b>0</b>,
+		///  its <see cref="Recls.IEntry2_1.Existed"/> property will be
+		///  false, and
+		///  its <see cref="Recls.IEntry.Attributes"/> property will be
+		///  equal to <b>-1</b> (of type <c>int</c>).
+		/// </para>
+		///
+		///  <para>
+		///   <b>NOTE</b>: other enumerator values are ignored, but their
+		///   presence does result in a diagnostics trace warning.
+		///  </para>
 		/// </remarks>
-        ///
+		///
 		/// <remarks>
 		///  If no file-system entry exists, <b>null</b> is returned. In all
 		///  other error cases, an exception is thrown.
@@ -1169,11 +1169,11 @@ namespace Recls
 		///  If the specified path exceeds the system-defined maximum
 		///  length.
 		/// </exception>
-        public static IEntry Stat(string path, SearchOptions options)
-        {
-            return Util.Stat(path, options);
-        }
-        #endregion
+		public static IEntry Stat(string path, SearchOptions options)
+		{
+			return Util.Stat(path, options);
+		}
+		#endregion
 		#endregion
 	}
 }

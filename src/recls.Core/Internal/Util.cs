@@ -3,11 +3,11 @@
  * File:        Internal/Util.cs
  *
  * Created:     5th June 2009
- * Updated:     19th November 2017
+ * Updated:     20th May 2019
  *
  * Home:        http://recls.net/
  *
- * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 2009-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -147,10 +147,10 @@ namespace Recls.Internal
 					{
 						File.Delete(m_lockFilePath);
 					}
-                    catch(OutOfMemoryException)
-                    {
-                        throw;
-                    }
+					catch(OutOfMemoryException)
+					{
+						throw;
+					}
 					catch(IOException)
 					{
 					}
@@ -1180,68 +1180,68 @@ namespace Recls.Internal
 
 		#region stat operations
 
-        internal static IEntry Stat(string path, SearchOptions options)
-        {
-            SearchOptions validOptions 
-                =   0
-                |   SearchOptions.Directories
-                |   SearchOptions.Files
-                |   SearchOptions.StatInfoForNonexistentPath
-                |   SearchOptions.MarkDirectories
-                |   SearchOptions.DoNotTranslatePathSeparators
-                ;
+		internal static IEntry Stat(string path, SearchOptions options)
+		{
+			SearchOptions validOptions 
+				=   0
+				|   SearchOptions.Directories
+				|   SearchOptions.Files
+				|   SearchOptions.StatInfoForNonexistentPath
+				|   SearchOptions.MarkDirectories
+				|   SearchOptions.DoNotTranslatePathSeparators
+				;
 
-            if(0 != (~validOptions & options))
-            {
-                Trace.WriteLine(String.Format("Stat(path='{0}', options={{{1}}}) - options contains enumerators other than {{{2}}}", path, options, validOptions));
-            }
+			if(0 != (~validOptions & options))
+			{
+				Trace.WriteLine(String.Format("Stat(path='{0}', options={{{1}}}) - options contains enumerators other than {{{2}}}", path, options, validOptions));
+			}
 
-            IEntry e = Stat(path, true);
+			IEntry e = Stat(path, true);
 
-            if(null == e)
-            {
-                if(0 != (SearchOptions.StatInfoForNonexistentPath & options))
-                {
-				    string directory = GetDirectoryPath(path);
+			if(null == e)
+			{
+				if(0 != (SearchOptions.StatInfoForNonexistentPath & options))
+				{
+					string directory = GetDirectoryPath(path);
 
-                    if(Util.HasDirEnd(path))
-                    {
-                        goto do_directory;
-                    }
-                    else
-                    {
-                        switch(options & (SearchOptions.Directories | SearchOptions.Files))
-                        {
-                        case SearchOptions.Directories:
+					if(Util.HasDirEnd(path))
+					{
+						goto do_directory;
+					}
+					else
+					{
+						switch(options & (SearchOptions.Directories | SearchOptions.Files))
+						{
+						case SearchOptions.Directories:
 
-                            goto do_directory;
+							goto do_directory;
 
-                        case SearchOptions.Files:
-					        FileInfo fi = new FileInfo(path);
+						case SearchOptions.Files:
+							FileInfo fi = new FileInfo(path);
 
-					        return new FileEntry(fi, directory, SearchOptions.None, null);
+							return new FileEntry(fi, directory, SearchOptions.None, null);
 
-                        case 0:
-                            Trace.Write(String.Format("Warning: Recls.Stat(string , SearchOptions ) invoked with SearchOptions.StatInfoForNonexistentPath but with neither SearchOptions.Directories nor SearchOptions.Files\n"));
-                            break;
+						case 0:
+							Trace.Write(String.Format("Warning: Recls.Stat(string , SearchOptions ) invoked with SearchOptions.StatInfoForNonexistentPath but with neither SearchOptions.Directories nor SearchOptions.Files\n"));
+							break;
 
-                        case SearchOptions.Directories | SearchOptions.Files:
-                            Trace.Write(String.Format("Warning: Recls.Stat(string , SearchOptions ) invoked with SearchOptions.StatInfoForNonexistentPath and with both SearchOptions.Directories and SearchOptions.Files\n"));
-                            break;
-                        }
-                    }
+						case SearchOptions.Directories | SearchOptions.Files:
+							Trace.Write(String.Format("Warning: Recls.Stat(string , SearchOptions ) invoked with SearchOptions.StatInfoForNonexistentPath and with both SearchOptions.Directories and SearchOptions.Files\n"));
+							break;
+						}
+					}
 
-                    return null;
+					return null;
 
 do_directory:
 					DirectoryInfo di = new DirectoryInfo(path);
 
-    				return new DirectoryEntry(di, directory, SearchOptions.Directories | (SearchOptions.MarkDirectories & options), null);
-                }
-            }
+					return new DirectoryEntry(di, directory, SearchOptions.Directories | (SearchOptions.MarkDirectories & options), null);
+				}
+			}
 
-            return e;
-        }
+			return e;
+		}
 
 		internal static IEntry Stat(string path, bool verifiesThatItExists)
 		{
@@ -1302,10 +1302,10 @@ do_directory:
 					return new FileEntry(info, directory, SearchOptions.None, null);
 				}
 			}
-            catch(OutOfMemoryException)
-            {
-                throw;
-            }
+			catch(OutOfMemoryException)
+			{
+				throw;
+			}
 			catch(DirectoryNotFoundException)
 			{
 				return null;
@@ -1330,15 +1330,15 @@ do_directory:
 				// 2. Use reflection to look into the protected HResult
 				//	property, to see if it is 0x80070035
 
-                int hresult = ExceptionUtil.HResultFromException(x);
+				int hresult = ExceptionUtil.HResultFromException(x);
 
-                switch(unchecked((uint)hresult))
-                {
-                case 0x80070035: // ERROR_BAD_NETPATH
-                    return null;
-                default:
-                    throw;
-                }
+				switch(unchecked((uint)hresult))
+				{
+				case 0x80070035: // ERROR_BAD_NETPATH
+					return null;
+				default:
+					throw;
+				}
 			}
 		}
 
@@ -1505,10 +1505,10 @@ do_directory:
 				{
 					return new LockFile(directory, out lockFileInfo);
 				}
-                catch(OutOfMemoryException)
-                {
-                    throw;
-                }
+				catch(OutOfMemoryException)
+				{
+					throw;
+				}
 				catch(IOException)
 				{
 				}
@@ -1519,7 +1519,7 @@ do_directory:
 			return new StubDisposable();
 		}
 		#endregion
-    }
+	}
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */

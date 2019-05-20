@@ -30,7 +30,7 @@ namespace StatAFile
 			// 4. Get an entry representing a given path.
 
 			IEntry entry = FileSearcher.Stat(path);
-            IEntry2 entry2 = entry as IEntry2;
+			IEntry2 entry2 = entry as IEntry2;
 
 			if(null == entry)
 			{

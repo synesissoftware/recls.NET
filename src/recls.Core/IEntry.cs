@@ -3,11 +3,11 @@
  * File:        IEntry.cs
  *
  * Created:     5th June 2009
- * Updated:     24th September 2017
+ * Updated:     20th May 2019
  *
  * Home:        http://recls.net/
  *
- * Copyright (c) 2009-2017, Matthew Wilson and Synesis Software
+ * Copyright (c) 2009-2019, Matthew Wilson and Synesis Software
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -317,15 +317,15 @@ namespace Recls
 		}
 	}
 
-    /// <summary>
-    ///  Extended interface
-    /// </summary>
-    /// <remarks>
-    ///  This interface is introduced with Recls 2.1, and its elements will
-    ///  be introduced into <see cref="Recls.IEntry"/> in version 3
-    /// </remarks>
-    public interface IEntry2_1
-    {
+	/// <summary>
+	///  Extended interface
+	/// </summary>
+	/// <remarks>
+	///  This interface is introduced with Recls 2.1, and its elements will
+	///  be introduced into <see cref="Recls.IEntry"/> in version 3
+	/// </remarks>
+	public interface IEntry2_1
+	{
 		/// <summary>
 		///  Indicates whether the entry is a file.
 		/// </summary>
@@ -333,15 +333,15 @@ namespace Recls
 		///  <b>true</b> if the entry is a file; <b>false</b>
 		///  otherwise.
 		/// </value>
-        bool IsFile { get; }
+		bool IsFile { get; }
 
-        /// <summary>
-        ///  Indicates whether the represented file-system entry existed at
-        ///  the time the object was created
-        /// </summary>
-        /// <seealso cref="Recls.Api.Stat(System.String, Recls.SearchOptions)"/>
-        bool Existed { get; }
-    }
+		/// <summary>
+		///  Indicates whether the represented file-system entry existed at
+		///  the time the object was created
+		/// </summary>
+		/// <seealso cref="Recls.Api.Stat(System.String, Recls.SearchOptions)"/>
+		bool Existed { get; }
+	}
 }
 
 /* ///////////////////////////// end of file //////////////////////////// */
